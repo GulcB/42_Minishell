@@ -12,9 +12,7 @@ SRC_BUILTIN = ./src/builtin/cd_pwd_cmd.c \
 
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
-			./src/lexer/helper/dolar_check.c \
 			./src/lexer/helper/lexer_string_op.c \
-			./src/lexer/helper/qm_check.c \
 			./src/lexer/helper/token_type_op.c
 
 SRC_PARSER = ./src/parser/parse_arg.c

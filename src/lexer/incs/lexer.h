@@ -24,7 +24,8 @@ t_token			*lexer_tokenize(char *input);
 
 void			skip_whitespace(t_lexer *lexer);
 char			*read_word(t_lexer *lexer);
-char			*read_string(t_lexer *lexer, char quote);
+char			*read_single_quoted_string(t_lexer *lexer);
+char			*read_double_quoted_string(t_lexer *lexer);
 char			*process_escapes(char *input, char quote);
 
 t_token_type	get_token_type(char c, char next_c);

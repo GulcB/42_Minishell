@@ -20,6 +20,7 @@ typedef enum e_token_type
 	TOKEN_DQUOTE,
 	TOKEN_SQUOTE,
 	TOKEN_DOLLAR,
+	TOKEN_ERROR,
 	TOKEN_EOF
 }					t_token_type;
 

@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/04/27 12:13:42 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/04/28 09:41:32 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,17 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	}
 	else if (type == TOKEN_DQUOTE)
 	{
-		lexer_read_char(lexer);
-		value = read_string(lexer, '"');
+		value = read_double_quoted_string(lexer);
+		if (!value)
+			return (token_create(TOKEN_ERROR, NULL, start_pos));
 		token = token_create(TOKEN_DQUOTE, value, start_pos);
 		free(value);
 	}
 	else if (type == TOKEN_SQUOTE)
 	{
-		lexer_read_char(lexer);
-		value = read_string(lexer, '\'');
+		value = read_single_quoted_string(lexer);
+		if (!value)
+			return (token_create(TOKEN_ERROR, NULL, start_pos));
 		token = token_create(TOKEN_SQUOTE, value, start_pos);
 		free(value);
 	}
@@ -149,7 +151,8 @@ t_token	*lexer_tokenize(char *input)
 		if (!current_token)
 			break ;
 		token_add_back(&token_list, current_token);
-		if (current_token->type == TOKEN_EOF)
+		if (current_token->type == TOKEN_EOF
+			|| current_token->type == TOKEN_ERROR)
 			break ;
 	}
 	return (token_list);
