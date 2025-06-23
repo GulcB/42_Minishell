@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "../../libft/libft.h"
+# include "../../../lib/libft/libft.h"
 # include "token.h"
 # include <stddef.h>
 # include <stdlib.h>

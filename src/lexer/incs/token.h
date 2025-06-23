@@ -1,7 +1,7 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "../../libft/libft.h"
+# include "../../lib/libft/libft.h"
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
