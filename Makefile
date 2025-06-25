@@ -15,7 +15,9 @@ SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/helper/lexer_string_op.c \
 			./src/lexer/helper/token_type_op.c
 
-SRC_PARSER = ./src/parser/parser.c
+SRC_PARSER = ./src/parser/parser.c \
+				./src/parser/test_parser.c
+
 
 SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_LEXER) $(SRC_PARSER)
 

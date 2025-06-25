@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/06/20 16:59:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/06/24 13:22:58 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 	
+	printf("=== PARSER TEST BAŞLIYOR ===\n");
+    test_parse_arguments_debug();
+    printf("=== PARSER TEST BİTTİ ===\n\n");
+	
 	while (1) 
 	{
 		input = readline("minishell> ");
 		if (input == NULL) 
 		{
 			printf("exit\n");
-			break; 
+			break ; 
 		}
-		
 		if (input && *input)
 			add_history(input);
-			
 		if (ft_strlen(input) == 0)
 		{
 			t_token *eof_token = token_create(TOKEN_EOF, "", 0);
@@ -53,12 +55,11 @@ int	main(int ac, char **av, char **env)
 				continue; 
 			}
 		}
-		printf("Token Listesi:\n");
+		printf("Token List:\n");
 		printf("------------------------------------\n");
 		token_list_print(tokens);
 		printf("------------------------------------\n");
 		free(input);
 	}
-	
 	return (0);
 }

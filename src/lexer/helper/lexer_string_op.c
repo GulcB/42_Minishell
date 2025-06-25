@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_string_op.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:56:34 by mdivan            #+#    #+#             */
-/*   Updated: 2025/04/28 09:44:17 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/06/24 12:32:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	ft_isspace(int c)
 void	skip_whitespace(t_lexer *lexer)
 {
 	while (ft_isspace(lexer->current_char))
-	{
 		lexer_read_char(lexer);
-	}
 }
 
 char	*read_single_quoted_string(t_lexer *lexer)

@@ -1,12 +1,12 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "../../lib/libft/libft.h"
+# include "../../../lib/libft/libft.h"
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef enum e_token_type
+typedef enum 		e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -24,7 +24,7 @@ typedef enum e_token_type
 	TOKEN_EOF
 }					t_token_type;
 
-typedef struct s_token
+typedef struct 		s_token
 {
 	t_token_type	type;
 	char			*value;
