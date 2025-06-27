@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 18:54:46 by gbodur            #+#    #+#             */
-/*   Updated: 2025/06/27 16:48:51 by gbodur           ###   ########.fr       */
+/*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
+/*   Updated: 2025/06/27 17:08:58 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "../src/lexer/incs/token.h"
-# include "../src/lexer/incs/lexer.h"
-# include "../src/parser/inc/parser.h"
-# include "../src/executor/inc/executor.h"
+# include	"../../parser/inc/parser.h"
 
-typedef struct	s_minishell
+typedef struct		s_env
 {
-	
-}				t_minishell;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct 		s_exec_context
+{
+    t_env   		*env;
+    int     		exit_status;
+    int     		stdin_backup;
+    int     		stdout_backup;
+}					t_exec_context;
+
+//execv'ye gelecek olacak olan **command için de değişken lazım
+
 
 #endif
+

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/06/24 13:22:46 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/06/27 17:19:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef enum			e_redirect_type
 
 typedef struct			s_ast_node
 {
-	t_node_type	type;
+	t_node_type			type;
 	char				**args;
 	char				*redirect_file;
 	t_node_type			redirect_type;
