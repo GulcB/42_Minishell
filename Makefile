@@ -14,7 +14,8 @@ SRC_BUILTIN = ./src/builtin/cd.c \
 			./src/builtin/pwd.c \
 			./src/builtin/unset.c 
 
-SRC_EXECUTOR = ./src/executor/environment.c \
+SRC_EXECUTOR = ./src/executor/builtin_handler.c \
+			./src/executor/environment.c \
 			./src/executor/executor.c \
 			./src/executor/pipe.c \
 			./src/executor/redirections.c

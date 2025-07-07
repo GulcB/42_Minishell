@@ -6,59 +6,74 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 20:03:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/07 21:17:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/executor.h"
 
-int execute_ast(t_ast_node *ast, t_exec_context *ctx)
+static int	backup_std_fds(t_exec_context *ctx)
 {
-	if (!ast || !ctx)
+	ctx->stdin_backup = dup(STDIN_FILENO);
+	ctx->stdout_backup = dup(STDOUT_FILENO);
+	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
+	{
+		perror("minishell: dup");
 		return (1);
+	}
+	return (0);
+}
+
+static void	restore_std_fds(t_exec_context *ctx)
+{
+	if (ctx->stdin_backup != -1)
+	{
+		dup2(ctx->stdin_backup, STDIN_FILENO);
+		close(ctx->stdin_backup);
+		ctx->stdin_backup = -1;
+	}
+	if (ctx->stdout_backup != -1)
+	{
+		dup2(ctx->stdout_backup, STDOUT_FILENO);
+		close(ctx->stdout_backup);
+		ctx->stdout_backup = -1;
+	}
+}
+
+void	setup_parent_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+static int	execute_by_type(t_ast_node *ast, t_exec_context *ctx)
+{
 	if (ast->type == NODE_COMMAND)
 		return (execute_command(ast, ctx));
 	else if (ast->type == NODE_PIPE)
-		return (execute_pipe(ast,ctx));
-	else
-	{
-		printf("Error; Unsupported node type\n");
-		return (1);
-	}
-}
-
-int	execute_command(t_ast_node *node, t_exec_context *ctx)
-{
-	char	*cmd_path;
-	pid_t 	pid;
-	int		status;
-	char	**env_array;
-
-	if (!node || !node->args || !node->args[0])
-		return (1);
-	if (is_builtin(node->args[0]))
-		return (execute_builtin(node->args, ctx));
-	cmd_path = find_command_path(node->args[0], ctx->env);
-	if (!cmd_path)
-	{
-		printf("minishell: %s: command not found\n", node->args[0]);
-		return (127);
-	}
-	pid = fork ();
-	if (pid == 0)
-	{
-		env_array = env_to_array(ctx->env);
-		execve = (cmd_path, node->args, env_array);
-		perror("execve failed");
-		exit (127);
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		free(cmd_path);
-		return (WEXITSTATUS(status));
-	}
-	free(cmd_path);
+		return (execute_pipe(ast, ctx));
+	else if (ast->type == NODE_AND)
+		return (execute_logical_and(ast, ctx));
+	else if (ast->type == NODE_OR)
+		return (execute_logical_or(ast, ctx));
+	else if (ast->type == NODE_REDIRECT)
+		return (handle_redirection_node(ast, ctx));
+	ft_putstr_fd("minishell: unsupported AST node\n", STDERR_FILENO);
 	return (1);
 }
 
+int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
+{
+	int	result;
+
+	if (!ast || !ctx)
+		return (1);
+	init_exec_context(ctx);
+	if (backup_std_fds(ctx) != 0)
+		return (1);
+	setup_parent_signals();
+	result = execute_by_type(ast, ctx);
+	restore_std_fds(ctx);
+	ctx->exit_status = result;
+	return (result);
+}
