@@ -2,6 +2,7 @@
 # define LEXER_H
 
 # include "../../../lib/libft/libft.h"
+# include "../../garbage_collector/inc/garbage_collector.h"
 # include "token.h"
 # include <stddef.h>
 # include <stdlib.h>
@@ -15,7 +16,7 @@ typedef struct s_lexer
 }				t_lexer;
 
 t_lexer			*lexer_create(char *input);
-
+void			lexer_free(t_lexer *lexer);
 void			lexer_read_char(t_lexer *lexer);
 char			lexer_peek_char(t_lexer *lexer);
 

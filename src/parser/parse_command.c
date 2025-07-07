@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 21:51:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/07 19:49:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void	free_args_on_error(char **args, int count)
 	while (i < count)
 	{
 		if (args[i])
-			free(args[i]);
+			gc_free(args[i]);
 		i++;
 	}
-	free(args);
+	gc_free(args);
 }
 
 char **parse_arguments(t_token **current)
@@ -52,7 +52,7 @@ char **parse_arguments(t_token **current)
 	count = count_arguments(*current);
 	if (count == 0)
 		return (NULL);
-	args = (char **)malloc(sizeof (char *) * (count - 1));
+	args = (char **)gc_malloc(sizeof (char *) * (count - 1));
 	if (!args)
 		return (NULL);
 	i = 0;

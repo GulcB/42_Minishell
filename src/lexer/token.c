@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/04/28 09:45:05 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/07 19:50:49 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*token_create(t_token_type type, char *value, int positon)
 {
 	t_token	*token;
 
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_token *)gc_malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->type = type;
@@ -46,6 +46,22 @@ void	token_add_back(t_token **tokens, t_token *new_token)
 		last = last->next;
 	last->next = new_token;
 	new_token->prev = last;
+}
+
+void	token_free_list(t_token *head)
+{
+	t_token	*current;
+	t_token	*temp;
+
+	current = head;
+	while(current)
+	{
+		temp = current->next;
+		if (current->value)
+			gc_free(current->value);
+		gc_free(current);
+		current = temp;
+	}
 }
 
 char	*token_type_to_str(t_token_type type)

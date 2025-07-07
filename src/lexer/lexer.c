@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/04/28 09:41:32 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/07 19:50:31 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "incs/lexer.h"
+
+t_lexer	*lexer_create(char *input)
+{
+	t_lexer	*lexer;
+
+	if (!input)
+		return (NULL);
+	lexer = (t_lexer *)gc_malloc(sizeof(t_lexer));
+	if (!lexer)
+		return (NULL);
+	lexer->input = ft_strdup(input);
+	lexer->position = 0;
+	lexer->read_position = 0;
+	lexer->current_char = '\0';
+	lexer_read_char(lexer);
+	return (lexer);
+}
+
+void	lexer_free(t_lexer *lexer)
+{
+	if (!lexer)
+		return ;
+	if (lexer->input)
+		gc_free(lexer->input);
+	gc_free(lexer);	
+}
 
 void	lexer_read_char(t_lexer *lexer)
 {
@@ -118,22 +144,6 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	return (token);
 }
 
-t_lexer	*lexer_create(char *input)
-{
-	t_lexer	*lexer;
-
-	if (!input)
-		return (NULL);
-	lexer = (t_lexer *)malloc(sizeof(t_lexer));
-	if (!lexer)
-		return (NULL);
-	lexer->input = ft_strdup(input);
-	lexer->position = 0;
-	lexer->read_position = 0;
-	lexer->current_char = '\0';
-	lexer_read_char(lexer);
-	return (lexer);
-}
 
 t_token	*lexer_tokenize(char *input)
 {
