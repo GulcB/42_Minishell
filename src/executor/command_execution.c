@@ -1,0 +1,116 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_execution.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
+/*   Updated: 2025/07/15 01:25:54 by gbodur           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "inc/executor.h"
+
+static int	is_builtin_command(const char *cmd)
+{
+	if (!cmd)
+		return (0);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
+static char	**convert_env_to_array(t_env *env)
+{
+	char	**env_array;
+	t_env	*current;
+	char	*env_string;
+	int		count;
+	int		i;
+
+	count = 0;
+	current = env;
+	while (current && ++count)
+		current = current->next;
+	env_array = (char **)gc_malloc(sizeof(char *) * (count + 1));
+	if (!env_array)
+		return (NULL);
+	current = env;
+	i = 0;
+	while (current)
+	{
+		env_string = ft_strjoin(current->key, "=");
+		env_array[i] = ft_strjoin(env_string, current->value);
+		gc_free(env_string);
+		current = current->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
+
+static int	execute_external_command(char **args, t_exec_context *ctx)
+{
+	char	*executable_path;
+	char	**env_array;
+	pid_t	pid;
+
+	executable_path = resolve_executable(args[0], ctx->env);
+	if (!executable_path)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		return (127);
+	}
+	env_array = convert_env_to_array(ctx->env);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(executable_path, args, env_array);
+		exit(127);
+	}
+	add_child_pid(ctx, pid);
+	gc_free(executable_path);
+	return (wait_for_children(ctx));
+}
+
+static int	execute_builtin_command(char **args, t_exec_context *ctx)
+{
+	(void)ctx;
+	if (ft_strcmp(args[0], "echo") == 0)
+	{
+		ft_putstr_fd("Built-in echo not implemented yet\n", STDOUT_FILENO);
+		return (0);
+	}
+	if (ft_strcmp(args[0], "pwd") == 0)
+	{
+		ft_putstr_fd("Built-in pwd not implemented yet\n", STDOUT_FILENO);
+		return (0);
+	}
+	ft_putstr_fd("Built-in command not implemented yet\n", STDOUT_FILENO);
+	return (0);
+}
+
+int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
+{
+	if (!cmd_node || !ctx || !cmd_node->args || !cmd_node->args[0])
+		return (1);
+	if (is_builtin_command(cmd_node->args[0]))
+		return (execute_builtin_command(cmd_node->args, ctx));
+	else
+		return (execute_external_command(cmd_node->args, ctx));
+}

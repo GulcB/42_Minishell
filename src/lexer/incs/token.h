@@ -35,6 +35,12 @@ typedef struct 		s_token
 	struct s_token	*prev;
 }					t_token;
 
+t_token_type		get_token_type(char c, char next_c);
+int					is_quote_special_char(char c, int in_double_quote);
+int					is_heredoc_start(char *input, int position);
+int					find_matching_quote(char *input, int start, char quote_char);
+int					is_valid_token_syntax(char *token_value, t_token_type type);
+
 t_token				*token_create(t_token_type type, char *value, int positon);
 void				token_add_back(t_token **tokens, t_token *new_token);
 void				token_free_list(t_token *head);

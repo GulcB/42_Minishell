@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_management.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
+/*   Updated: 2025/07/15 01:07:32 by gbodur           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "inc/executor.h"
+
+static t_env	*create_env_node(const char *key, const char *value)
+{
+	t_env	*node;
+
+	node = (t_env *)gc_malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
+	node->next = NULL;
+	if (!node->key || !node->value)
+	{
+		gc_free(node);
+		return (NULL);
+	}
+	return (node);
+}
+
+static t_env	*parse_and_create_node(char *env_str, t_env **current)
+{
+	char	*equal_sign;
+	char	*key;
+	char	*value;
+	t_env	*new_node;
+
+	equal_sign = ft_strchr(env_str, '=');
+	if (!equal_sign)
+		return (NULL);
+	key = ft_substr(env_str, 0, equal_sign - env_str);
+	value = ft_strdup(equal_sign + 1);
+	if (!key || !value)
+		return (NULL);
+	new_node = create_env_node(key, value);
+	if (!new_node)
+		return (NULL);
+	if (*current)
+		(*current)->next = new_node;
+	*current = new_node;
+	return (new_node);
+}
+
+static t_env	*build_env_list(char **env_array)
+{
+	t_env	*head;
+	t_env	*current;
+	t_env	*new_node;
+	int		i;
+
+	head = NULL;
+	current = NULL;
+	i = 0;
+	while (env_array[i])
+	{
+		new_node = parse_and_create_node(env_array[i], &current);
+		if (new_node && !head)
+			head = new_node;
+		i++;
+	}
+	return (head);
+}
+
+t_env	*init_env_from_system(char **env_array)
+{
+	if (!env_array)
+		return (NULL);
+	return (build_env_list(env_array));
+}
+
+char	*env_get(t_env *env, const char *key)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
+}

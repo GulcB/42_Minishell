@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/07 20:05:14 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 00:58:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,34 @@ static void	print_banner(void)
 	printf("╚══════════════════════════════════════╝\n\n");
 }
 
-static void	shell_loop(void)
+void	free_env(t_env *env)
 {
-	char		*input;
-	t_token		*tokens;
-	t_ast_node	*ast;
-	
+	t_env	*current;
+	t_env	*next;
+
+	current = env;
+	while (current)
+	{
+		next = current->next;
+		if (current->key)
+			gc_free(current->key);
+		if (current->value)
+			gc_free(current->value);
+		gc_free(current);
+		current = next;
+	}
+}
+
+static void	shell_loop(t_env *env)
+{
+	char			*input;
+	t_token			*tokens;
+	t_ast_node		*ast;
+	t_exec_context	*ctx;
+
+	ctx = init_exec_context(env);
+	if (!ctx)
+		return ;
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -43,7 +65,7 @@ static void	shell_loop(void)
 			break ;
 		}
 		if (*input)
-		add_history(input);
+			add_history(input);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
@@ -65,25 +87,31 @@ static void	shell_loop(void)
 		free(input);
 		gc_cleanup();
 	}
+	cleanup_exec_context(ctx);
 }
-
 
 int	main(int ac, char **av, char **env)
 {
-	
+	t_env	*environment;
+
 	(void)ac;
 	(void)av;
-	(void)env;
-	
 	gc_init();
+	environment = init_env_from_system(env);
+	if (!environment)
+	{
+		printf("Error: Failed to initialize environment\n");
+		return (1);
+	}
 	print_banner();
 	setup_signals();
-	shell_loop();
+	shell_loop(environment);
+	free_env(environment);
 	gc_cleanup();
 	clear_history();
-	// rl_clear_history();
+		// rl_clear_history();
+	return (0);
 }
-
 
 // int	main(int ac, char **av, char **env)
 // {

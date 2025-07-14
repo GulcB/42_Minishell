@@ -14,11 +14,14 @@ SRC_BUILTIN = ./src/builtin/cd.c \
 			./src/builtin/pwd.c \
 			./src/builtin/unset.c 
 
-SRC_EXECUTOR = ./src/executor/builtin_handler.c \
-			./src/executor/environment.c \
-			./src/executor/executor.c \
-			./src/executor/pipe.c \
-			./src/executor/redirections.c
+SRC_EXECUTOR = ./src/executor/ast_execution.c \
+			./src/executor/command_execution.c \
+			./src/executor/context_cleanup.c \
+			./src/executor/context_management.c \
+			./src/executor/environment_management.c \
+			./src/executor/exit_signal_check.c \
+			./src/executor/path_resolution.c \
+			./src/executor/process_management.c \
 
 SRC_GC = ./src/garbage_collector/garbage_collector.c \
 		./src/garbage_collector/gc_clean.c
@@ -26,7 +29,8 @@ SRC_GC = ./src/garbage_collector/garbage_collector.c \
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
 			./src/lexer/helper/lexer_string_op.c \
-			./src/lexer/helper/token_type_op.c
+			./src/lexer/helper/token_type_op.c \
+			./src/lexer/helper/variable_expansion.c
 
 SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/ast_helper.c \
@@ -37,7 +41,6 @@ SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/test_parser.c
 
 SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_GC) $(SRC_LEXER) $(SRC_PARSER)
-
 
 OBJS = $(SRCS:.c=.o)
 
