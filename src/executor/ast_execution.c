@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 01:43:31 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:18:53 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
 		return (1);
 	if (ast->type == NODE_COMMAND)
 		result = execute_command(ast, ctx);
+	else if (ast->type == NODE_PIPE)
+		result = execute_pipe_chain(ast, ctx);
 	else
 	{
 		ft_putstr_fd("minishell: unsupported node type\n", STDERR_FILENO);

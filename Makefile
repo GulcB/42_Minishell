@@ -40,7 +40,7 @@ SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/print_ast_args.c \
 			./src/parser/test_parser.c
 
-SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_GC) $(SRC_LEXER) $(SRC_PARSER)
+SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_LEXER) $(SRC_GC) $(SRC_PARSER)
 
 OBJS = $(SRCS:.c=.o)
 

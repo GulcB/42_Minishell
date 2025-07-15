@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 01:07:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:31:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	wait_for_children(t_exec_context *ctx)
 {
 	int	i;
 	int	last_exit_status;
+	int status;
 
 	if (!ctx || ctx->child_count == 0)
 		return (0);
@@ -49,21 +50,20 @@ int	wait_for_children(t_exec_context *ctx)
 	i = 0;
 	while (i < ctx->child_count)
 	{
-		last_exit_status = wait_single_child(ctx->child_pids[i], ctx);
+		if (waitpid(ctx->child_pids[i], &status, 0) == -1)
+		{
+			perror("minishell:waitpid");
+			last_exit_status = 1;
+		}
+		else
+		{
+			update_exit_status(ctx, status);
+			last_exit_status = ctx->exit_status;
+		}
 		i++;
 	}
 	cleanup_children(ctx);
 	return (last_exit_status);
-}
-
-void	update_exit_status(t_exec_context *ctx, int status)
-{
-	if (is_normal_exit(status))
-		ctx->exit_status = extract_exit_code(status);
-	else if (is_signaled_exit(status))
-		ctx->exit_status = 128 + extract_signal_number(status);
-	else
-		ctx->exit_status = 1;
 }
 
 void	cleanup_children(t_exec_context *ctx)

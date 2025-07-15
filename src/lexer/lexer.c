@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/14 23:41:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 16:12:05 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ t_token	*lexer_tokenize(char *input)
 	t_token	*current_token;
 	t_token	*prev_token;
 
+	prev_token = NULL;
 	lexer = lexer_create(input);
 	if (!lexer)
 		return (NULL);

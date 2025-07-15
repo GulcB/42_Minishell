@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 01:46:13 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:57:31 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+# include <signal.h>
 
 # define MAX_CHILDREN 1024
 # define PATH_MAX_LEN 4096
@@ -69,19 +70,21 @@ int					extract_exit_code(int status);
 int					extract_signal_number(int status);
 int					is_normal_exit(int status);
 int					is_signaled_exit(int status);
+void				update_exit_status(t_exec_context *ctx, int status);
+
+int 				execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx);
+
+int					count_pipe_commands(t_ast_node *node);
+int 				validate_pipe_chain(t_ast_node *node);
+int 				wait_for_pipe_children(t_exec_context *ctx);
 
 void				setup_parent_signals(void);
 int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
 
-// void				init_exec_context(t_exec_context *ctx);
-// int					execute_command(t_ast_node *node, t_exec_context *ctx);
-// int					execute_logical_and(t_ast_node *node, t_exec_context *ctx);
-// int					execute_logical_or(t_ast_node *node, t_exec_context *ctx);
-// int					handle_redirection_node(t_ast_node *ast, t_exec_context *ctx);
+int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
 int					add_child_pid(t_exec_context *ctx, pid_t pid);
 int					wait_for_children(t_exec_context *ctx);
-void				update_exit_status(t_exec_context *ctx, int status);
 void				cleanup_children(t_exec_context *ctx);
 
 char				*resolve_executable(const char *cmd, t_env *env);

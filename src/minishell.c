@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 00:58:16 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/15 14:21:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	main(int ac, char **av, char **env)
 	shell_loop(environment);
 	free_env(environment);
 	gc_cleanup();
-	clear_history();
-		// rl_clear_history();
+	// clear_history();
+	rl_clear_history();
 	return (0);
 }
 
