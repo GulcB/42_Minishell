@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 22:09:21 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 23:34:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "inc/parser.h"
 
 int	is_redirect_token(t_token *token)
 {
