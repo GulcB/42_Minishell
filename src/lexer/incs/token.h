@@ -1,9 +1,8 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "../../../lib/libft/libft.h"
-# include "../../garbage_collector/inc/garbage_collector.h"
-# include "../../executor/inc/executor.h"
+# include "libft.h"
+# include "garbage_collector.h"
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>

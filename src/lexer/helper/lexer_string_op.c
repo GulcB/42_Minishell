@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:56:34 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/17 23:22:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 23:50:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_valid_token_sequence(t_token *prev, t_token *current)
 	return (1);
 }
 
-static int	is_word_delimiter(char c)
+int	is_word_delimiter(char c)
 {
 	return (ft_isspace(c) || c == '|' || c == '<' || c == '>' || c == ';'
 		|| c == '&' || c == '\'' || c == '"' || c == '$' || c == '('

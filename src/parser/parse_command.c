@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/07 19:49:33 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 23:57:09 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "inc/parser.h"
 
 static int	count_arguments(t_token *current)
 {
@@ -52,7 +52,7 @@ char **parse_arguments(t_token **current)
 	count = count_arguments(*current);
 	if (count == 0)
 		return (NULL);
-	args = (char **)gc_malloc(sizeof (char *) * (count - 1));
+	args = (char **)gc_malloc(sizeof(char *) * (count + 1));
 	if (!args)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 22:46:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/18 01:34:07 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static int	is_builtin_command(const char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (ft_strcmp(cmd, "echo") == 0)
+	if (ft_strncmp(cmd, "echo", 5) == 0 && ft_strlen(cmd) == 4)
 		return (1);
-	if (ft_strcmp(cmd, "cd") == 0)
+	if (ft_strncmp(cmd, "cd", 3) == 0 && ft_strlen(cmd) == 2)
 		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
+	if (ft_strncmp(cmd, "pwd", 4) == 0 && ft_strlen(cmd) == 3)
 		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
+	if (ft_strncmp(cmd, "export", 7) == 0 && ft_strlen(cmd) == 6)
 		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
+	if (ft_strncmp(cmd, "unset", 6) == 0 && ft_strlen(cmd) == 5)
 		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
+	if (ft_strncmp(cmd, "env", 4) == 0 && ft_strlen(cmd) == 3)
 		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
+	if (ft_strncmp(cmd, "exit", 5) == 0 && ft_strlen(cmd) == 4)
 		return (1);
 	return (0);
 }
@@ -95,10 +95,18 @@ static int	execute_builtin_command(char **args, t_exec_context *ctx)
 
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 {
-	if (!cmd_node || !ctx || !cmd_node->args || !cmd_node->args[0])
+	if (!cmd_node || !ctx)
+		return (1);
+	if (cmd_node->type == NODE_REDIRECT)
+	{
+		if (cmd_node->redirect_type == REDIRECT_HEREDOC)
+			return (execute_heredoc(cmd_node, ctx));
+		return (1);
+	}
+	if (!cmd_node->args || !cmd_node->args[0])
 		return (1);
 	if (is_builtin_command(cmd_node->args[0]))
-		return (execute_builtin_command(cmd_node->args, ctx));
+		return (execute_builtin_dispatcher(cmd_node->args, ctx));
 	else
 		return (execute_external_command(cmd_node->args, ctx));
 }

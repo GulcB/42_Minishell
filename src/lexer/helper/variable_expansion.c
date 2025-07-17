@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 00:02:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/18 01:29:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*extract_var_name(const char *str, int *consumed)
 
 static char	*get_special_var_value(const char *var_name, t_exec_context *ctx)
 {
-	if (ft_strcmp(var_name, "?") == 0)
+	if (ft_strncmp(var_name, "?", 2) == 0 && ft_strlen(var_name) == 1)
 	{
 		if (ctx)
 			return (ft_itoa(ctx->exit_status));
@@ -80,13 +80,16 @@ static char	*get_special_var_value(const char *var_name, t_exec_context *ctx)
 static char	*search_env_var(const char *var_name, t_exec_context *ctx)
 {
 	t_env	*current;
+	size_t	var_len;
 
-	if (!ctx || !ctx->env)
+	if (!ctx || !ctx->env || !var_name)
 		return (NULL);
 	current = ctx->env;
+	var_len = ft_strlen(var_name);
 	while (current)
 	{
-		if (ft_strcmp(current->key, var_name) == 0)
+		if (ft_strncmp(current->key, var_name, var_len + 1) == 0 &&
+			ft_strlen(current->key) == var_len)
 		{
 			if (current->value)
 				return (ft_strdup(current->value));

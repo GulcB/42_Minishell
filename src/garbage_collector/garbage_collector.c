@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/07 00:24:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 23:44:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_gc g_gc = {NULL};
 
-void_gc_init(void)
+void gc_init(void)
 {
 	g_gc.head = NULL;
 }

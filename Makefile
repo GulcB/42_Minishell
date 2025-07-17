@@ -1,12 +1,43 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./lib
+CFLAGS = -Wall -Wextra -Werror \
+         -I./lib \
+         -I./lib/libft \
+         -Isrc \
+         -Isrc/lexer/incs \
+         -Isrc/parser/inc \
+		 -Isrc/builtin/inc \
+         -Isrc/executor/inc \
+         -Isrc/garbage_collector/inc
+
 LIBFT_DIR = ./lib/libft 
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_MAIN = ./src/minishell.c
 
-SRC_BUILTIN = ./src/builtin/cd.c \
+SRC_PARSER = ./src/parser/parser.c \
+			./src/parser/ast_helper.c \
+			./src/parser/ast_nodes.c \
+			./src/parser/parse_command.c \
+			./src/parser/parse_heredoc.c \
+			./src/parser/parse_redirect.c \
+			./src/parser/print_ast_args.c \
+			./src/parser/test_parser.c
+
+SRC_LEXER = ./src/lexer/lexer.c \
+			./src/lexer/token.c \
+			./src/lexer/helper/lexer_heredoc.c \
+			./src/lexer/helper/lexer_quotes.c \
+			./src/lexer/helper/lexer_string_op.c \
+			./src/lexer/helper/lexer_word_parsing.c \
+			./src/lexer/helper/token_type_op.c \
+			./src/lexer/helper/variable_expansion.c
+
+SRC_GC = ./src/garbage_collector/garbage_collector.c \
+		./src/garbage_collector/gc_clean.c
+
+SRC_BUILTIN = ./src/builtin/builtin_dispatcher.c \
+			./src/builtin/cd.c \
 			./src/builtin/echo.c \
 			./src/builtin/env.c \
 			./src/builtin/exit.c \
@@ -20,25 +51,15 @@ SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/context_management.c \
 			./src/executor/environment_management.c \
 			./src/executor/exit_signal_check.c \
+			./src/executor/heredoc_execution.c \
+			./src/executor/multi_command_execution.c \
 			./src/executor/path_resolution.c \
+			./src/executor/pipe_chain.c \
+			./src/executor/pipe_execution.c \
 			./src/executor/process_management.c \
+			./src/executor/recursive_pipe_execution.c \
+			./src/executor/redirections.c
 
-SRC_GC = ./src/garbage_collector/garbage_collector.c \
-		./src/garbage_collector/gc_clean.c
-
-SRC_LEXER = ./src/lexer/lexer.c \
-			./src/lexer/token.c \
-			./src/lexer/helper/lexer_string_op.c \
-			./src/lexer/helper/token_type_op.c \
-			./src/lexer/helper/variable_expansion.c
-
-SRC_PARSER = ./src/parser/parser.c \
-			./src/parser/ast_helper.c \
-			./src/parser/ast_nodes.c \
-			./src/parser/parse_command.c \
-			./src/parser/parse_redirect.c \
-			./src/parser/print_ast_args.c \
-			./src/parser/test_parser.c
 
 SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_LEXER) $(SRC_GC) $(SRC_PARSER)
 

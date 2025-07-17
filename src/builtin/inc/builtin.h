@@ -6,15 +6,14 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:45:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 22:47:24 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/18 01:37:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "../../executor/inc/executor.h"
-# include "../../lib/libft/libft.h"
+# include "../../../lib/libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 

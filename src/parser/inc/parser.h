@@ -6,15 +6,14 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 22:51:31 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/18 00:59:30 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	PARSER_H
 # define PARSER_H
 
-# include"../../lexer/incs/token.h"
-# include"../../lexer/incs/lexer.h"
+# include "token.h"
 
 typedef enum			e_node_type
 {
@@ -54,6 +53,9 @@ t_ast_node	*create_command_node(char **args);
 
 char       	**parse_arguments(t_token **current);
 t_ast_node  *parse_command(t_token **current);
+
+t_ast_node	*parse_heredoc(t_token **current);
+t_ast_node  *parse_redirect(t_token **current);
 
 int			is_redirect_token(t_token *token);
 t_ast_node	*create_redirect_node(t_redirect_type type, char *filename);
