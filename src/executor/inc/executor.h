@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 18:57:31 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 17:02:06 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,46 +49,28 @@ typedef struct 		s_exec_context
 	int				max_children;
 }					t_exec_context;
 
-void				setup_parent_signals(void);
-void				restore_parent_signals(void);
 int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
-
 int					execute_command(t_ast_node *cmd_node, t_exec_context *ctx);
-
 void				cleanup_exec_context(t_exec_context *ctx);
-
-void				cleanup_exec_context(t_exec_context *ctx);
-
 t_exec_context		*init_exec_context(t_env *env);
 int					backup_std_fds(t_exec_context *ctx);
 void				restore_std_fds(t_exec_context *ctx);
-
 t_env				*init_env_from_system(char **env_array);
 char				*env_get(t_env *env, const char *key);
-
-int					extract_exit_code(int status);
-int					extract_signal_number(int status);
-int					is_normal_exit(int status);
-int					is_signaled_exit(int status);
 void				update_exit_status(t_exec_context *ctx, int status);
-
 int 				execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx);
-
 int					count_pipe_commands(t_ast_node *node);
 int 				validate_pipe_chain(t_ast_node *node);
 int 				wait_for_pipe_children(t_exec_context *ctx);
-
-void				setup_parent_signals(void);
-int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
-
 int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
-
 int					add_child_pid(t_exec_context *ctx, pid_t pid);
 int					wait_for_children(t_exec_context *ctx);
 void				cleanup_children(t_exec_context *ctx);
+int					execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx);
 
-char				*resolve_executable(const char *cmd, t_env *env);
-int					is_executable_file(const char *path);
-char				*search_in_path(const char *cmd, const char *path_env);
+
+// char				*resolve_executable(const char *cmd, t_env *env);
+// int					is_executable_file(const char *path);
+// char				*search_in_path(const char *cmd, const char *path_env);
 
 #endif
