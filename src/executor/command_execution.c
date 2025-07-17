@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 01:25:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/17 22:46:10 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,7 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 
 static int	execute_builtin_command(char **args, t_exec_context *ctx)
 {
-	(void)ctx;
-	if (ft_strcmp(args[0], "echo") == 0)
-	{
-		ft_putstr_fd("Built-in echo not implemented yet\n", STDOUT_FILENO);
-		return (0);
-	}
-	if (ft_strcmp(args[0], "pwd") == 0)
-	{
-		ft_putstr_fd("Built-in pwd not implemented yet\n", STDOUT_FILENO);
-		return (0);
-	}
-	ft_putstr_fd("Built-in command not implemented yet\n", STDOUT_FILENO);
-	return (0);
+	return (execute_builtin_dispatcher(args, ctx));
 }
 
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
