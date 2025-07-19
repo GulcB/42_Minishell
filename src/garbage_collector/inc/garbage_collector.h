@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:10:00 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 17:45:49 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 19:27:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ typedef struct			s_gc
 
 t_gc					*gc_init(void);
 void					gc_destroy(t_gc *gc);
-
 void                    *gc_malloc(t_gc *gc, size_t size);
 void					gc_free(t_gc *gc, void *ptr);
-void					gc_cleanup(void);
+void					gc_cleanup_all(t_gc *gc);
 
 t_gc_node				*gc_create_node(void *ptr);
 void					gc_add_node(t_gc *gc, t_gc_node *node);
 int						gc_remove_node(t_gc *gc, void *ptr);
+
+char					*gc_strdup(t_gc *gc, const char *s);
+char					*gc_strjoin(t_gc *gc, const char *s1, const char *s2);
+char					*gc_substr(t_gc *gc, const char *s, unsigned int start,
+                            size_t len);
 
 #endif

@@ -6,31 +6,31 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/19 17:43:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 19:37:28 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "incs/token.h"
 
-t_token	*token_create(t_token_type type, char *value, int positon)
+t_token	*token_create(t_gc *gc, t_token_type type, char *value, int position)
 {
 	t_token	*token;
 
-	token = (t_token *)gc_malloc(sizeof(t_token));
+	token = (t_token *)gc_malloc(gc, sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->type = type;
 	if (value)
-		token->value = ft_strdup(value);
+		token->value = gc_strdup(gc, value);
 	else
 		token->value = NULL;
-	token->positon = positon;
+	token->positon = position;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
 }
 
-void	token_add_back(t_token **tokens, t_token *new_token)
+void	token_add_back(t_gc *gc, t_token **tokens, t_token *new_token)
 {
 	t_token	*last;
 
@@ -48,7 +48,7 @@ void	token_add_back(t_token **tokens, t_token *new_token)
 	new_token->prev = last;
 }
 
-void	token_free_list(t_token *head)
+void	token_free_list(t_gc *gc, t_token *head)
 {
 	t_token	*current;
 	t_token	*temp;
@@ -58,8 +58,8 @@ void	token_free_list(t_token *head)
 	{
 		temp = current->next;
 		if (current->value)
-			gc_free(current->value);
-		gc_free(current);
+			gc_free(gc, current->value);
+		gc_free(gc, current);
 		current = temp;
 	}
 }

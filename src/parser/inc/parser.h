@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 17:39:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 19:34:31 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct			s_ast_node
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 }						t_ast_node;
+
+typedef struct          s_parser_context
+{
+	t_gc				*gc;
+	t_exec_context		*exec_ctx;
+}						t_parser_context;
 
 void					write_str(char *str);
 void					print_ast_recursive(t_ast_node *node, int depth);
