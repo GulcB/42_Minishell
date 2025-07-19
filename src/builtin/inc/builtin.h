@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:45:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 10:12:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:11:09 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-struct s_exec_context;
-struct s_env;
+struct	s_exec_context;
+struct	s_env;
 
 int		builtin_echo(char **args);
 int		builtin_pwd(char **args);

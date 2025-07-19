@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 22:18:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 22:48:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:31:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "parser.h"
 
 void	write_str(char *str)
 {

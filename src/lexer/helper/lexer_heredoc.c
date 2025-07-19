@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:16:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:22:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:26:07 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*read_heredoc_delimiter(t_lexer *lexer)
 
 	skip_whitespace(lexer);
 	start_pos = lexer->position;
-	while (lexer->current_char && is_heredoc_delimiter_char(lexer->current_char))
+	while (lexer->current_char
+		&& is_heredoc_delimiter_char(lexer->current_char))
 		lexer_read_char(lexer);
 	len = lexer->position - start_pos;
 	if (len == 0)

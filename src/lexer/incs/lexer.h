@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 12:01:49 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:23:50 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_token			*lexer_tokenize(char *input);
 t_token			*lexer_next_token(t_lexer *lexer);
 
 t_token			*handle_word_token(t_lexer *lexer, int start_pos);
-int				validate_and_add_token(t_token **token_list, t_token *current_token, t_token **prev_token);
+int				validate_and_add_token(t_token **token_list,
+					t_token *current_token, t_token **prev_token);
 int				should_stop_tokenizing(t_token *current_token);
 int				validate_word_sequence(t_token *prev, t_token *current);
 int				validate_redirect_sequence(t_token *prev, t_token *current);
@@ -54,12 +55,14 @@ int				find_matching_quote(char *input, int start, char quote_char);
 int				is_valid_token_syntax(char *token_value, t_token_type type);
 
 char			*extract_var_name(const char *str, int *consumed);
-char			*get_special_var_value(const char *var_name, t_exec_context *ctx);
+char			*get_special_var_value(const char *var_name,
+					t_exec_context *ctx);
 
 char			*search_env_var(const char *var_name, t_exec_context *ctx);
 char			*get_env_value(const char *var_name, t_exec_context *ctx);
 char			*join_and_free(char *s1, char *s2);
-char			*add_literal_part(char *result, const char *str, int start, int end);
+char			*add_literal_part(char *result, const char *str, int start,
+					int end);
 
 char			*expand_variables(const char *str, t_exec_context *ctx);
 char			*process_token_expansion(t_token *token, t_exec_context *ctx);

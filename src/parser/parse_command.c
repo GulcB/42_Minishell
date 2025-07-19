@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:57:09 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:24:18 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	count_arguments(t_token *current)
 {
 	int	count;
-	
+
 	count = 0;
 	while (current && is_word_token(current) && !is_stop_token(current))
 	{
@@ -41,12 +41,12 @@ static void	free_args_on_error(char **args, int count)
 	gc_free(args);
 }
 
-char **parse_arguments(t_token **current)
+char	**parse_arguments(t_token **current)
 {
 	int		count;
 	int		i;
 	char	**args;
-	
+
 	if (!current || !*current)
 		return (NULL);
 	count = count_arguments(*current);

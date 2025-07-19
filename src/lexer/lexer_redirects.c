@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:29:56 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 11:33:35 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:28:00 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static t_token	*handle_input_redirect(t_lexer *lexer, int start_pos, char next)
 	return (token);
 }
 
-static t_token	*handle_output_redirect(t_lexer *lexer, int start_pos, char next)
+static t_token	*handle_output_redirect(t_lexer *lexer, int start_pos,
+	char next)
 {
 	t_token	*token;
 
@@ -72,7 +73,7 @@ t_token	*create_heredoc_token(t_lexer *lexer, int start_pos)
 	lexer_read_char(lexer);
 	delimiter = process_heredoc_delimiter(lexer);
 	if (!delimiter)
-		return (token_create(TOKEN_ERROR, 
+		return (token_create(TOKEN_ERROR,
 				"Invalid heredoc delimiter", start_pos));
 	token = token_create(TOKEN_HEREDOC, delimiter, start_pos);
 	gc_free(delimiter);

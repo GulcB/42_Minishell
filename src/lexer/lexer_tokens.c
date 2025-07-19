@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:23:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 11:33:18 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:28:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 	{
 		value = read_double_quoted_string(lexer);
 		if (!value)
-			return (token_create(TOKEN_ERROR, 
+			return (token_create(TOKEN_ERROR,
 					"Unclosed double quote", start_pos));
 		token = token_create(TOKEN_DQUOTE, value, start_pos);
 		gc_free(value);
@@ -48,7 +48,7 @@ static t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 	{
 		value = read_single_quoted_string(lexer);
 		if (!value)
-			return (token_create(TOKEN_ERROR, 
+			return (token_create(TOKEN_ERROR,
 					"Unclosed single quote", start_pos));
 		token = token_create(TOKEN_SQUOTE, value, start_pos);
 		gc_free(value);
@@ -79,19 +79,6 @@ static t_token	*handle_special_chars(t_lexer *lexer, int start_pos)
 	return (token);
 }
 
-t_token	*handle_word_token(t_lexer *lexer, int start_pos)
-{
-	t_token	*token;
-	char	*value;
-
-	value = read_word(lexer);
-	if (!value)
-		return (token_create(TOKEN_ERROR, "Invalid token", start_pos));
-	token = token_create(TOKEN_WORD, value, start_pos);
-	gc_free(value);
-	return (token);
-}
-
 t_token	*lexer_next_token(t_lexer *lexer)
 {
 	t_token_type	type;
@@ -108,8 +95,8 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	type = get_token_type(lexer->current_char, lexer_peek_char(lexer));
 	if (type == TOKEN_PIPE || type == TOKEN_OR)
 		return (handle_pipe_tokens(lexer, start_pos));
-	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT || 
-		type == TOKEN_HEREDOC || type == TOKEN_APPEND)
+	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
+		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND)
 		return (handle_redirect_tokens(lexer, start_pos));
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
 		return (handle_quote_tokens(lexer, start_pos));

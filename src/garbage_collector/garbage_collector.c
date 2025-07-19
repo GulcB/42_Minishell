@@ -6,15 +6,15 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:44:16 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:21:36 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/garbage_collector.h"
 
-static t_gc g_gc = {NULL};
+static	t_gc g_gc = {NULL};
 
-void gc_init(void)
+void	gc_init(void)
 {
 	g_gc.head = NULL;
 }
@@ -22,7 +22,7 @@ void gc_init(void)
 t_gc_node	*gc_create_node(void *ptr)
 {
 	t_gc_node	*node;
-	
+
 	if (!ptr)
 		return (NULL);
 	node = (t_gc_node *)malloc(sizeof(t_gc_node));

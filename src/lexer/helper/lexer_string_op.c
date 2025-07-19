@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:56:34 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/17 23:50:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:07:11 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ void	skip_whitespace(t_lexer *lexer)
 {
 	while (ft_isspace(lexer->current_char))
 		lexer_read_char(lexer);
-}
-
-int	is_valid_token_sequence(t_token *prev, t_token *current)
-{
-	if (!current)
-		return (1);
-	if (prev && prev->type == TOKEN_PIPE)
-	{
-		if (current->type == TOKEN_PIPE || current->type == TOKEN_EOF)
-			return (1);
-	}
-	return (1);
 }
 
 int	is_word_delimiter(char c)

@@ -58,7 +58,6 @@ SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/environment_management.c \
 			./src/executor/exit_signal_check.c \
 			./src/executor/heredoc_execution.c \
-			./src/executor/multi_command_execution.c \
 			./src/executor/path_resolution.c \
 			./src/executor/pipe_chain.c \
 			./src/executor/pipe_execution.c \

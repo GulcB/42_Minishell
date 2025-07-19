@@ -6,12 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 10:40:53 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:18:37 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-# include "lexer.h"
+#include "lexer.h"
 
 static char	*create_temp_filename(void)
 {
@@ -38,8 +38,8 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0 &&
-			ft_strlen(line) == ft_strlen(delimiter))
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
 			free(line);
 			break ;
@@ -103,9 +103,9 @@ int	execute_heredoc(t_ast_node *heredoc_node, t_exec_context *ctx)
 	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
-		quoted = (heredoc_node->args && heredoc_node->args[0] &&
-		ft_strncmp(heredoc_node->args[0], "1", 2) == 0 &&
-		ft_strlen(heredoc_node->args[0]) == 1);
+		quoted = (heredoc_node->args && heredoc_node->args[0]
+			&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
+			&& ft_strlen(heredoc_node->args[0]) == 1);
 	filename = create_temp_filename();
 	if (!filename)
 		return (1);

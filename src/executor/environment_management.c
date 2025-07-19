@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 01:28:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:19:00 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ char	*env_get(t_env *env, const char *key)
 	key_len = ft_strlen(key);
 	while (current)
 	{
-		if (ft_strncmp(current->key, key, key_len + 1) == 0 &&
-			ft_strlen(current->key) == key_len)
+		if (ft_strncmp(current->key, key, key_len + 1) == 0
+			&& ft_strlen(current->key) == key_len)
 			return (current->value);
 		current = current->next;
 	}

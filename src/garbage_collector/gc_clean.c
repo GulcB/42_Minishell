@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:15:16 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/07 00:25:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:20:49 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/garbage_collector.h"
 
-static t_gc g_gc = {NULL};
+static t_gc	g_gc = {NULL}; // GLOBAL OLARAK GEÇİYO DİKKAKAATTTT printf
 
 int	gc_remove_node(void *ptr)
 {

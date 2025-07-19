@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 10:57:26 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:15:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	wait_for_children(t_exec_context *ctx)
 {
 	int	i;
 	int	last_exit_status;
-	int status;
+	int	status;
 
 	if (!ctx || ctx->child_count == 0)
 		return (0);

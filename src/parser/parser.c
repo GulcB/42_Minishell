@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:27:38 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 22:37:51 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:31:07 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "parser.h"
 
 int	is_word_token(t_token *token)
 {

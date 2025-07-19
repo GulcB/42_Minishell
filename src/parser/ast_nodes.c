@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:37:57 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/07 19:50:12 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:31:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "parser.h"
 
 void	free_args_array(char **args)
 {
@@ -26,6 +26,7 @@ void	free_args_array(char **args)
 	}
 	gc_free(args);
 }
+
 void	free_ast(t_ast_node *node)
 {
 	if (!node)

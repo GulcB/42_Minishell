@@ -6,14 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 10:55:21 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:17:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/executor.h"
 
-
-static int setup_pipe_fds(t_exec_context *ctx)
+static int	setup_pipe_fds(t_exec_context *ctx)
 {
 	if (pipe(ctx->pipe_fd) == -1)
 	{
@@ -24,7 +23,7 @@ static int setup_pipe_fds(t_exec_context *ctx)
 	return (0);
 }
 
-static void cleanup_pipe_fds(t_exec_context *ctx)
+static void	cleanup_pipe_fds(t_exec_context *ctx)
 {
 	if (ctx->pipe_fd[0] != -1)
 	{
@@ -38,9 +37,9 @@ static void cleanup_pipe_fds(t_exec_context *ctx)
 	}
 }
 
-static int execute_left_command(t_ast_node *left_node, t_exec_context *ctx)
+static int	execute_left_command(t_ast_node *left_node, t_exec_context *ctx)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -59,9 +58,9 @@ static int execute_left_command(t_ast_node *left_node, t_exec_context *ctx)
 	return (0);
 }
 
-static int execute_right_command(t_ast_node *right_node, t_exec_context *ctx)
+static int	execute_right_command(t_ast_node *right_node, t_exec_context *ctx)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -82,9 +81,9 @@ static int execute_right_command(t_ast_node *right_node, t_exec_context *ctx)
 
 int	execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx)
 {
-	int result;
+	int	result;
 
-	if(!pipe_node || !ctx || !pipe_node->left || !pipe_node->right)
+	if (!pipe_node || !ctx || !pipe_node->left || !pipe_node->right)
 		return (1);
 	if (setup_pipe_fds(ctx) == -1)
 		return (1);

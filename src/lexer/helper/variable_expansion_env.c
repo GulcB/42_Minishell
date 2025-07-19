@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:40:39 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 11:42:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:24:24 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*search_env_var(const char *var_name, t_exec_context *ctx)
 	var_len = ft_strlen(var_name);
 	while (current)
 	{
-		if (ft_strncmp(current->key, var_name, var_len + 1) == 0 &&
-			ft_strlen(current->key) == var_len)
+		if (ft_strncmp(current->key, var_name, var_len + 1) == 0
+			&& ft_strlen(current->key) == var_len)
 		{
 			if (current->value)
 				return (ft_strdup(current->value));

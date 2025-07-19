@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/19 11:49:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:28:14 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	lexer_free(t_lexer *lexer)
 		return ;
 	if (lexer->input)
 		gc_free(lexer->input);
-	gc_free(lexer);	
+	gc_free(lexer);
 }
 
 void	lexer_read_char(t_lexer *lexer)

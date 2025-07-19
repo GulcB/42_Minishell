@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:59:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 15:23:04 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_ast_node	*parse_redirect(t_token **current)
 	*current = (*current)->next;
 	if (!*current || !is_word_token(*current))
 		return (NULL);
-	node = create_redirect_node(get_redirect_type(redirect_type), 
+	node = create_redirect_node(get_redirect_type(redirect_type),
 			(*current)->value);
 	if (!node)
 		return (NULL);

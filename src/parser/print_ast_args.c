@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 22:32:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/06 22:49:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 16:31:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "inc/parser.h"
+#include "parser.h"
 
 void	print_args(char **args)
 {
