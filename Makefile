@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror \
          -Isrc \
          -Isrc/lexer/incs \
          -Isrc/parser/inc \
-		 -Isrc/builtin/inc \
+         -Isrc/builtin/inc \
          -Isrc/executor/inc \
          -Isrc/garbage_collector/inc
 
@@ -21,16 +21,22 @@ SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/parse_command.c \
 			./src/parser/parse_heredoc.c \
 			./src/parser/parse_redirect.c \
-			./src/parser/print_ast_args.c \
-			./src/parser/test_parser.c
+			./src/parser/print_ast_args.c
 
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
+			./src/lexer/lexer_redirects.c \
+			./src/lexer/lexer_tokens.c \
+			./src/lexer/lexer_words.c \
+			./src/lexer/validate_sequence.c \
 			./src/lexer/helper/lexer_heredoc.c \
 			./src/lexer/helper/lexer_quotes.c \
 			./src/lexer/helper/lexer_string_op.c \
 			./src/lexer/helper/lexer_word_parsing.c \
-			./src/lexer/helper/token_type_op.c \
+			./src/lexer/helper/token_type_checks.c \
+			./src/lexer/helper/token_validation.c \
+			./src/lexer/helper/variable_expansion_env.c \
+			./src/lexer/helper/variable_expansion_process.c \
 			./src/lexer/helper/variable_expansion.c
 
 SRC_GC = ./src/garbage_collector/garbage_collector.c \
