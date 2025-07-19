@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:14:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 19:08:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # define MAX_CHILDREN 1024
 # define PATH_MAX_LEN 4096
 
-extern int	g_signal;
-
 typedef struct		s_env
 {
 	char			*key;
@@ -41,6 +39,7 @@ typedef struct		s_env
 typedef struct		s_exec_context
 {
     t_env			*env;
+	t_gc			*gc;
     int				exit_status;
     int				stdin_backup;
     int				stdout_backup;
@@ -55,21 +54,33 @@ int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
 int					execute_command(t_ast_node *cmd_node, t_exec_context *ctx);
 int					execute_heredoc(t_ast_node *heredoc_node,
 	t_exec_context *ctx);
+
 void				cleanup_exec_context(t_exec_context *ctx);
 t_exec_context		*init_exec_context(t_env *env);
 int					backup_std_fds(t_exec_context *ctx);
 void				restore_std_fds(t_exec_context *ctx);
+
+t_env				*create_env_node_classic(const char *key, const char *value);
+t_env				*create_env_node(t_gc *gc, const char *key, const char *value);
+t_env				*parse_and_create_node_classic(char *env_str, t_env **current);
+t_env				*parse_and_create_node(t_gc *gc, char *env_str, t_env **current);
+t_env				*build_env_list(t_gc *gc, char **env_array);
+t_env				*init_env_from_system_with_gc(t_gc *gc, char **env_array);
+t_env				*build_env_list_classic(char **env_array);
 t_env				*init_env_from_system(char **env_array);
 char				*env_get(t_env *env, const char *key);
+
 void				update_exit_status(t_exec_context *ctx, int status);
+int					add_child_pid(t_exec_context *ctx, pid_t pid);
+int					wait_for_children(t_exec_context *ctx);
+void				cleanup_children(t_exec_context *ctx);
+
 int					execute_pipe_chain(t_ast_node *pipe_node,
 	t_exec_context *ctx);
-char				*resolve_executable(const char *cmd, t_env *env);
 int					count_pipe_commands(t_ast_node *node);
 int					validate_pipe_chain(t_ast_node *node);
 int					wait_for_pipe_children(t_exec_context *ctx);
 int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
-int					add_child_pid(t_exec_context *ctx, pid_t pid);
-int					wait_for_children(t_exec_context *ctx);
-void				cleanup_children(t_exec_context *ctx);
+
+char				*resolve_executable(const char *cmd, t_env *env);
 #endif

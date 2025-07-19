@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 15:19:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:46:05 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_input_validation(char *input)
 	return (1);
 }
 
-int	process_input_tokens(char *input, t_token **tokens)
+int	process_input_tokens(char *input, t_token **tokens, t_exec_context *ctx)
 {
 	*tokens = lexer_tokenize(input);
 	if (!*tokens)
@@ -40,7 +40,7 @@ int	process_input_tokens(char *input, t_token **tokens)
 	return (1);
 }
 
-void	execute_and_cleanup(t_token *tokens, char *input)
+void	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 {
 	t_ast_node	*ast;
 
@@ -48,11 +48,11 @@ void	execute_and_cleanup(t_token *tokens, char *input)
 	if (ast)
 	{
 		print_ast(ast);
-		free_ast(ast);
+		execute_ast(ast, ctx);
+		free_ast(ctx->gc, ast);
 	}
 	token_free_list(tokens);
 	free(input);
-	gc_cleanup();
 }
 
 void	print_banner(void)
@@ -73,10 +73,10 @@ void	free_env(t_env *env)
 	{
 		next = current->next;
 		if (current->key)
-			gc_free(current->key);
+			free(current->key);
 		if (current->value)
-			gc_free(current->value);
-		gc_free(current);
+			free(current->value);
+		free(current);
 		current = next;
 	}
 }

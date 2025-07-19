@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 15:20:31 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:48:25 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	shell_loop(t_env *env)
 			break ;
 		if (input_status == -1)
 			continue ;
-		if (!process_input_tokens(input, &tokens))
+		if (!process_input_tokens(input, &tokens, ctx))
 			continue ;
-		execute_and_cleanup(tokens, input);
+		execute_and_cleanup(tokens, input, ctx);
 	}
 	cleanup_exec_context(ctx);
 }
@@ -51,7 +51,6 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	gc_init();
 	environment = init_env_from_system(env);
 	if (!environment)
 	{

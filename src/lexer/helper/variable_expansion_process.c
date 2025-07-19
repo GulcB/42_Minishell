@@ -6,14 +6,15 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:42:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 11:42:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:39:03 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "executor.h"
 
 static char	*process_variable(char *result, const char *str, int *i,
-		t_exec_context *ctx)
+		struct s_exec_context *ctx)
 {
 	int		consumed;
 	char	*var_name;
@@ -25,7 +26,7 @@ static char	*process_variable(char *result, const char *str, int *i,
 	{
 		var_value = get_env_value(var_name, ctx);
 		new_result = join_and_free(result, var_value);
-		gc_free(var_name);
+		free(var_name);
 		*i += consumed;
 		return (new_result);
 	}
@@ -33,8 +34,21 @@ static char	*process_variable(char *result, const char *str, int *i,
 	return (result);
 }
 
+static int	is_escaped(const char *str, int pos)
+{
+	int	backslash_count;
+
+	backslash_count = 0;
+	while (pos > 0 && str[pos - 1] == '\\')
+	{
+		backslash_count++;
+		pos--;
+	}
+	return (backslash_count % 2 == 1);
+}
+
 static char	*process_expansion_loop(char *result, const char *str,
-		t_exec_context *ctx)
+		struct s_exec_context *ctx)
 {
 	int	i;
 	int	start;
@@ -43,7 +57,7 @@ static char	*process_expansion_loop(char *result, const char *str,
 	start = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1])
+		if (str[i] == '$' && str[i + 1] && !is_escaped(str, i))
 		{
 			result = add_literal_part(result, str, start, i);
 			result = process_variable(result, str, &i, ctx);
@@ -56,7 +70,7 @@ static char	*process_expansion_loop(char *result, const char *str,
 	return (result);
 }
 
-char	*expand_variables(const char *str, t_exec_context *ctx)
+char	*expand_variables(const char *str, struct s_exec_context *ctx)
 {
 	char	*result;
 
@@ -68,7 +82,7 @@ char	*expand_variables(const char *str, t_exec_context *ctx)
 	return (process_expansion_loop(result, str, ctx));
 }
 
-char	*process_token_expansion(t_token *token, t_exec_context *ctx)
+char	*process_token_expansion(t_token *token, struct s_exec_context *ctx)
 {
 	if (!token || !token->value)
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 10:25:24 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:50:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/executor.h"
 
-static char	**convert_env_to_array(t_env *env)
+static char	**convert_env_to_array(t_env *env, t_gc *gc)
 {
 	char	**env_array;
 	t_env	*current;
@@ -24,7 +24,7 @@ static char	**convert_env_to_array(t_env *env)
 	current = env;
 	while (current && ++count)
 		current = current->next;
-	env_array = (char **)gc_malloc(sizeof(char *) * (count + 1));
+	env_array = (char **)gc_malloc(gc, sizeof(char *) * (count + 1));
 	if (!env_array)
 		return (NULL);
 	current = env;
@@ -33,7 +33,7 @@ static char	**convert_env_to_array(t_env *env)
 	{
 		env_string = ft_strjoin(current->key, "=");
 		env_array[i] = ft_strjoin(env_string, current->value);
-		gc_free(env_string);
+		free(env_string);
 		current = current->next;
 		i++;
 	}
@@ -55,7 +55,7 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		return (127);
 	}
-	env_array = convert_env_to_array(ctx->env);
+	env_array = convert_env_to_array(ctx->env, ctx->gc);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -63,7 +63,7 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 		exit(127);
 	}
 	add_child_pid(ctx, pid);
-	gc_free(executable_path);
+	free(executable_path);
 	return (wait_for_children(ctx));
 }
 

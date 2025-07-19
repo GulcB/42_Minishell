@@ -6,22 +6,40 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:15:16 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:20:49 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 17:08:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/garbage_collector.h"
 
-static t_gc	g_gc = {NULL}; // GLOBAL OLARAK GEÇİYO DİKKAKAATTTT printf
+void	*gc_malloc(t_gc *gc, size_t size)
+{
+	void		*ptr;
+	t_gc_node	*node;
 
-int	gc_remove_node(void *ptr)
+	if (!gc)
+		return (NULL);
+	ptr = malloc(size);
+	if (!ptr)
+		return (NULL);
+	node = gc_create_node(ptr);
+	if (!node)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	gc_add_node(gc, node);
+	return (ptr);
+}
+
+int	gc_remove_node(t_gc *gc, void *ptr)
 {
 	t_gc_node	*current;
 	t_gc_node	*prev;
 
-	if (!ptr || !g_gc.head)
+	if (!gc || !ptr || !gc->head)
 		return (0);
-	current = g_gc.head;
+	current = gc->head;
 	prev = NULL;
 	while (current)
 	{
@@ -30,7 +48,7 @@ int	gc_remove_node(void *ptr)
 			if (prev)
 				prev->next = current->next;
 			else
-				g_gc.head = current->next;
+				gc->head = current->next;
 			free(current);
 			return (1);
 		}
@@ -40,20 +58,22 @@ int	gc_remove_node(void *ptr)
 	return (0);
 }
 
-void	gc_free(void *ptr)
+void	gc_free(t_gc *gc, void *ptr)
 {
-	if (!ptr)
+	if (!gc || !ptr)
 		return ;
-	if (gc_remove_node(ptr))
+	if (gc_remove_node(gc, ptr))
 		free(ptr);
 }
 
-void	gc_cleanup(void)
+void	gc_cleanup_all(t_gc *gc)
 {
 	t_gc_node	*current;
 	t_gc_node	*temp;
 
-	current = g_gc.head;
+	if (!gc)
+		return ;
+	current = gc->head;
 	while (current)
 	{
 		temp = current->next;
@@ -62,5 +82,5 @@ void	gc_cleanup(void)
 		free(current);
 		current = temp;
 	}
-	g_gc.head = NULL;
+	gc->head = NULL;
 }

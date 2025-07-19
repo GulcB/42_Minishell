@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:34:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 01:07:25 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 17:33:37 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	allocate_child_array(t_exec_context *ctx)
 {
-	ctx->child_pids = (pid_t *)gc_malloc(sizeof(pid_t) * MAX_CHILDREN);
+	ctx->child_pids = (pid_t *)gc_malloc(ctx->gc, sizeof(pid_t) * MAX_CHILDREN);
 	if (!ctx->child_pids)
 		return (-1);
 	ctx->max_children = MAX_CHILDREN;
@@ -25,6 +25,7 @@ static int	allocate_child_array(t_exec_context *ctx)
 static void	init_context_values(t_exec_context *ctx, t_env *env)
 {
 	ctx->env = env;
+	ctx->gc = gc_init();
 	ctx->exit_status = 0;
 	ctx->stdin_backup = -1;
 	ctx->stdout_backup = -1;
@@ -37,13 +38,19 @@ t_exec_context	*init_exec_context(t_env *env)
 {
 	t_exec_context	*ctx;
 
-	ctx = (t_exec_context *)gc_malloc(sizeof(t_exec_context));
+	ctx = (t_exec_context *)malloc(sizeof(t_exec_context));
 	if (!ctx)
 		return (NULL);
 	init_context_values(ctx, env);
+	if (!ctx->gc)
+	{
+		free(ctx);
+		return (NULL);
+	}
 	if (allocate_child_array(ctx) == -1)
 	{
-		gc_free(ctx);
+		gc_destroy(ctx->gc);
+		free(ctx);
 		return (NULL);
 	}
 	return (ctx);

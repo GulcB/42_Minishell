@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 01:18:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 19:14:22 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*create_full_path(const char *dir, const char *cmd)
 	if (!temp)
 		return (NULL);
 	full_path = ft_strjoin(temp, cmd);
-	gc_free(temp);
+	free(temp);
 	return (full_path);
 }
 
@@ -52,7 +52,7 @@ static char	*search_in_path_dirs(char **path_dirs, const char *cmd)
 		}
 		if (is_executable_file(full_path))
 			return (full_path);
-		gc_free(full_path);
+		free(full_path);
 		i++;
 	}
 	return (NULL);
@@ -68,6 +68,21 @@ static char	**get_path_directories(t_env *env)
 		return (NULL);
 	path_dirs = ft_split(path_env, ':');
 	return (path_dirs);
+}
+
+static void	free_path_dirs(char **path_dirs)
+{
+	int	i;
+
+	if (!path_dirs)
+		return ;
+	i = 0;
+	while (path_dirs[i])
+	{
+		free(path_dirs[i]);
+		i++;
+	}
+	free(path_dirs);
 }
 
 char	*resolve_executable(const char *cmd, t_env *env)
@@ -87,6 +102,6 @@ char	*resolve_executable(const char *cmd, t_env *env)
 	if (!path_dirs)
 		return (NULL);
 	result = search_in_path_dirs(path_dirs, cmd);
-	free_args_array(path_dirs);
+	free_path_dirs(path_dirs);
 	return (result);
 }

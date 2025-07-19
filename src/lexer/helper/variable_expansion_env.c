@@ -6,15 +6,16 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:40:39 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:24:24 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 18:34:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "executor.h"
 
-char	*search_env_var(const char *var_name, t_exec_context *ctx)
+char	*search_env_var(const char *var_name, struct s_exec_context *ctx)
 {
-	t_env	*current;
+	void	*current;
 	size_t	var_len;
 
 	if (!ctx || !ctx->env || !var_name)
@@ -23,14 +24,14 @@ char	*search_env_var(const char *var_name, t_exec_context *ctx)
 	var_len = ft_strlen(var_name);
 	while (current)
 	{
-		if (ft_strncmp(current->key, var_name, var_len + 1) == 0
-			&& ft_strlen(current->key) == var_len)
+		if (ft_strncmp(((struct s_env *)current)->key, var_name, var_len
+			 + 1) == 0 && ft_strlen(((struct s_env *)current)->key) == var_len)
 		{
-			if (current->value)
-				return (ft_strdup(current->value));
+			if (((struct s_env *)current)->value)
+				return (ft_strdup(((struct s_env *)current)->value));
 			return (ft_strdup(""));
 		}
-		current = current->next;
+		current = ((struct s_env *)current)->next;
 	}
 	return (NULL);
 }
@@ -59,8 +60,10 @@ char	*join_and_free(char *s1, char *s2)
 	char	*result;
 
 	result = ft_strjoin(s1, s2);
-	gc_free(s1);
-	gc_free(s2);
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
 	return (result);
 }
 

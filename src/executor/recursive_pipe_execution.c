@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:15:09 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 17:47:37 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 		return (1);
 	}
 	result = execute_pipe_recursive(pipe_node, ctx, STDIN_FILENO,
-		STDOUT_FILENO);
+				STDOUT_FILENO);
 	if (result == -1)
 		return (1);
 	return (wait_for_pipe_children(ctx));

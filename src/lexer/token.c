@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/19 16:27:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 17:43:41 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	token_free_list(t_token *head)
 	t_token	*temp;
 
 	current = head;
-	while(current)
+	while (current)
 	{
 		temp = current->next;
 		if (current->value)

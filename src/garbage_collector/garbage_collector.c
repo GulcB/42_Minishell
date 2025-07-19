@@ -6,17 +6,29 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:21:36 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 17:07:55 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/garbage_collector.h"
 
-static	t_gc g_gc = {NULL};
-
-void	gc_init(void)
+t_gc	*gc_init(void)
 {
-	g_gc.head = NULL;
+	t_gc	*gc;
+
+	gc = (t_gc *)malloc(sizeof(t_gc));
+	if (!gc)
+		return (NULL);
+	gc->head = NULL;
+	return (gc);
+}
+
+void	gc_destroy(t_gc *gc)
+{
+	if (!gc)
+		return ;
+	gc_cleanup_all(gc);
+	free(gc);
 }
 
 t_gc_node	*gc_create_node(void *ptr)
@@ -33,28 +45,10 @@ t_gc_node	*gc_create_node(void *ptr)
 	return (node);
 }
 
-void	gc_add_node(t_gc_node *node)
+void	gc_add_node(t_gc *gc, t_gc_node *node)
 {
-	if (!node)
+	if (!gc || !node)
 		return ;
-	node->next = g_gc.head;
-	g_gc.head = node;
-}
-
-void	*gc_malloc(size_t size)
-{
-	void		*ptr;
-	t_gc_node	*node;
-
-	ptr = malloc(size);
-	if (!ptr)
-		return (NULL);
-	node = gc_create_node(ptr);
-	if (!node)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	gc_add_node(node);
-	return (ptr);
+	node->next = gc->head;
+	gc->head = node;
 }
