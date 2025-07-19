@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 01:37:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:40:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "parser.h"
 # include "builtin.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <unistd.h>

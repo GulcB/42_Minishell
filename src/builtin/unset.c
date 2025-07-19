@@ -6,9 +6,10 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:01:03 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 22:17:29 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:21:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/builtin.h"
+#include "builtin.h" 
+#include "executor.h"
 

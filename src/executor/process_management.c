@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 17:31:15 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:57:26 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,6 @@ int	add_child_pid(t_exec_context *ctx, pid_t pid)
 	ctx->child_pids[ctx->child_count] = pid;
 	ctx->child_count++;
 	return (0);
-}
-
-static int	wait_single_child(pid_t pid, t_exec_context *ctx)
-{
-	int	status;
-	int	wait_result;
-
-	wait_result = waitpid(pid, &status, 0);
-	if (wait_result == -1)
-	{
-		perror("minishell: waitpid");
-		return (-1);
-	}
-	update_exit_status(ctx, status);
-	return (ctx->exit_status);
 }
 
 int	wait_for_children(t_exec_context *ctx)

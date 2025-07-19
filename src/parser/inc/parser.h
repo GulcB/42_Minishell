@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 00:59:30 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:24:40 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct			s_ast_node
 	t_node_type			type;
 	char				**args;
 	char				*redirect_file;
-	t_node_type			redirect_type;
+	t_redirect_type		redirect_type;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 }						t_ast_node;

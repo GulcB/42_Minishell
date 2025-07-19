@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:47:51 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 18:17:28 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:43:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/executor.h"
 
-static int execute_with_redirecion(t_ast_node *node, t_exec_context *ctx, 
+static int execute_with_redirection(t_ast_node *node, t_exec_context *ctx, 
 	int input_fd, int output_fd)
 {
 	pid_t	pid;
@@ -41,32 +41,35 @@ static int execute_with_redirecion(t_ast_node *node, t_exec_context *ctx,
 	return (0);
 }
 
+
 static int execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx, 
 	int input_fd, int output_fd)
 {
 	int pipe_fds[2];
 
 	if (node->type == NODE_COMMAND)
-		return (execute_with_redirecton(node, ctx, input_fd, output_fd));
-	if (node->type !=NODE_PIPE)
+		return (execute_with_redirection(node, ctx, input_fd, output_fd));
+	if (node->type != NODE_PIPE)
 		return (1);
 	if (pipe(pipe_fds) == -1)
 	{
-		perror("minishell:pipe");
+		perror("minishell: pipe");
 		return (-1);
 	}
-	if (execute_pipe_recursive(node->left, ctx, input_fd, output_fd) == -1)
+	if (execute_pipe_recursive(node->left, ctx, input_fd, pipe_fds[1]) == -1)
 	{
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
 		return (-1);
 	}
 	close(pipe_fds[1]);
-	if (execute_pipe_recursive(node->right, ctx, input_fd, output_fd) == -1)
+	if (execute_pipe_recursive(node->right, ctx, pipe_fds[0], output_fd) == -1)
 	{
 		close(pipe_fds[0]);
 		return (-1);
 	}
+	close(pipe_fds[0]);
+	return (0);
 }
 
 int execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)

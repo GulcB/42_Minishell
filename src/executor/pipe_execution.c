@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/15 18:17:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:55:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static void cleanup_pipe_fds(t_exec_context *ctx)
 	if (ctx->pipe_fd[0] != -1)
 	{
 		close(ctx->pipe_fd[0]);
-		ctx->pipe_fd[0];
+		ctx->pipe_fd[0] = -1;
 	}
 	if (ctx->pipe_fd[1] != -1)
 	{
 		close(ctx->pipe_fd[1]);
-		ctx->pipe_fd[1];
+		ctx->pipe_fd[1] = -1;
 	}
 }
 
@@ -100,5 +100,5 @@ int	execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx)
 	}
 	cleanup_pipe_fds(ctx);
 	result = wait_for_children(ctx);
-	return (ctx);
+	return (result);
 }

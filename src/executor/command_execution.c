@@ -6,32 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 01:34:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:25:24 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/executor.h"
-
-static int	is_builtin_command(const char *cmd)
-{
-	if (!cmd)
-		return (0);
-	if (ft_strncmp(cmd, "echo", 5) == 0 && ft_strlen(cmd) == 4)
-		return (1);
-	if (ft_strncmp(cmd, "cd", 3) == 0 && ft_strlen(cmd) == 2)
-		return (1);
-	if (ft_strncmp(cmd, "pwd", 4) == 0 && ft_strlen(cmd) == 3)
-		return (1);
-	if (ft_strncmp(cmd, "export", 7) == 0 && ft_strlen(cmd) == 6)
-		return (1);
-	if (ft_strncmp(cmd, "unset", 6) == 0 && ft_strlen(cmd) == 5)
-		return (1);
-	if (ft_strncmp(cmd, "env", 4) == 0 && ft_strlen(cmd) == 3)
-		return (1);
-	if (ft_strncmp(cmd, "exit", 5) == 0 && ft_strlen(cmd) == 4)
-		return (1);
-	return (0);
-}
 
 static char	**convert_env_to_array(t_env *env)
 {
@@ -86,11 +65,6 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	add_child_pid(ctx, pid);
 	gc_free(executable_path);
 	return (wait_for_children(ctx));
-}
-
-static int	execute_builtin_command(char **args, t_exec_context *ctx)
-{
-	return (execute_builtin_dispatcher(args, ctx));
 }
 
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)

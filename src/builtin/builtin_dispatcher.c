@@ -6,11 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/18 01:24:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:19:37 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/builtin.h"
+#include "builtin.h" 
+#include "executor.h"
 
 static int	check_basic_builtins(const char *cmd)
 {
@@ -47,7 +48,7 @@ int	is_builtin_command(const char *cmd)
 	return (0);
 }
 
-static int	execute_basic_builtins(char **args, t_exec_context *ctx)
+static int	execute_basic_builtins(char **args, struct s_exec_context *ctx)
 {
 	if (ft_strncmp(args[0], "echo", 5) == 0 && ft_strlen(args[0]) == 4)
 		return (builtin_echo(args));
@@ -58,7 +59,7 @@ static int	execute_basic_builtins(char **args, t_exec_context *ctx)
 	return (-1);
 }
 
-int	execute_builtin_dispatcher(char **args, t_exec_context *ctx)
+int	execute_builtin_dispatcher(char **args, struct s_exec_context *ctx)
 {
 	int	result;
 

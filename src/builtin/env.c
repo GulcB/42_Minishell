@@ -6,11 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 22:18:18 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/19 10:21:14 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/builtin.h"
+#include "builtin.h" 
+#include "executor.h"
 
 static void	print_env_variable(t_env *env_node)
 {
@@ -34,7 +35,7 @@ static int	validate_env_args(char **args)
 	return (1);
 }
 
-int	builtin_env(char **args, t_env *env)
+int	builtin_env(char **args, struct s_env *env)
 {
 	t_env	*current;
 
