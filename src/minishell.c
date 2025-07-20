@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:39:00 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:31:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ static t_gc	*init_main_gc(void)
 	return (main_gc);
 }
 
+static void	safe_cleanup_and_exit(t_env *environment, t_gc *main_gc)
+{
+	if (environment)
+	{
+		free_env(environment);
+	}
+	if (main_gc)
+	{
+		gc_cleanup_all(main_gc);
+		gc_destroy(main_gc);
+	}
+	rl_clear_history();
+}
+
 static void	shell_loop(t_env *env, t_gc *main_gc)
 {
 	char			*input;
@@ -47,14 +61,16 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	ctx = init_exec_context(env, main_gc);
 	if (!ctx)
 		return ;
+	setup_interactive_signals();
 	while (1)
 	{	
 		input = readline("minishell> ");
 		if (g_signal == SIGINT)
 		{
+			ctx->exit_status = 130;
 			if (input)
 				free(input);
-			g_signal = 0;
+			reset_signal_flag();
 			continue ;
 		}
 		if (input == NULL)
@@ -69,20 +85,13 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 			break ;
 		if (!process_input_tokens(input, &tokens))
 			continue ;
+		setup_execution_signals();
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
 			break ;
+		setup_interactive_signals();
 	}	
-	cleanup_exec_context(ctx);
-}
-
-
-static void	cleanup_and_exit(t_env *environment, t_gc *main_gc)
-{
-	free_env(environment);
-	gc_cleanup_all(main_gc);
-	gc_destroy(main_gc);
-	rl_clear_history();
-	// clear_history();
+	restore_std_fds(ctx);
+	free(ctx);
 }
 
 int	main(int ac, char **av, char **env)
@@ -106,6 +115,6 @@ int	main(int ac, char **av, char **env)
 	print_banner();
 	setup_signals();
 	shell_loop(environment, main_gc);
-	cleanup_and_exit(environment, main_gc);
+	safe_cleanup_and_exit(environment, main_gc);
 	return (0);
 }

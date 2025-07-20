@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:56:08 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:11:59 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static void	setup_parent_signals(void)
 
 static void	restore_parent_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
+	setup_execution_signals();
 }
 
 static int	prepare_execution(t_exec_context *ctx)
@@ -61,4 +60,3 @@ int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
 	ctx->exit_status = result;
 	return (result);
 }
-

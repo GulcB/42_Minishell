@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 21:07:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:10:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:09:30 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,32 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static void	handle_sigint(int sig)
+static void	handle_sigint_interactive(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
+static void	handle_sigint_execution(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
 void	setup_interactive_signals(void)
 {
-	signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigint_interactive);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_execution_signals(void)
+{
+	signal(SIGINT, handle_sigint_execution);
 	signal(SIGQUIT, SIG_IGN);
 }
 

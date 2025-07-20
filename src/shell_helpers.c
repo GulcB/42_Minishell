@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:41:36 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:27:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,22 @@ void	free_env(t_env *env)
 	t_env	*current;
 	t_env	*next;
 
+	if (!env)
+		return ;
 	current = env;
 	while (current)
 	{
 		next = current->next;
 		if (current->key)
+		{
 			free(current->key);
+			current->key = NULL;
+		}
 		if (current->value)
+		{
 			free(current->value);
+			current->value = NULL;
+		}
 		free(current);
 		current = next;
 	}

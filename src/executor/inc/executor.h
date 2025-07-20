@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:25:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:07:26 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char				*resolve_executable(const char *cmd, t_env *env);
 char				*expand_variables(const char *str, struct s_exec_context *ctx);
 
 void				setup_interactive_signals(void);
+void				setup_execution_signals(void);
 void				setup_child_signals(void);
 void				reset_signal_flag(void);
 
