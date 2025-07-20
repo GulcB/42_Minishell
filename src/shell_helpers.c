@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:14:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:29:09 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	process_input_tokens(char *input, t_token **tokens)
 		free(input);
 		return (0);
 	}
+	printf("\n=== TOKEN DEBUG ===\n");
+	token_list_print(*tokens);
+	printf("=== END TOKENS ===\n\n");
 	return (1);
 }
 

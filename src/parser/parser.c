@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:27:38 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:40:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:43:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_word_token(t_token *token)
 	if (!token)
 		return (0);
 	return (token->type == TOKEN_WORD || token->type == TOKEN_DQUOTE
-		|| token->type == TOKEN_SQUOTE);
+		|| token->type == TOKEN_SQUOTE || token->type == TOKEN_DOLLAR);
 }
 
 int	is_stop_token(t_token *token)

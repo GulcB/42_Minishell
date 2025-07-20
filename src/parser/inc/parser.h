@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:32:53 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:51:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "token.h"
+# include "lexer.h"
 # include "garbage_collector.h"
 
 struct	s_exec_context;

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:19:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:27:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_token			*handle_pipe_tokens(t_lexer *lexer, int start_pos);
 t_token			*handle_quote_tokens(t_lexer *lexer, int start_pos);
 t_token			*handle_special_chars(t_lexer *lexer, int start_pos);
 t_token			*lexer_next_token(t_lexer *lexer);
+t_token			*handle_variable_token(t_lexer *lexer, int start_pos);
 
 t_token			*handle_word_token(t_lexer *lexer, int start_pos);
 int				validate_and_add_token(t_gc *gc, t_token **token_list,
