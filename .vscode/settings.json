@@ -1,12 +1,12 @@
 {
   "files.associations": {
-	"lexer.h": "c",
-	"minishell.h": "c",
-	"token.h": "c",
-	"libft.h": "c",
-	"signal.h": "c",
-	"readline.h": "c"
-},
+    "lexer.h": "c",
+    "minishell.h": "c",
+    "token.h": "c",
+    "libft.h": "c",
+    "signal.h": "c",
+    "readline.h": "c"
+  },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",
   "C_Cpp_Runner.debuggerPath": "lldb",

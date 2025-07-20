@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:50:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 20:55:46 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	t_exec_context	*ctx;
 	int				input_status;
 
+	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
 	ctx = init_exec_context(env, main_gc);
 	if (!ctx)
 		return ;
@@ -78,8 +80,8 @@ static void	cleanup_and_exit(t_env *environment, t_gc *main_gc)
 	free_env(environment);
 	gc_cleanup_all(main_gc);
 	gc_destroy(main_gc);
-	// rl_clear_history();
-	clear_history();
+	rl_clear_history();
+	// clear_history();
 }
 
 int	main(int ac, char **av, char **env)
