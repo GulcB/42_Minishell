@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 20:55:46 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:39:00 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,33 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	if (!ctx)
 		return ;
 	while (1)
-	{
-		if (g_signal == SIGINT)
-		{
-			printf("\n");
-			g_signal = 0;
-		}
+	{	
 		input = readline("minishell> ");
 		if (g_signal == SIGINT)
 		{
-			g_signal = 0;
 			if (input)
 				free(input);
+			g_signal = 0;
 			continue ;
 		}
-		input_status = handle_input_validation(input);
-		if (input_status == 0)
+		if (input == NULL)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
+		}
+		input_status = handle_input_validation(input);
 		if (input_status == -1)
 			continue ;
+		if (input_status == 0)
+			break ;
 		if (!process_input_tokens(input, &tokens))
 			continue ;
-		execute_and_cleanup(tokens, input, ctx);
-		reset_signal_flag();
-	}
+		if (execute_and_cleanup(tokens, input, ctx) == -42)
+			break ;
+	}	
 	cleanup_exec_context(ctx);
 }
+
 
 static void	cleanup_and_exit(t_env *environment, t_gc *main_gc)
 {

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:45:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:21:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:52:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
+
+# define SHELL_EXIT -42
 
 struct	s_exec_context;
 struct	s_env;

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:08:57 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:56:08 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
 		ft_putstr_fd("minishell: unsupported node type\n", STDERR_FILENO);
 		result = 1;
 	}
+	if (result == SHELL_EXIT)
+		return (SHELL_EXIT);
 	cleanup_execution(ctx);
 	ctx->exit_status = result;
 	return (result);
 }
+

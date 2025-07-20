@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:37:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:41:36 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,7 @@
 int	handle_input_validation(char *input)
 {
 	if (!input)
-	{
-		if (g_signal == SIGINT)
-		{
-			g_signal = 0;
-			return (-1);
-		}
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		return (0);
-	}
 	if (*input)
 		add_history(input);
 	if (ft_strlen(input) == 0)
@@ -46,18 +38,22 @@ int	process_input_tokens(char *input, t_token **tokens)
 	return (1);
 }
 
-void	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
+int	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 {
 	t_ast_node	*ast;
+	int			result;
 
 	ast = parse_tokens_with_context(tokens, ctx);
+	result = 0;
 	if (ast)
 	{
 		print_ast(ast);
-		execute_ast(ast, ctx);
+		result = execute_ast(ast, ctx);
 	}
 	free(input);
+	return (result);
 }
+
 
 void	print_banner(void)
 {

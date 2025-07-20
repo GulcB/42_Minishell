@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 21:07:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 20:19:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:10:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
