@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 18:46:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 15:18:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ void	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 {
 	t_ast_node	*ast;
 
-	ast = parse_tokens(tokens);
+	ast = parse_tokens_with_context(tokens, ctx);
 	if (ast)
 	{
 		print_ast(ast);
 		execute_ast(ast, ctx);
-		free_ast(ctx->gc, ast);
 	}
-	token_free_list(tokens);
 	free(input);
 }
 

@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:23:08 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:02:19 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/lexer.h"
 
-static int	handle_escape_in_word(t_lexer *lexer)
+int	handle_escape_in_word(t_lexer *lexer)
 {
 	lexer_read_char(lexer);
 	if (lexer->current_char == '\0')
@@ -21,7 +21,7 @@ static int	handle_escape_in_word(t_lexer *lexer)
 	return (1);
 }
 
-static int	process_escape_sequence(t_lexer *lexer, int *in_escape)
+int	process_escape_sequence(t_lexer *lexer, int *in_escape)
 {
 	if (*in_escape)
 	{
@@ -38,7 +38,7 @@ static int	process_escape_sequence(t_lexer *lexer, int *in_escape)
 	return (-1);
 }
 
-static int	should_continue_word(t_lexer *lexer, int *in_escape)
+int	should_continue_word(t_lexer *lexer, int *in_escape)
 {
 	int	escape_result;
 
@@ -55,7 +55,7 @@ static int	should_continue_word(t_lexer *lexer, int *in_escape)
 	return (1);
 }
 
-static char	*create_word_from_position(t_lexer *lexer, int start_pos)
+char	*create_word_from_position(t_lexer *lexer, int start_pos)
 {
 	int		len;
 	char	*word;

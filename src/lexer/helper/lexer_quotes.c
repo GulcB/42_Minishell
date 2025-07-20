@@ -6,14 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:14:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 23:49:36 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:01:04 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/lexer.h"
 
-static int	handle_escape_in_double_quote(t_lexer *lexer, char *buffer,
-		int *buf_index)
+int	handle_escape_in_double_quote(t_lexer *lexer, char *buffer, int *buf_index)
 {
 	lexer_read_char(lexer);
 	if (lexer->current_char == '\0')
@@ -35,7 +34,7 @@ static int	handle_escape_in_double_quote(t_lexer *lexer, char *buffer,
 	return (1);
 }
 
-static char	*process_double_quote_content(t_lexer *lexer, char *buffer)
+char	*process_double_quote_content(t_lexer *lexer, char *buffer)
 {
 	int	buf_index;
 

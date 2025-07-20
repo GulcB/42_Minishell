@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:37:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 11:41:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:17:34 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "token.h"
 
-static t_token_type	check_pipe(char c, char next_c)
+t_token_type	check_pipe(char c, char next_c)
 {
 	if (c == '|')
 	{
@@ -23,7 +23,7 @@ static t_token_type	check_pipe(char c, char next_c)
 	return (TOKEN_WORD);
 }
 
-static t_token_type	check_redirection(char c, char next_c)
+t_token_type	check_redirection(char c, char next_c)
 {
 	if (c == '<')
 	{

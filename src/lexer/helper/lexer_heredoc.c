@@ -6,13 +6,13 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:16:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:26:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:00:12 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/lexer.h"
 
-static int	is_heredoc_delimiter_char(char c)
+int	is_heredoc_delimiter_char(char c)
 {
 	return (!ft_isspace(c) && c != '|' && c != '<' && c != '>' && c != ';'
 		&& c != '&' && c != '(' && c != ')');

@@ -13,7 +13,8 @@ CFLAGS = -Wall -Wextra -Werror \
 LIBFT_DIR = ./lib/libft 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_MAIN = ./src/minishell.c
+SRC_MAIN = ./src/minishell.c \
+			./src/shell_helpers.c
 
 SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/ast_helper.c \
@@ -27,8 +28,8 @@ SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
 			./src/lexer/lexer_redirects.c \
 			./src/lexer/lexer_tokens.c \
-			./src/lexer/lexer_words.c \
-			./src/lexer/validate_sequence.c \
+			./src/lexer/lexer_utils.c \
+			./src/lexer/token_sequence.c \
 			./src/lexer/helper/lexer_heredoc.c \
 			./src/lexer/helper/lexer_quotes.c \
 			./src/lexer/helper/lexer_string_op.c \
@@ -39,8 +40,9 @@ SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/helper/variable_expansion_process.c \
 			./src/lexer/helper/variable_expansion.c
 
-SRC_GC = ./src/garbage_collector/garbage_collector.c \
-		./src/garbage_collector/gc_clean.c
+SRC_GC = 	./src/garbage_collector/garbage_collector.c \
+			./src/garbage_collector/gc_clean.c \
+			./src/garbage_collector/gc_helpers.c
 
 SRC_BUILTIN = ./src/builtin/builtin_dispatcher.c \
 			./src/builtin/cd.c \

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 19:37:03 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 16:04:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ typedef struct      s_token_context
 	t_token			*head;
 }					t_token_context;
 
+t_token_type		check_pipe(char c, char next_c);
+t_token_type		check_redirection(char c, char next_c);
 t_token_type		get_token_type(char c, char next_c);
 int					is_quote_special_char(char c, int in_double_quote);
 int					is_heredoc_start(char *input, int position);
+
 int					find_matching_quote(char *input, int start,
 						char quote_char);
 int					is_valid_token_syntax(char *token_value,

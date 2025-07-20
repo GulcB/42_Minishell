@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/19 19:37:28 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 15:21:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	token_free_list(t_gc *gc, t_token *head)
 	t_token	*current;
 	t_token	*temp;
 
+	if (!gc)
+		return ;
 	current = head;
 	while (current)
 	{
@@ -75,10 +77,11 @@ char	*token_type_to_str(t_token_type type)
 	return ("UNKNOWN");
 }
 
-void	token_list_print(t_token *head) // DUZENLEEEEEEEEE
+void	token_list_print(t_token *head)
 {
 	t_token *current;
 	int token_count;
+	
 	token_count = 0;
 	current = head;
 	printf("\033[1;36m┌───────────────────────────────────────────────────────┐\033[0m\n");
