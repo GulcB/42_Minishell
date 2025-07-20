@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 22:18:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:31:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:05:22 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ void	print_ast_recursive(t_ast_node *node, int depth)
 
 void	print_ast(t_ast_node *node)
 {
-	write_str("=== AST DEBUG ===\n");
 	if (!node)
 	{
 		write_str("AST is NULL\n");
 		return ;
 	}
 	print_ast_recursive(node, 0);
-	write_str("=== END AST ===\n");
 }

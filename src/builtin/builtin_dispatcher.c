@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 16:11:33 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:29:57 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 static int	check_basic_builtins(const char *cmd)
 {
+	
 	if (ft_strncmp(cmd, "echo", 5) == 0 && ft_strlen(cmd) == 4)
 		return (1);
 	if (ft_strncmp(cmd, "pwd", 4) == 0 && ft_strlen(cmd) == 3)
@@ -68,6 +69,8 @@ int	execute_builtin_dispatcher(char **args, struct s_exec_context *ctx)
 	result = execute_basic_builtins(args, ctx);
 	if (result != -1)
 		return (result);
+	if (ft_strncmp(args[0], "exit", 5) == 0 && ft_strlen(args[0]) == 4)
+		return (builtin_exit(args, ctx));	
 	ft_putstr_fd("minishell: builtin not implemented: ", STDERR_FILENO);
 	ft_putstr_fd(args[0], STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);

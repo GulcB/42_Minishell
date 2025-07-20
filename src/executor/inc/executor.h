@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:12:38 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:25:43 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "parser.h"
 # include "builtin.h"
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -28,6 +29,8 @@
 
 # define MAX_CHILDREN 1024
 # define PATH_MAX_LEN 4096
+
+extern int	g_signal;
 
 typedef struct		s_env
 {
@@ -84,4 +87,9 @@ int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
 char				*resolve_executable(const char *cmd, t_env *env);
 char				*expand_variables(const char *str, struct s_exec_context *ctx);
+
+void				setup_interactive_signals(void);
+void				setup_child_signals(void);
+void				reset_signal_flag(void);
+
 #endif

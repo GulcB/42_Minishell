@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 18:50:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:43:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_child_signals();
 		execve(executable_path, args, env_array);
 		exit(127);
 	}

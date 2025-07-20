@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 16:56:29 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 21:08:57 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static void	setup_parent_signals(void)
 {

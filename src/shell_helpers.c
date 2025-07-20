@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 20:29:09 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:37:43 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	handle_input_validation(char *input)
 {
 	if (!input)
 	{
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			return (-1);
+		}
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		return (0);
 	}
@@ -37,9 +42,7 @@ int	process_input_tokens(char *input, t_token **tokens)
 		free(input);
 		return (0);
 	}
-	printf("\n=== TOKEN DEBUG ===\n");
 	token_list_print(*tokens);
-	printf("=== END TOKENS ===\n\n");
 	return (1);
 }
 

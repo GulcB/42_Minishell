@@ -65,8 +65,8 @@ SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/pipe_execution.c \
 			./src/executor/process_management.c \
 			./src/executor/recursive_pipe_execution.c \
-			./src/executor/redirections.c
-
+			./src/executor/redirections.c \
+			./src/executor/signal_handling.c
 
 SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_LEXER) $(SRC_GC) $(SRC_PARSER)
 

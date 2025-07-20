@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:53:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 22:50:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ int	g_signal = 0;
 
 static void	setup_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
+	printf("[DEBUG: About to setup signals]\n");
+	setup_interactive_signals();
+	printf("[DEBUG: Signals setup complete]\n");
 }
 
 static t_gc	*init_main_gc(void)
@@ -46,7 +47,19 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 		return ;
 	while (1)
 	{
+		if (g_signal == SIGINT)
+		{
+			printf("\n");
+			g_signal = 0;
+		}
 		input = readline("minishell> ");
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			if (input)
+				free(input);
+			continue ;
+		}
 		input_status = handle_input_validation(input);
 		if (input_status == 0)
 			break ;
@@ -55,6 +68,7 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 		if (!process_input_tokens(input, &tokens))
 			continue ;
 		execute_and_cleanup(tokens, input, ctx);
+		reset_signal_flag();
 	}
 	cleanup_exec_context(ctx);
 }
