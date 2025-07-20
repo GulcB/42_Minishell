@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:23:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 15:55:09 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:19:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,7 @@ int	validate_and_add_token(t_gc *gc, t_token **token_list,
 			return (1);
 		}
 	}
-	token_add_back(gc, token_list, current_token);
-	*prev_token = current_token;
-	return (1);
-}
-
-int	validate_and_add_token_gc(t_gc *gc, t_token **token_list,
-		t_token *current_token, t_token **prev_token)
-{
-	if (!current_token)
-		return (0);
-	if (!is_valid_token_sequence(*prev_token, current_token))
-	{
-		if (current_token->type == TOKEN_ERROR)
-		{
-			token_free_list(gc, current_token);
-			return (1);
-		}
-	}
-	token_add_back(gc, token_list, current_token);
+	token_add_back(token_list, current_token);
 	*prev_token = current_token;
 	return (1);
 }

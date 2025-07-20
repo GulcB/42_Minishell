@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 15:18:15 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:14:10 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_input_validation(char *input)
 	return (1);
 }
 
-int	process_input_tokens(char *input, t_token **tokens, t_exec_context *ctx)
+int	process_input_tokens(char *input, t_token **tokens)
 {
 	*tokens = lexer_tokenize(input);
 	if (!*tokens)

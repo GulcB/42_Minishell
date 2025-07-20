@@ -6,13 +6,14 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:10:00 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 15:12:17 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:25:41 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GARBAGE_COLLECTOR_H
 # define GARBAGE_COLLECTOR_H
 
+# include "libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 

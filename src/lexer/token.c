@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/20 15:21:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:15:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	*token_create(t_gc *gc, t_token_type type, char *value, int position)
 	return (token);
 }
 
-void	token_add_back(t_gc *gc, t_token **tokens, t_token *new_token)
+void	token_add_back(t_token **tokens, t_token *new_token)
 {
 	t_token	*last;
 

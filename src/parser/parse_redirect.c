@@ -6,11 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 15:23:04 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 18:58:05 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/parser.h"
+#include "parser.h"
+#include "executor.h"
 
 int	is_redirect_token(t_token *token)
 {
@@ -35,41 +36,43 @@ static t_redirect_type	get_redirect_type(t_token_type token_type)
 	return (REDIRECT_IN);
 }
 
-t_ast_node	*create_redirect_node(t_redirect_type type, char *filename)
+t_ast_node	*create_redirect_node(t_gc *gc, t_redirect_type type, char *filename)
 {
 	t_ast_node	*node;
 
-	if (!filename)
+	if (!filename || !gc)
 		return (NULL);
-	node = create_ast_node(NODE_REDIRECT);
+	node = create_ast_node(gc, NODE_REDIRECT);
 	if (!node)
 		return (NULL);
 	node->redirect_type = type;
-	node->redirect_file = ft_strdup(filename);
+	node->redirect_file = gc_strdup(gc, filename);
 	if (!node->redirect_file)
 	{
-		free_ast(node);
+		free_ast(gc, node);
 		return (NULL);
 	}
 	return (node);
 }
 
-t_ast_node	*parse_redirect(t_token **current)
+t_ast_node	*parse_redirect(t_token **current, struct s_exec_context *ctx)
 {
 	t_ast_node		*node;
 	t_token_type	redirect_type;
+	t_gc			*gc;
 
-	if (!current || !*current)
+	if (!current || !*current || !ctx || !ctx->gc)
 		return (NULL);
+	gc = ctx->gc;
 	if (!is_redirect_token(*current))
 		return (NULL);
 	redirect_type = (*current)->type;
 	if (redirect_type == TOKEN_HEREDOC)
-		return (parse_heredoc(current));
+		return (parse_heredoc(current, ctx));
 	*current = (*current)->next;
 	if (!*current || !is_word_token(*current))
 		return (NULL);
-	node = create_redirect_node(get_redirect_type(redirect_type),
+	node = create_redirect_node(gc, get_redirect_type(redirect_type),
 			(*current)->value);
 	if (!node)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/20 15:54:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:20:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token	*lexer_tokenize_with_context(char *input, t_gc *gc)
 	while (1)
 	{
 		current_token = lexer_next_token(lexer);
-		if (!validate_and_add_token_gc(gc, &token_list, current_token,
+		if (!validate_and_add_token(gc, &token_list, current_token,
 				&prev_token))
 			break ;
 		if (should_stop_tokenizing(current_token))

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 18:13:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:32:53 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum            e_redirect_type
 	REDIRECT_OUT,
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC
-}						t_redirect_type
+}						t_redirect_type;
 
 typedef struct			s_ast_node
 {
@@ -64,20 +64,21 @@ char					**parse_arguments(t_token **current,
 							struct s_exec_context *ctx);
 t_ast_node				*parse_command(t_token **current,
 							struct s_exec_context *ctx);
+
 t_ast_node				*parse_heredoc(t_token **current,
-							struct s_exec_context *ctx);
-t_ast_node				*parse_redirect(t_token **current,
 							struct s_exec_context *ctx);
 
 int						is_redirect_token(t_token *token);
 t_ast_node				*create_redirect_node(t_gc *gc, t_redirect_type type,
 							char *filename);
+t_ast_node				*parse_redirect(t_token **current,
+							struct s_exec_context *ctx);
 
 int						is_word_token(t_token *token);
 int						is_stop_token(t_token *token);
+
 t_ast_node				*parse_pipe(t_token **current, struct s_exec_context *ctx);
 t_ast_node				*parse_logical_and(t_token **current, struct s_exec_context *ctx);
-t_ast_node				*parse_tokens(t_token *tokens);
 t_ast_node				*parse_tokens_with_context(t_token *tokens,
 							struct s_exec_context *ctx);
 

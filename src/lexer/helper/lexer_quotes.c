@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:14:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 16:01:04 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:24:38 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*process_double_quote_content(t_lexer *lexer, char *buffer)
 		lexer_read_char(lexer);
 	}
 	if (lexer->current_char == '\0')
-		return (gc_free(buffer), NULL);
+		return (gc_free(lexer->gc, buffer), NULL);
 	lexer_read_char(lexer);
 	buffer[buf_index] = '\0';
 	return (buffer);
@@ -68,7 +68,7 @@ char	*read_double_quoted_string(t_lexer *lexer)
 	if (!lexer || !lexer->input)
 		return (NULL);
 	input_len = ft_strlen(lexer->input);
-	buffer = gc_malloc(input_len + 1);
+	buffer = gc_malloc(lexer->gc, input_len + 1);
 	if (!buffer)
 		return (NULL);
 	return (process_double_quote_content(lexer, buffer));
@@ -83,7 +83,7 @@ char	*read_single_quoted_string(t_lexer *lexer)
 	if (!lexer || !lexer->input)
 		return (NULL);
 	input_len = ft_strlen(lexer->input);
-	buffer = gc_malloc(input_len + 1);
+	buffer = gc_malloc(lexer->gc, input_len + 1);
 	if (!buffer)
 		return (NULL);
 	buf_index = 0;
@@ -95,7 +95,7 @@ char	*read_single_quoted_string(t_lexer *lexer)
 	}
 	if (lexer->current_char == '\0')
 	{
-		gc_free(buffer);
+		gc_free(lexer->gc, buffer);
 		return (NULL);
 	}
 	lexer_read_char(lexer);

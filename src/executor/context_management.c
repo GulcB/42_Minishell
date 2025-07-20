@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:34:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 17:33:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:13:28 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static int	allocate_child_array(t_exec_context *ctx)
 {
@@ -22,10 +22,10 @@ static int	allocate_child_array(t_exec_context *ctx)
 	return (0);
 }
 
-static void	init_context_values(t_exec_context *ctx, t_env *env)
+static void	init_context_values(t_exec_context *ctx, t_env *env, t_gc *gc)
 {
 	ctx->env = env;
-	ctx->gc = gc_init();
+	ctx->gc = gc;
 	ctx->exit_status = 0;
 	ctx->stdin_backup = -1;
 	ctx->stdout_backup = -1;
@@ -34,22 +34,18 @@ static void	init_context_values(t_exec_context *ctx, t_env *env)
 	ctx->has_active_pipe = 0;
 }
 
-t_exec_context	*init_exec_context(t_env *env)
+t_exec_context	*init_exec_context(t_env *env, t_gc *gc)
 {
 	t_exec_context	*ctx;
 
+	if (!gc)
+		return (NULL);
 	ctx = (t_exec_context *)malloc(sizeof(t_exec_context));
 	if (!ctx)
 		return (NULL);
-	init_context_values(ctx, env);
-	if (!ctx->gc)
-	{
-		free(ctx);
-		return (NULL);
-	}
+	init_context_values(ctx, env, gc);
 	if (allocate_child_array(ctx) == -1)
 	{
-		gc_destroy(ctx->gc);
 		free(ctx);
 		return (NULL);
 	}

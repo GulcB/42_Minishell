@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 19:08:02 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:12:38 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ typedef struct		s_exec_context
 int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
 int					execute_command(t_ast_node *cmd_node, t_exec_context *ctx);
 int					execute_heredoc(t_ast_node *heredoc_node,
-	t_exec_context *ctx);
+						t_exec_context *ctx);
 
 void				cleanup_exec_context(t_exec_context *ctx);
-t_exec_context		*init_exec_context(t_env *env);
+t_exec_context		*init_exec_context(t_env *env, t_gc *gc);
 int					backup_std_fds(t_exec_context *ctx);
 void				restore_std_fds(t_exec_context *ctx);
 
@@ -76,11 +76,12 @@ int					wait_for_children(t_exec_context *ctx);
 void				cleanup_children(t_exec_context *ctx);
 
 int					execute_pipe_chain(t_ast_node *pipe_node,
-	t_exec_context *ctx);
+						t_exec_context *ctx);
 int					count_pipe_commands(t_ast_node *node);
 int					validate_pipe_chain(t_ast_node *node);
 int					wait_for_pipe_children(t_exec_context *ctx);
 int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
 char				*resolve_executable(const char *cmd, t_env *env);
+char				*expand_variables(const char *str, struct s_exec_context *ctx);
 #endif

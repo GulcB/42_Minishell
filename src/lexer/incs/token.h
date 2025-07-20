@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 16:04:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/20 19:16:08 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ int					is_valid_token_syntax(char *token_value,
 
 t_token				*token_create(t_gc *gc, t_token_type type, char *value,
 						int position);
-void				token_add_back(t_gc *gc, t_token **tokens,
-						t_token *new_token);
+void				token_add_back(t_token **tokens, t_token *new_token);
 void				token_free_list(t_gc *gc, t_token *head);
 char				*token_type_to_str(t_token_type type);
 void				token_list_print(t_token *head);
