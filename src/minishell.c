@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:56:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/22 14:00:07 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int	g_signal = 0;
 
-static void	setup_signals(void)
+static void	configure_readline(void)
 {
-	printf("[DEBUG: About to setup signals]\n");
-	setup_interactive_signals();
-	printf("[DEBUG: Signals setup complete]\n");
+	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
 }
 
 static t_gc	*init_main_gc(void)
@@ -49,50 +48,6 @@ static void	safe_cleanup_and_exit(t_env *environment, t_gc *main_gc)
 	rl_clear_history();
 }
 
-// static void	shell_loop(t_env *env, t_gc *main_gc)
-// {
-// 	char			*input;
-// 	t_token			*tokens;
-// 	t_exec_context	*ctx;
-// 	int				input_status;
-
-// 	rl_catch_signals = 0;
-// 	rl_catch_sigwinch = 0;
-// 	ctx = init_exec_context(env, main_gc);
-// 	if (!ctx)
-// 		return ;
-// 	setup_interactive_signals();
-// 	while (1)
-// 	{	
-// 		input = readline("minishell> ");
-// 		if (g_signal == SIGINT)
-// 		{
-// 			ctx->exit_status = 130;
-// 			if (input)
-// 				free(input);
-// 			reset_signal_flag();
-// 			continue ;
-// 		}
-// 		if (input == NULL)
-// 		{
-// 			ft_putstr_fd("exit\n", STDOUT_FILENO);
-// 			break ;
-// 		}
-// 		input_status = handle_input_validation(input);
-// 		if (input_status == -1)
-// 			continue ;
-// 		if (input_status == 0)
-// 			break ;
-// 		if (!process_input_tokens(input, &tokens))
-// 			continue ;
-// 		setup_execution_signals();
-// 		if (execute_and_cleanup(tokens, input, ctx) == -42)
-// 			break ;
-// 		setup_interactive_signals();
-// 	}	
-// 	restore_std_fds(ctx);
-// 	free(ctx);
-// }
 
 static void	shell_loop(t_env *env, t_gc *main_gc)
 {
@@ -100,46 +55,37 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	t_token			*tokens;
 	t_exec_context	*ctx;
 	int				input_status;
-
+	
 	ctx = init_exec_context(env, main_gc);
 	if (!ctx)
-		return ;
+	return ;
 	setup_interactive_signals();
 	while (1)
 	{	
 		input = readline("minishell> ");
-		if (g_signal == SIGINT)
-		{
-			printf("[DEBUG: SIGINT detected, resetting]\n");
-			ctx->exit_status = 130;
-			if (input)
-				free(input);
-			reset_signal_flag();
-			printf("[DEBUG: Signal reset complete, g_signal = %d]\n", g_signal);
-			// Readline state'ini temizle
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			setup_interactive_signals();
-			continue ;
-		}
 		if (input == NULL)
 		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
 		}
-		printf("[DEBUG: Processing input: '%s']\n", input);
+		if (g_signal == SIGINT)
+		{
+			ctx->exit_status = 130;
+			if (input)
+			free(input);
+			reset_signal_flag();
+			continue ;
+		}
 		input_status = handle_input_validation(input);
 		if (input_status == -1)
-			continue ;
+		continue ;
 		if (input_status == 0)
-			break ;
+		break ;
 		if (!process_input_tokens(input, &tokens))
-			continue ;
-		printf("[DEBUG: About to execute command]\n");
+		continue ;
 		setup_execution_signals();
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
-			break ;
-		printf("[DEBUG: Command execution completed]\n");
+		break ;
 		setup_interactive_signals();
 	}	
 	restore_std_fds(ctx);
@@ -150,23 +96,69 @@ int	main(int ac, char **av, char **env)
 {
 	t_env	*environment;
 	t_gc	*main_gc;
-
+	
 	(void)ac;
 	(void)av;
 	main_gc = init_main_gc();
 	if (!main_gc)
-		return (1);
+	return (1);
 	environment = init_env_from_system(env);
 	if (!environment)
 	{
 		ft_putstr_fd("Error: Failed to initialize environment\n",
 			STDERR_FILENO);
-		gc_destroy(main_gc);
-		return (1);
+			gc_destroy(main_gc);
+			return (1);
+		}
+		print_banner();
+		configure_readline();
+		setup_interactive_signals();
+		shell_loop(environment, main_gc);
+		safe_cleanup_and_exit(environment, main_gc);
+		return (0);
 	}
-	print_banner();
-	setup_signals();
-	shell_loop(environment, main_gc);
-	safe_cleanup_and_exit(environment, main_gc);
-	return (0);
-}
+	
+	// static void	shell_loop(t_env *env, t_gc *main_gc)
+	// {
+	// 	char			*input;
+	// 	t_token			*tokens;
+	// 	t_exec_context	*ctx;
+	// 	int				input_status;
+	
+	// 	rl_catch_signals = 0;
+	// 	rl_catch_sigwinch = 0;
+	// 	ctx = init_exec_context(env, main_gc);
+	// 	if (!ctx)
+	// 		return ;
+	// 	setup_interactive_signals();
+	// 	while (1)
+	// 	{	
+	// 		input = readline("minishell> ");
+	// 		if (g_signal == SIGINT)
+	// 		{
+	// 			ctx->exit_status = 130;
+	// 			if (input)
+	// 				free(input);
+	// 			reset_signal_flag();
+	// 			continue ;
+	// 		}
+	// 		if (input == NULL)
+	// 		{
+	// 			ft_putstr_fd("exit\n", STDOUT_FILENO);
+	// 			break ;
+	// 		}
+	// 		input_status = handle_input_validation(input);
+	// 		if (input_status == -1)
+	// 			continue ;
+	// 		if (input_status == 0)
+	// 			break ;
+	// 		if (!process_input_tokens(input, &tokens))
+	// 			continue ;
+	// 		setup_execution_signals();
+	// 		if (execute_and_cleanup(tokens, input, ctx) == -42)
+	// 			break ;
+	// 		setup_interactive_signals();
+	// 	}	
+	// 	restore_std_fds(ctx);
+	// 	free(ctx);
+	// }

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 21:07:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:44:26 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/22 14:03:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static void	handle_sigint_interactive(int sig)
 	(void)sig;
 	g_signal = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 static void	handle_sigint_execution(int sig)
@@ -28,6 +31,13 @@ static void	handle_sigint_execution(int sig)
 	(void)sig;
 	g_signal = SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
+}
+
+static void	handle_sigquit_execution(int sig)
+{
+	(void)sig;
+	g_signal = SIGQUIT;
+	write(STDOUT_FILENO, "Quit: 3\n", 8);
 }
 
 void	setup_interactive_signals(void)
@@ -39,7 +49,7 @@ void	setup_interactive_signals(void)
 void	setup_execution_signals(void)
 {
 	signal(SIGINT, handle_sigint_execution);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_sigquit_execution);
 }
 
 void	setup_child_signals(void)
