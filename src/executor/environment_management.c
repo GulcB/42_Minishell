@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 19:06:46 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/22 14:16:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,25 @@ t_env	*parse_and_create_node(t_gc *gc, char *env_str, t_env **current)
 		(*current)->next = new_node;
 	*current = new_node;
 	return (new_node);
+}
+
+t_env	*find_env_node(t_env *env, const char *key)
+{
+	t_env	*current;
+	size_t	key_len;
+
+	if (!env || !key)
+		return (NULL);
+	current = env;
+	key_len = ft_strlen(key);
+	while (current)
+	{
+		if (ft_strncmp(current->key, key, key_len + 1) == 0
+			&& ft_strlen(current->key) == key_len)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }
 
 t_env	*build_env_list(t_gc *gc, char **env_array)
