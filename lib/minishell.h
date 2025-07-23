@@ -6,20 +6,31 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:54:46 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:44:35 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/22 19:31:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include "token.h"
 # include "lexer.h"
 # include "parser.h"
 # include "executor.h"
+# include "parser.h"
+# include "builtin.h"
 # include "garbage_collector.h"
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <stddef.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

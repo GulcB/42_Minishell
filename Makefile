@@ -57,6 +57,7 @@ SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/command_execution.c \
 			./src/executor/context_cleanup.c \
 			./src/executor/context_management.c \
+			./src/executor/env_ops.c \
 			./src/executor/environment_management.c \
 			./src/executor/exit_signal_check.c \
 			./src/executor/heredoc_execution.c \

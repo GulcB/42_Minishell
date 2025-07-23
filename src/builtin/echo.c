@@ -6,11 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 22:17:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:39:49 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/builtin.h"
+#include "builtin.h"
+#include "executor.h"
 
 static int	is_valid_n_flag(const char *arg)
 {
@@ -25,7 +26,7 @@ static int	is_valid_n_flag(const char *arg)
 			return (0);
 		i++;
 	}
-	return (i > 2);
+	return (i > 2 || i == 2);
 }
 
 static int	count_n_flags(char **args)
@@ -57,21 +58,22 @@ static void	print_args_with_spaces(char **args, int start_index)
 	}
 }
 
-int	builtin_echo(char **args)
+int	builtin_echo(t_builtin_cmd *cmd)
 {
 	int	newline_flag;
 	int	n_flag_count;
 	int	start_index;
 
-	if (!args || !args[0])
+	if (!cmd->args || !cmd->args[0])
 		return (1);
 	newline_flag = 1;
-	n_flag_count = count_n_flags(args);
+	n_flag_count = count_n_flags(cmd->args);
 	if (n_flag_count > 0)
 		newline_flag = 0;
 	start_index = 1 + n_flag_count;
-	print_args_with_spaces(args, start_index);
+	print_args_with_spaces(cmd->args, start_index);
 	if (newline_flag)
 		ft_putchar_fd('\n', STDOUT_FILENO);
+	*cmd->exit_status = 0;
 	return (0);
 }

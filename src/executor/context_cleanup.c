@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:08 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:32:29 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/23 19:59:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static void	cleanup_pipes(t_exec_context *ctx)
 {

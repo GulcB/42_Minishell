@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/22 14:16:20 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/23 20:01:58 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "parser.h"
 # include "builtin.h"
+# include "garbage_collector.h"
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -62,6 +63,12 @@ void				cleanup_exec_context(t_exec_context *ctx);
 t_exec_context		*init_exec_context(t_env *env, t_gc *gc);
 int					backup_std_fds(t_exec_context *ctx);
 void				restore_std_fds(t_exec_context *ctx);
+
+void				env_add(t_gc *gc, t_env **env, const char *key, const char *value);
+int					env_count(t_env *env);
+char				*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+char				**env_to_array(t_env *env, int count);
+void				sort_env_array(char **array, int count);
 
 t_env				*create_env_node_classic(const char *key, const char *value);
 t_env				*create_env_node(t_gc *gc, const char *key, const char *value);
