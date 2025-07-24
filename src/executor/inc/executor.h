@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 20:01:58 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 10:13:47 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
 char				*resolve_executable(const char *cmd, t_env *env);
 char				*expand_variables(const char *str, struct s_exec_context *ctx);
+
+int					execute_redirect(t_ast_node *redirect_node, t_exec_context *ctx);
 
 void				setup_interactive_signals(void);
 void				setup_execution_signals(void);

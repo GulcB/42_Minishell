@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:43:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 10:28:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static char	**convert_env_to_array(t_env *env, t_gc *gc)
 {
@@ -70,16 +70,25 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 {
+	int	result;
+
 	if (!cmd_node || !ctx)
 		return (1);
 	if (cmd_node->type == NODE_REDIRECT)
-	{
-		if (cmd_node->redirect_type == REDIRECT_HEREDOC)
-			return (execute_heredoc(cmd_node, ctx));
-		return (1);
-	}
+		return (execute_redirect(cmd_node, ctx));
 	if (!cmd_node->args || !cmd_node->args[0])
 		return (1);
+	if (cmd_node->right && cmd_node->right->type == NODE_REDIRECT)
+	{
+		if (execute_redirect(cmd_node->right, ctx) != 0)
+			return (1);
+		if (is_builtin_command(cmd_node->args[0]))
+			result = execute_builtin_dispatcher(cmd_node->args, ctx);
+		else
+			result = execute_external_command(cmd_node->args, ctx);
+		restore_std_fds(ctx);
+		return (result);
+	}
 	if (is_builtin_command(cmd_node->args[0]))
 		return (execute_builtin_dispatcher(cmd_node->args, ctx));
 	else

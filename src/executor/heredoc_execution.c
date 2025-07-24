@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 19:09:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 11:09:41 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,17 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 	{
 		line = readline("> ");
 		if (!line)
-			break ;
+		{
+			ft_putchar_fd('\n', STDOUT_FILENO);
+			return (1);
+		}
+		if (g_signal == SIGINT)
+		{
+			ft_putchar_fd('\n', STDOUT_FILENO);
+			free(line);
+			reset_signal_flag();
+			return (1);
+		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
@@ -66,8 +76,9 @@ static int	create_heredoc_file(const char *filename, const char *delimiter,
 	if (fd == -1)
 	{
 		perror("minishell: heredoc");
-		return (-1);
+		return (1);
 	}
+	setup_interactive_signals();
 	result = write_heredoc_content(fd, delimiter, quoted, ctx);
 	close(fd);
 	return (result);
@@ -81,13 +92,13 @@ static int	setup_heredoc_input(const char *filename)
 	if (fd == -1)
 	{
 		perror("minishell: heredoc");
-		return (-1);
+		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("minishell: dup2");
 		close(fd);
-		return (-1);
+		return (1);
 	}
 	close(fd);
 	return (0);
@@ -103,9 +114,9 @@ int	execute_heredoc(t_ast_node *heredoc_node, t_exec_context *ctx)
 	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
-		quoted = (heredoc_node->args && heredoc_node->args[0]
-			&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
-			&& ft_strlen(heredoc_node->args[0]) == 1);
+	quoted = (heredoc_node->args && heredoc_node->args[0]
+		&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
+		&& ft_strlen(heredoc_node->args[0]) == 1);
 	filename = create_temp_filename();
 	if (!filename)
 		return (1);

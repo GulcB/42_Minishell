@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 21:23:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 11:28:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 int	add_child_pid(t_exec_context *ctx, pid_t pid)
 {
@@ -23,11 +23,32 @@ int	add_child_pid(t_exec_context *ctx, pid_t pid)
 	return (0);
 }
 
+static int	wait_single_child(t_exec_context *ctx, int index)
+{
+	int		status;
+	pid_t	result;
+
+	if (index >= ctx->child_count)
+		return (1);
+	result = waitpid(ctx->child_pids[index], &status, 0);
+	if (result == -1)
+	{
+		if (errno == ECHILD)
+			return (0);
+		return (1);
+	}
+	if (result == ctx->child_pids[index])
+	{
+		update_exit_status(ctx, status);
+		return (ctx->exit_status);
+	}
+	return (1);
+}
+
 int	wait_for_children(t_exec_context *ctx)
 {
 	int	i;
 	int	last_exit_status;
-	int	status;
 
 	if (!ctx || ctx->child_count == 0)
 		return (0);
@@ -35,16 +56,7 @@ int	wait_for_children(t_exec_context *ctx)
 	i = 0;
 	while (i < ctx->child_count)
 	{
-		if (waitpid(ctx->child_pids[i], &status, 0) == -1)
-		{
-			perror("minishell:waitpid");
-			last_exit_status = 1;
-		}
-		else
-		{
-			update_exit_status(ctx, status);
-			last_exit_status = ctx->exit_status;
-		}
+		last_exit_status = wait_single_child(ctx, i);
 		i++;
 	}
 	cleanup_children(ctx);
