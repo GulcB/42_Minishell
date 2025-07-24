@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/22 19:33:02 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 18:07:17 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct      s_token
 {
 	t_token_type	type;
 	char			*value;
-	int				positon;
+	int				position;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -64,6 +64,8 @@ int					find_matching_quote(char *input, int start,
 int					is_valid_token_syntax(char *token_value,
 						t_token_type type);
 
+void				token_list_print(t_token *head);
+						
 t_token				*token_create(t_gc *gc, t_token_type type, char *value,
 						int position);
 void				token_add_back(t_token **tokens, t_token *new_token);

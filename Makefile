@@ -26,6 +26,7 @@ SRC_PARSER = ./src/parser/parser.c \
 
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
+			./src/lexer/token_table.c \
 			./src/lexer/lexer_redirects.c \
 			./src/lexer/lexer_tokens.c \
 			./src/lexer/lexer_utils.c \
