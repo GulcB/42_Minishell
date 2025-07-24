@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 19:36:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:35:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_pwd(t_builtin_cmd *cmd)
 	}
 	ft_putstr_fd(current_dir, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	free(current_dir); // veya gc_free(cmd->gc, current_dir); istersen
+	gc_free(cmd->gc, current_dir);
 	*cmd->exit_status = 0;
 	return (0);
 }

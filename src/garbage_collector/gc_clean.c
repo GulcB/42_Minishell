@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:15:16 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:34:45 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:25:13 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ void	gc_cleanup_all(t_gc *gc)
 {
 	t_gc_node	*current;
 	t_gc_node	*temp;
-	
+
 	if (!gc)
-	return ;
+		return ;
 	current = gc->head;
 	while (current)
 	{
 		temp = current->next;
 		if (current->ptr)
-		free(current->ptr);
+			free(current->ptr);
 		free(current);
 		current = temp;
 	}

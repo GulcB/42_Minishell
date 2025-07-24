@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:33:25 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:31:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ t_env	*build_env_list_classic(char **env_array)
 	t_env	*current;
 	t_env	*new_node;
 	int		i;
-	
+
 	head = NULL;
 	current = NULL;
 	i = 0;
@@ -165,11 +165,12 @@ t_env	*build_env_list_classic(char **env_array)
 	{
 		new_node = parse_and_create_node_classic(env_array[i], &current);
 		if (new_node && !head)
-		head = new_node;
+			head = new_node;
 		i++;
 	}
 	return (head);
 }
+
 t_env	*init_env_from_system(char **env_array)
 {
 	if (!env_array)
@@ -181,10 +182,10 @@ char	*env_get(t_env *env, const char *key)
 {
 	t_env	*current;
 	size_t	key_len;
-	
+
 	current = env;
 	if (!key)
-	return (NULL);
+		return (NULL);
 	key_len = ft_strlen(key);
 	while (current)
 	{

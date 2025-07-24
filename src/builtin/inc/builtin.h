@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:45:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 19:51:58 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:33:59 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 struct	s_exec_context;
 struct	s_env;
 
-typedef struct  		s_builtin_cmd
+typedef struct s_builtin_cmd
 {
 	char				**args;
 	struct s_env		*env;
@@ -32,7 +32,8 @@ typedef struct  		s_builtin_cmd
 	t_gc				*gc;
 }						t_builtin_cmd;
 
-int				execute_builtin_dispatcher(char **args, struct s_exec_context *ctx);
+int				execute_builtin_dispatcher(char **args,
+					struct s_exec_context *ctx);
 int				is_builtin_command(const char *cmd);
 int				builtin_cd(t_builtin_cmd *cmd);
 int				builtin_echo(t_builtin_cmd *cmd);

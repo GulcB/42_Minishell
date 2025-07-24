@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 16:03:00 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:31:51 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int	execute_heredoc(t_ast_node *heredoc_node, t_exec_context *ctx)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
 	quoted = (heredoc_node->args && heredoc_node->args[0]
-		&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
-		&& ft_strlen(heredoc_node->args[0]) == 1);
+			&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
+			&& ft_strlen(heredoc_node->args[0]) == 1);
 	filename = create_temp_filename();
 	if (!filename)
 		return (1);

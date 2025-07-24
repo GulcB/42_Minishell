@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 16:03:46 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:39:23 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	t_token			*tokens;
 	t_exec_context	*ctx;
 	int				input_status;
-	
+
 	ctx = init_exec_context(env, main_gc);
 	if (!ctx)
 		return ;
@@ -68,14 +68,14 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 		}
 		input_status = handle_input_validation(input);
 		if (input_status == -1)
-		continue ;
+			continue ;
 		if (input_status == 0)
-		break ;
+			break ;
 		if (!process_input_tokens(input, &tokens, main_gc))
 			continue ;
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
 			break ;
-	}	
+	}
 	restore_std_fds(ctx);
 }
 
@@ -83,7 +83,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_env	*environment;
 	t_gc	*main_gc;
-	
+
 	(void)ac;
 	(void)av;
 	main_gc = init_main_gc();

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 20:15:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:35:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	builtin_exit(t_builtin_cmd *cmd)
 		}
 		if (cmd->args[2])
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit: too many arguments\n",
+				STDERR_FILENO);
 			*cmd->exit_status = 1;
 			return (1);
 		}

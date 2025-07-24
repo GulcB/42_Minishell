@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:40:39 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 20:48:24 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:22:23 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*search_env_var(const char *var_name, struct s_exec_context *ctx)
 	while (current)
 	{
 		if (ft_strncmp(((struct s_env *)current)->key, var_name, var_len
-			 + 1) == 0 && ft_strlen(((struct s_env *)current)->key) == var_len)
+				+ 1) == 0
+			&& ft_strlen(((struct s_env *)current)->key) == var_len)
 		{
 			if (((struct s_env *)current)->value)
 				return (ft_strdup(((struct s_env *)current)->value));

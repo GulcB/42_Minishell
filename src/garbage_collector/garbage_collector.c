@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:34:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:24:47 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_gc	*gc_init(void)
 void	gc_add_node(t_gc *gc, t_gc_node *node)
 {
 	if (!gc || !node)
-	return ;
+		return ;
 	node->next = gc->head;
 	gc->head = node;
 }

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:47:27 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 16:10:59 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:19:03 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ int	is_valid_token_sequence(t_token *prev, t_token *current)
 		return (0);
 	return (1);
 }
-

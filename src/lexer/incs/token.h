@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 18:07:17 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:21:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef enum         e_token_type
+typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -38,7 +38,7 @@ typedef enum         e_token_type
 	TOKEN_EOF
 }					t_token_type;
 
-typedef struct      s_token
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
@@ -47,7 +47,7 @@ typedef struct      s_token
 	struct s_token	*prev;
 }					t_token;
 
-typedef struct      s_token_context
+typedef struct s_token_context
 {
 	t_gc			*gc;
 	t_token			*head;
@@ -65,7 +65,7 @@ int					is_valid_token_syntax(char *token_value,
 						t_token_type type);
 
 void				token_list_print(t_token *head);
-						
+
 t_token				*token_create(t_gc *gc, t_token_type type, char *value,
 						int position);
 void				token_add_back(t_token **tokens, t_token *new_token);

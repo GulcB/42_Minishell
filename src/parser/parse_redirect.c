@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 18:58:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:13:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static t_redirect_type	get_redirect_type(t_token_type token_type)
 	return (REDIRECT_IN);
 }
 
-t_ast_node	*create_redirect_node(t_gc *gc, t_redirect_type type, char *filename)
+t_ast_node	*create_redirect_node(t_gc *gc, t_redirect_type type,
+				char *filename)
 {
 	t_ast_node	*node;
 

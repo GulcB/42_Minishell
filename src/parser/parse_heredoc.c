@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:57:02 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 10:40:20 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:13:34 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ t_ast_node	*parse_heredoc(t_token **current, struct s_exec_context *ctx)
 	if ((*current)->type != TOKEN_HEREDOC)
 		return (NULL);
 	*current = (*current)->next;
-	if (!*current || (!is_word_token(*current) 
-			&& (*current)->type != TOKEN_SQUOTE 
+	if (!*current || (!is_word_token(*current)
+			&& (*current)->type != TOKEN_SQUOTE
 			&& (*current)->type != TOKEN_DQUOTE))
 		return (NULL);
 	delimiter = (*current)->value;

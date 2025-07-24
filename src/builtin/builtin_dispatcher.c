@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 19:48:21 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:34:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static int	check_basic_builtins(const char *cmd)
 {
-	
 	if (ft_strncmp(cmd, "echo", 5) == 0 && ft_strlen(cmd) == 4)
 		return (1);
 	if (ft_strncmp(cmd, "pwd", 4) == 0 && ft_strlen(cmd) == 3)
@@ -77,7 +76,6 @@ int	execute_builtin_dispatcher(char **args, struct s_exec_context *ctx)
 	cmd.env = ctx->env;
 	cmd.gc = ctx->gc;
 	cmd.exit_status = &ctx->exit_status;
-
 	result = execute_basic_builtins(&cmd);
 	if (result != -1)
 		return (result);

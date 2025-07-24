@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 20:27:19 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:19:25 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ t_token	*lexer_next_token(t_lexer *lexer)
 		lexer_read_char(lexer);
 	start_pos = lexer->position;
 	type = get_token_type(lexer->current_char, lexer_peek_char(lexer));
-	
 	if (type == TOKEN_PIPE || type == TOKEN_OR)
 		return (handle_pipe_tokens(lexer, start_pos));
 	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT

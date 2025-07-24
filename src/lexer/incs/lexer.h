@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 15:51:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:18:50 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ t_token			*handle_word_token(t_lexer *lexer, int start_pos);
 int				validate_and_add_token(t_gc *gc, t_token **token_list,
 					t_token *current_token, t_token **prev_token);
 int				should_stop_tokenizing(t_token *current_token);
-	
-t_token			*handle_input_redirect(t_lexer *lexer, int start_pos, char next);
-t_token			*handle_output_redirect(t_lexer *lexer, int start_pos, char next);
+
+t_token			*handle_input_redirect(t_lexer *lexer, int start_pos,
+					char next);
+t_token			*handle_output_redirect(t_lexer *lexer, int start_pos,
+					char next);
 char			*process_heredoc_delimiter(t_lexer *lexer);
 t_token			*create_heredoc_token(t_lexer *lexer, int start_pos);
 t_token			*handle_redirect_tokens(t_lexer *lexer, int start_pos);
@@ -56,11 +58,12 @@ t_token			*handle_redirect_tokens(t_lexer *lexer, int start_pos);
 int				validate_word_sequence(t_token *prev, t_token *current);
 int				validate_redirect_sequence(t_token *prev, t_token *current);
 int				is_valid_token_sequence(t_token *prev, t_token *current);
-					
+
 int				is_heredoc_delimiter_char(char c);
 char			*read_heredoc_delimiter(t_lexer *lexer);
 
-int				handle_escape_in_double_quote(t_lexer *lexer, char *buffer, int *buf_index);
+int				handle_escape_in_double_quote(t_lexer *lexer, char *buffer,
+					int *buf_index);
 char			*process_double_quote_content(t_lexer *lexer, char *buffer);
 char			*read_double_quoted_string(t_lexer *lexer);
 char			*read_single_quoted_string(t_lexer *lexer);
@@ -91,5 +94,6 @@ char			*extract_simple_var(const char *str, int *consumed);
 char			*extract_braced_var(const char *str, int *consumed);
 char			*extract_special_var(const char *str, int *consumed);
 char			*extract_var_name(const char *str, int *consumed);
-char			*get_special_var_value(const char *var_name, struct s_exec_context *ctx);
+char			*get_special_var_value(const char *var_name,
+					struct s_exec_context *ctx);
 #endif

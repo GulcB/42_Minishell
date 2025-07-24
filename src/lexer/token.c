@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/24 18:08:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 21:21:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	token_free_list(t_gc *gc, t_token *head)
 char	*token_type_to_str(t_token_type type)
 {
 	static char	*types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", "APPEND",
-			"HEREDOC", "AND", "OR", "SEMICOLON", "DQUOTE", "SQUOTE", "DOLLAR",
-			"ERROR", "EOF"};
+		"HEREDOC", "AND", "OR", "SEMICOLON", "DQUOTE", "SQUOTE", "DOLLAR",
+		"ERROR", "EOF"};
 
 	if (type >= 0 && type <= TOKEN_EOF)
 		return (types[type]);
