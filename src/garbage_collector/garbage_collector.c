@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 15:07:31 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:34:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/garbage_collector.h"
+#include "garbage_collector.h"
 
 t_gc	*gc_init(void)
 {

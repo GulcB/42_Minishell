@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/20 19:20:15 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:51:25 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "incs/lexer.h"
+#include "lexer.h"
 
 t_lexer	*lexer_create(char *input, t_gc *gc)
 {
@@ -70,16 +70,4 @@ t_token	*lexer_tokenize_with_context(char *input, t_gc *gc)
 	}
 	lexer_free(lexer);
 	return (token_list);
-}
-
-t_token	*lexer_tokenize(char *input)
-{
-	t_gc	*temp_gc;
-	t_token	*result;
-
-	temp_gc = gc_init();
-	if (!temp_gc)
-		return (NULL);
-	result = lexer_tokenize_with_context(input, temp_gc);
-	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 10:28:51 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:35:46 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,6 @@ char	**parse_arguments(t_token **current, struct s_exec_context *ctx)
 	args[count] = NULL;
 	return (args);
 }
-
-// static int	execute_command_with_redirect(t_ast_node *cmd_node,
-// 		t_ast_node *redirect_node, t_exec_context *ctx)
-// {
-// 	int	result;
-
-// 	if (execute_redirect(redirect_node, ctx) != 0)
-// 		return (1);
-// 	result = execute_command(cmd_node, ctx);
-// 	restore_std_fds(ctx);
-// 	return (result);
-// }
 
 t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 {

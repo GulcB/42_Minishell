@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:56:34 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/19 15:07:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:35:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/lexer.h"
+#include "lexer.h"
 
 int	ft_isspace(int c)
 {

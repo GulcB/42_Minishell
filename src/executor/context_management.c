@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:34:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 19:13:28 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:39:03 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,12 @@ t_exec_context	*init_exec_context(t_env *env, t_gc *gc)
 
 	if (!gc)
 		return (NULL);
-	ctx = (t_exec_context *)malloc(sizeof(t_exec_context));
+	ctx = (t_exec_context *)gc_malloc(gc, sizeof(t_exec_context));
 	if (!ctx)
 		return (NULL);
 	init_context_values(ctx, env, gc);
 	if (allocate_child_array(ctx) == -1)
-	{
-		free(ctx);
 		return (NULL);
-	}
 	return (ctx);
 }
 

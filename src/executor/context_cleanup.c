@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:08 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 19:59:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:39:17 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	cleanup_exec_context(t_exec_context *ctx)
 		return ;
 	cleanup_resources(ctx);
 	ctx->gc = NULL;
-	free(ctx);
 }

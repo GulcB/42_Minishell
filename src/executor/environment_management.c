@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/22 14:16:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:33:25 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 t_env	*create_env_node_classic(const char *key, const char *value)
 {

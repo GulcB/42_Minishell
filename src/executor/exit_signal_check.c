@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:46:17 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/17 16:59:03 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 16:06:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static int	extract_exit_code(int status)
 {

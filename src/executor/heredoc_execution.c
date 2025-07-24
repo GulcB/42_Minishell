@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 11:09:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 16:03:00 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			return (1);
 		}
-		if (g_signal == SIGINT)
-		{
-			ft_putchar_fd('\n', STDOUT_FILENO);
-			free(line);
-			reset_signal_flag();
-			return (1);
-		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
@@ -78,7 +71,6 @@ static int	create_heredoc_file(const char *filename, const char *delimiter,
 		perror("minishell: heredoc");
 		return (1);
 	}
-	setup_interactive_signals();
 	result = write_heredoc_content(fd, delimiter, quoted, ctx);
 	close(fd);
 	return (result);

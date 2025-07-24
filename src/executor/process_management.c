@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 11:28:33 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 16:00:53 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	wait_for_children(t_exec_context *ctx)
 		i++;
 	}
 	cleanup_children(ctx);
-	reset_signal_flag();
 	return (last_exit_status);
 }
 

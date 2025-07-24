@@ -66,8 +66,15 @@ SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/pipe_execution.c \
 			./src/executor/process_management.c \
 			./src/executor/recursive_pipe_execution.c \
-			./src/executor/redirections.c \
-			./src/executor/signal_handling.c
+			./src/executor/redirections.c
+
+HEADERS = lib/minishell.h \
+          src/lexer/incs/lexer.h \
+          src/lexer/incs/token.h \
+          src/parser/inc/parser.h \
+          src/builtin/inc/builtin.h \
+          src/executor/inc/executor.h \
+          src/garbage_collector/inc/garbage_collector.h
 
 SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_LEXER) $(SRC_GC) $(SRC_PARSER)
 
@@ -78,7 +85,7 @@ all: $(LIBFT) $(NAME)
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-%.o: %.c
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT)

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:54:46 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/22 19:31:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 16:05:46 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <stddef.h>
@@ -40,7 +39,7 @@ typedef struct	s_minishell
 }				t_minishell;
 
 int				handle_input_validation(char *input);
-int				process_input_tokens(char *input, t_token **tokens);
+int				process_input_tokens(char *input, t_token **tokens, t_gc *main_gc);
 int				execute_and_cleanup(t_token *tokens, char *input,
 					t_exec_context *ctx);
 void			print_banner(void);

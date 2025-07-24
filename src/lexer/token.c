@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/20 19:15:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:35:35 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "incs/token.h"
+#include "token.h"
 
 t_token	*token_create(t_gc *gc, t_token_type type, char *value, int position)
 {

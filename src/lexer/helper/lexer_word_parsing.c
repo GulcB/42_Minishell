@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 16:02:19 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:35:08 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/lexer.h"
+#include "lexer.h"
 
 int	handle_escape_in_word(t_lexer *lexer)
 {

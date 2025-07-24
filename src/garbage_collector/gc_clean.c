@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:15:16 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 15:07:58 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:34:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/garbage_collector.h"
+#include "garbage_collector.h"
 
 int	gc_remove_node(t_gc *gc, void *ptr)
 {

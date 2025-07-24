@@ -6,35 +6,22 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 22:11:59 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:59:51 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-static void	setup_parent_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-static void	restore_parent_signals(void)
-{
-	setup_execution_signals();
-}
-
 static int	prepare_execution(t_exec_context *ctx)
 {
 	if (backup_std_fds(ctx) != 0)
 		return (-1);
-	setup_parent_signals();
 	return (0);
 }
 
 static void	cleanup_execution(t_exec_context *ctx)
 {
 	restore_std_fds(ctx);
-	restore_parent_signals();
 }
 
 int	execute_ast(t_ast_node *ast, t_exec_context *ctx)

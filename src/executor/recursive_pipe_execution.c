@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 17:47:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:33:53 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/executor.h"
+#include "executor.h"
 
 static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 		int input_fd, int output_fd)

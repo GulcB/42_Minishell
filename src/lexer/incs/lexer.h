@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/22 19:33:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:51:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_lexer			*lexer_create(char *input, t_gc *gc);
 void			lexer_read_char(t_lexer *lexer);
 char			lexer_peek_char(t_lexer *lexer);
 t_token			*lexer_tokenize_with_context(char *input, t_gc *gc);
-t_token			*lexer_tokenize(char *input);
 
 void			lexer_free(t_lexer *lexer);
 t_token			*handle_pipe_tokens(t_lexer *lexer, int start_pos);
