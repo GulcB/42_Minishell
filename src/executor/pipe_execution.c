@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:33:45 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:35:41 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	execute_left_command(t_ast_node *left_node, t_exec_context *ctx)
 	}
 	if (pid == 0)
 	{
+		setup_exec_signals();
 		close(ctx->pipe_fd[0]);
 		dup2(ctx->pipe_fd[1], STDOUT_FILENO);
 		close(ctx->pipe_fd[1]);
@@ -70,6 +71,7 @@ static int	execute_right_command(t_ast_node *right_node, t_exec_context *ctx)
 	}
 	if (pid == 0)
 	{
+		setup_exec_signals();
 		close(ctx->pipe_fd[1]);
 		dup2(ctx->pipe_fd[0], STDIN_FILENO);
 		close(ctx->pipe_fd[0]);

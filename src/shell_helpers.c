@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:40:46 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 19:26:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,40 @@ int	process_input_tokens(char *input, t_token **tokens, t_gc *main_gc)
 	*tokens = lexer_tokenize_with_context(input, main_gc);
 	if (!*tokens)
 		return (0);
-	token_list_print(*tokens);
+	// token_list_print(*tokens);
 	return (1);
+}
+
+static void	update_exit_status_env(t_exec_context *ctx, int result)
+{
+	char	*exit_status_str;
+
+	exit_status_str = ft_itoa(result);
+	if (exit_status_str)
+	{
+		env_set(ctx->env, "?", exit_status_str, ctx->gc);
+		free(exit_status_str);
+	}
 }
 
 int	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 {
 	t_ast_node	*ast;
 	int			result;
+	extern int	g_signal;
 
 	ast = parse_tokens_with_context(tokens, ctx);
 	result = 0;
 	if (ast)
 	{
-		print_ast(ast);
+		// print_ast(ast);
 		result = execute_ast(ast, ctx);
+		if (g_signal == SIGINT)
+		{
+			result = 130;
+			ctx->exit_status = 130;
+		}
+		update_exit_status_env(ctx, result);
 	}
 	free(input);
 	return (result);

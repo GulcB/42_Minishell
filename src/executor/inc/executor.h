@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:30:02 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:30:10 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "garbage_collector.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <unistd.h>
@@ -67,6 +68,8 @@ char				*ft_strjoin_three(const char *s1, const char *s2,
 						const char *s3);
 char				**env_to_array(t_env *env, int count);
 void				sort_env_array(char **array, int count);
+void				env_set(t_env *env, const char *key, const char *value,
+						t_gc *gc);
 
 t_env				*create_env_node_classic(const char *key,
 						const char *value);
@@ -101,5 +104,11 @@ char				*expand_variables(const char *str,
 
 int					execute_redirect(t_ast_node *redirect_node,
 						t_exec_context *ctx);
+
+void			handle_sigint_interactive(int sig);
+void			handle_sigint_exec(int sig);
+void			setup_main_signals(void);
+void			setup_exec_signals(void);
+void			ignore_signals(void);
 
 #endif

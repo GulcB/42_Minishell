@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 16:02:26 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 20:02:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 		return (127);
 	}
 	env_array = convert_env_to_array(ctx->env, ctx->gc);
+	setup_exec_signals();
 	pid = fork();
 	if (pid == 0)
 	{
+
 		execve(executable_path, args, env_array);
 		exit(127);
 	}

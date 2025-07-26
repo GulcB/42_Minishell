@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 19:57:40 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 20:12:04 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:29:43 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,26 @@ void	sort_env_array(char **array, int count)
 			}
 			i++;
 		}
+	}
+}
+
+void	env_set(t_env *env, const char *key, const char *value, t_gc *gc)
+{
+	t_env	*existing;
+	t_env	*head;
+
+	if (!env || !key)
+		return ;
+	head = env;
+	existing = find_env_node(head, key);
+	if (existing)
+	{
+		if (existing->value)
+			gc_free(gc, existing->value);
+		existing->value = gc_strdup(gc, value);
+	}
+	else
+	{
+		env_add(gc, &head, key, value);
 	}
 }

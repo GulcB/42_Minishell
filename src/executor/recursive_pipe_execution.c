@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:33:00 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:14:06 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 	}
 	if (pid == 0)
 	{
+		setup_exec_signals();
 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
