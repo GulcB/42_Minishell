@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:21:21 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,5 @@ t_token				*token_create(t_gc *gc, t_token_type type, char *value,
 void				token_add_back(t_token **tokens, t_token *new_token);
 void				token_free_list(t_gc *gc, t_token *head);
 char				*token_type_to_str(t_token_type type);
-void				token_list_print(t_token *head);
 
 #endif

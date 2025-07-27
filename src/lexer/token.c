@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/24 21:21:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,30 +77,30 @@ char	*token_type_to_str(t_token_type type)
 	return ("UNKNOWN");
 }
 
-// void	token_list_print(t_token *head)
-// {
-// 	t_token	*current;
-// 	int		token_count;
-// 	char	*display_value;
+void	token_list_print(t_token *head)
+{
+	t_token	*current;
+	int		token_count;
+	char	*display_value;
 
-// 	token_count = 0;
-// 	current = head;
-// 	printf("\033[1;36m┌───────────────────────────────────────────────────────┐\033[0m\n");
-// 	printf("\033[1;36m│ \033[1;33m%-15s\033[0m \033[1;36m│ \033[1;33m%-15s\033[0m \033[1;36m│ \033[1;33m%-10s\033[0m \033[1;36m│\033[0m\n",
-// 		"TYPE", "VALUE", "POSITION");
-// 	printf("\033[1;36m├───────────────────┬───────────────────┬────────────────┤\033[0m\n");
-// 	while (current)
-// 	{
-// 		token_count++;
-// 		if (current->value)
-// 			display_value = current->value;
-// 		else
-// 			display_value = "NULL";
-// 		printf("\033[1;36m│ \033[1;32m%-15s\033[0m \033[1;36m│ \033[1;37m%-15s\033[0m \033[1;36m│ \033[1;35m%-10d\033[0m \033[1;36m│\033[0m\n",
-// 			token_type_to_str(current->type),
-// 			display_value, current->positon);
-// 		current = current->next;
-// 	}
-// 	printf("\033[1;36m└───────────────────┴───────────────────┴────────────────┘\033[0m\n");
-// 	printf("\033[1;33mToplam %d token bulundu.\033[0m\n", token_count);
-// }
+	token_count = 0;
+	current = head;
+	printf("\033[1;36m┌───────────────────────────────────────────────────────┐\033[0m\n");
+	printf("\033[1;36m│ \033[1;33m%-15s\033[0m \033[1;36m│ \033[1;33m%-15s\033[0m \033[1;36m│ \033[1;33m%-10s\033[0m \033[1;36m│\033[0m\n",
+		"TYPE", "VALUE", "POSITION");
+	printf("\033[1;36m├───────────────────┬───────────────────┬────────────────┤\033[0m\n");
+	while (current)
+	{
+		token_count++;
+		if (current->value)
+			display_value = current->value;
+		else
+			display_value = "NULL";
+		printf("\033[1;36m│ \033[1;32m%-15s\033[0m \033[1;36m│ \033[1;37m%-15s\033[0m \033[1;36m│ \033[1;35m%-10d\033[0m \033[1;36m│\033[0m\n",
+			token_type_to_str(current->type),
+			display_value, current->position);
+		current = current->next;
+	}
+	printf("\033[1;36m└───────────────────┴───────────────────┴────────────────┘\033[0m\n");
+	printf("\033[1;33mToplam %d token bulundu.\033[0m\n", token_count);
+}

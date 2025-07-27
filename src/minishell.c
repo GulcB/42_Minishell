@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 19:18:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/27 16:50:01 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int ac, char **av, char **env)
 		gc_destroy(main_gc);
 		return (1);
 	}
-	print_banner();
+	//print_banner();
 	configure_readline();
 	shell_loop(environment, main_gc);
 	safe_cleanup_and_exit(environment, main_gc);
