@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:46:32 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:59:39 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*token_type_to_str(t_token_type type)
 	return ("UNKNOWN");
 }
 
-void	token_list_print(t_token *head)
+void	tokenn_list_print(t_token *head)
 {
 	t_token	*current;
 	int		token_count;

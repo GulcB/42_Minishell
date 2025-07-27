@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:45:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,36 @@ static int	tokens_are_adjacent(t_token *current, t_token *next)
 		return (0);
 	
 	/* Calculate the end position of the current token */
-	if (current->type == TOKEN_DQUOTE || current->type == TOKEN_SQUOTE)
+	if (current->type == TOKEN_DQUOTE)
 	{
-		/* Quoted strings span 2 characters minimum ("" or '') even if empty */
+		/* Double quoted strings span 2 characters minimum ("") even if empty */
 		current_end = current->position + 2;
+	}
+	else if (current->type == TOKEN_SQUOTE)
+	{
+		/* Single quoted strings: 2 quote chars + content length */
+		current_end = current->position + 2 + (current->value ? ft_strlen(current->value) : 0);
 	}
 	else if (current->type == TOKEN_DOLLAR)
 	{
-		/* Dollar variables like $? or $USER - use length of original form */
-		/* For now, assume $X format (2 chars) for special vars like $? */
-		if (current->value && ft_strlen(current->value) == 1 && 
+		/* Check if this is a $"..." construct by looking for LITERAL: prefix */
+		if (current->value && ft_strncmp(current->value, "LITERAL:", 8) == 0)
+		{
+			/* For $"content", the span is: $ + " + content + " = 3 + content_length */
+			int content_len = ft_strlen(current->value + 8); /* Skip "LITERAL:" */
+			current_end = current->position + 3 + content_len;
+		}
+		else if (current->value && ft_strlen(current->value) == 1 && 
 			(current->value[0] == '?' || ft_isdigit(current->value[0])))
-			current_end = current->position + 2; /* $? or $1 etc */
+		{
+			/* Special vars like $? or $1 span 2 characters */
+			current_end = current->position + 2;
+		}
 		else
+		{
+			/* Regular variables like $USER span $ + variable_name */
 			current_end = current->position + 1 + (current->value ? ft_strlen(current->value) : 0);
+		}
 	}
 	else
 	{

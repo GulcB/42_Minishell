@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:40:39 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:18:34 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:43:56 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	*get_env_value(const char *var_name, t_exec_context *ctx)
 
 	if (!var_name)
 		return (ft_strdup(""));
+		
+	/* Check if this is marked as literal content from $"..." */
+	if (ft_strncmp(var_name, "LITERAL:", 8) == 0)
+		return (ft_strdup(var_name + 8)); /* Return content after "LITERAL:" */
+		
 	result = get_special_var_value(var_name, ctx);
 	if (result)
 		return (result);

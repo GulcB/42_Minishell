@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/27 18:43:56 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,19 @@ char	*extract_special_var(const char *str, int *consumed)
 	if (str[1] == '"')
 	{
 		int i = 2;
+		char *content;
+		char *literal_marker;
+		
 		while (str[i] && str[i] != '"')
 			i++;
 		if (str[i] == '"')
 		{
 			*consumed = i + 1;
-			return (ft_substr(str, 2, i - 2));
+			content = ft_substr(str, 2, i - 2);
+			/* Add a special prefix to mark this as literal content */
+			literal_marker = ft_strjoin("LITERAL:", content);
+			free(content);
+			return (literal_marker);
 		}
 	}
 	return (NULL);

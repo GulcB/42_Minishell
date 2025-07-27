@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:14:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:34:57 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,32 @@ int	handle_escape_in_double_quote(t_lexer *lexer, char *buffer, int *buf_index)
 	lexer_read_char(lexer);
 	if (lexer->current_char == '\0')
 		return (0);
+	
+	/* In double quotes, only certain chars are escaped: " \ $ ` \n */
 	if (lexer->current_char == '"' || lexer->current_char == '\\'
 		|| lexer->current_char == '$' || lexer->current_char == '`'
 		|| lexer->current_char == '\n')
 	{
 		if (lexer->current_char == '\n')
 			buffer[(*buf_index)++] = '\n';
+		else if (lexer->current_char == '$')
+		{
+			/* Mark escaped $ with special sequence */
+			buffer[(*buf_index)++] = '\x01';  /* SOH (Start of Heading) as escape marker */
+			buffer[(*buf_index)++] = '$';
+		}
 		else
 			buffer[(*buf_index)++] = lexer->current_char;
 	}
 	else
 	{
+		/* For other characters after backslash in double quotes, 
+		   bash preserves both the backslash and the character */
 		buffer[(*buf_index)++] = '\\';
 		buffer[(*buf_index)++] = lexer->current_char;
 	}
+	
+	lexer_read_char(lexer);
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:19:25 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	skip_whitespace(lexer);
 	if (lexer->current_char == '\0')
 		return (token_create(lexer->gc, TOKEN_EOF, "", lexer->position));
-	if (lexer->current_char == '\\')
-		lexer_read_char(lexer);
 	start_pos = lexer->position;
 	type = get_token_type(lexer->current_char, lexer_peek_char(lexer));
 	if (type == TOKEN_PIPE || type == TOKEN_OR)
