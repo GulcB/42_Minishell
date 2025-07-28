@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 18:14:06 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:31:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,9 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 		perror("minishell: pipe");
 		return (-1);
 	}
-	if (execute_pipe_recursive(node->left, ctx, input_fd, pipe_fds[1]) == -1)
-	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
-		return (-1);
-	}
+	execute_pipe_recursive(node->left, ctx, input_fd, pipe_fds[1]);
 	close(pipe_fds[1]);
-	if (execute_pipe_recursive(node->right, ctx, pipe_fds[0], output_fd) == -1)
-	{
-		close(pipe_fds[0]);
-		return (-1);
-	}
+	execute_pipe_recursive(node->right, ctx, pipe_fds[0], output_fd);
 	close(pipe_fds[0]);
 	return (0);
 }

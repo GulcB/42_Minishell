@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 20:02:16 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:31:00 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,13 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		return (1);
 	if (cmd_node->right && cmd_node->right->type == NODE_REDIRECT)
 	{
-		if (execute_redirect(cmd_node->right, ctx) != 0)
-			return (1);
+		t_ast_node *redirect_node = cmd_node->right;
+		while (redirect_node)
+		{
+			execute_redirect(redirect_node, ctx);
+			redirect_node = redirect_node->right;
+		}
+		
 		if (is_builtin_command(cmd_node->args[0]))
 			result = execute_builtin_dispatcher(cmd_node->args, ctx);
 		else

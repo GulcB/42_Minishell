@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 10:13:30 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:19:55 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static int	execute_input_redirect(const char *filename)
 		ft_putstr_fd((char *)filename, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		perror("");
-		return (-1);
+		
+		/* On failure, redirect to /dev/null to continue execution */
+		fd = open("/dev/null", O_RDONLY);
+		if (fd == -1)
+			return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_process.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:42:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:31:37 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static char	*process_variable(char *result, const char *str, int *i,
 		*i += consumed;
 		return (new_result);
 	}
+	/* If no valid variable name found, treat $ as literal */
+	new_result = join_and_free(result, ft_strdup("$"));
 	*i += 1;
-	return (result);
+	return (new_result);
 }
 
 static int	is_escaped(const char *str, int pos)
@@ -57,7 +59,6 @@ static char	*process_expansion_loop(char *result, const char *str,
 	start = 0;
 	while (str[i])
 	{
-		/* Check for escaped $ (marked with \x01$) */
 		if (str[i] == '\x01' && str[i + 1] == '$')
 		{
 			result = add_literal_part(result, str, start, i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:45:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:32:31 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	tokens_are_adjacent(t_token *current, t_token *next)
 	/* Calculate the end position of the current token */
 	if (current->type == TOKEN_DQUOTE)
 	{
-		/* Double quoted strings span 2 characters minimum ("") even if empty */
-		current_end = current->position + 2;
+		/* Double quoted strings: 2 quote chars + content length */
+		current_end = current->position + 2 + (current->value ? ft_strlen(current->value) : 0);
 	}
 	else if (current->type == TOKEN_SQUOTE)
 	{
@@ -67,16 +67,22 @@ static int	count_arguments(t_token *current)
 	int	count;
 
 	count = 0;
-	while (current && is_word_token(current) && !is_stop_token(current))
+	while (current && !is_stop_token(current))
 	{
-		count++;
-		/* Skip consecutive word tokens that should be concatenated,
-		   but only if they are immediately adjacent (no whitespace) */
-		while (current && current->next && is_word_token(current->next) 
-			&& !is_stop_token(current->next)
-			&& tokens_are_adjacent(current, current->next))
+		if (is_word_token(current))
 		{
-			current = current->next;
+			if (current->prev && is_redirect_token(current->prev))
+			{
+				current = current->next;
+				continue;
+			}
+			count++;
+			while (current && current->next && is_word_token(current->next) 
+				&& !is_stop_token(current->next)
+				&& tokens_are_adjacent(current, current->next))
+			{
+				current = current->next;
+			}
 		}
 		current = current->next;
 	}
@@ -139,16 +145,23 @@ char	**parse_arguments(t_token **current, struct s_exec_context *ctx)
 	if (!args)
 		return (NULL);
 	i = 0;
-	while (i < count && *current && is_word_token(*current))
+	while (i < count && *current && !is_stop_token(*current))
 	{
-		/* Start with first token */
+		if (!is_word_token(*current))
+		{
+			*current = (*current)->next;
+			continue;
+		}
+		if ((*current)->prev && is_redirect_token((*current)->prev))
+		{
+			*current = (*current)->next;
+			continue;
+		}
 		expanded_value = expand_token_value(*current, ctx);
 		if (!expanded_value)
 			return (free_args_on_error(gc, args, i), NULL);
 		concatenated_arg = expanded_value;
 		*current = (*current)->next;
-		
-		/* Concatenate consecutive adjacent word tokens */
 		while (*current && is_word_token(*current) && !is_stop_token(*current)
 			&& (*current)->prev && tokens_are_adjacent((*current)->prev, *current))
 		{
@@ -192,12 +205,20 @@ t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 	cmd_node = create_command_node(gc, args);
 	if (!cmd_node)
 		return (free_args_array(gc, args), NULL);
-	if (*current && is_redirect_token(*current))
+	while (*current && is_redirect_token(*current))
 	{
 		redirect_node = parse_redirect(current, ctx);
 		if (!redirect_node)
-			return (cmd_node);
-		cmd_node->right = redirect_node;
+			break;
+		if (!cmd_node->right)
+			cmd_node->right = redirect_node;
+		else
+		{
+			t_ast_node *last_redirect = cmd_node->right;
+			while (last_redirect->right)
+				last_redirect = last_redirect->right;
+			last_redirect->right = redirect_node;
+		}
 	}
 	return (cmd_node);
 }
