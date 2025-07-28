@@ -26,6 +26,14 @@ case $TEST_NUM in
     0) TEST_FILE="./tester/0_compare_parsing.sh" ;;
     1) TEST_FILE="./tester/1_scmds.sh" ;;
     2) TEST_FILE="./tester/1_builtins.sh" ;;
+    3) TEST_FILE="./tester/1_pipelines.sh" ;;
+    4) TEST_FILE="./tester/1_redirs.sh" ;;
+    5) TEST_FILE="./tester/1_variables.sh" ;;
+    6) TEST_FILE="./tester/2_correction.sh" ;;
+    7) TEST_FILE="./tester/2_path_check.sh" ;;
+    8) TEST_FILE="./tester/8_syntax_errors.sh" ;;
+    9) TEST_FILE="./tester/9_go_wild.sh" ;;
+    10) TEST_FILE="./tester/10_parsing_hell.sh" ;;
     *) echo "Invalid test: $TEST_NUM"; exit 1 ;;
 esac
 
