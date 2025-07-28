@@ -1,8 +1,3 @@
-# **************************************************************************** #
-#                                COMPARE PARSING                               #
-# **************************************************************************** #
-
-### comparing your input parsing to bash ###
 /bin/echo ""$?""
 
 /bin/echo $?"42"
@@ -37,7 +32,7 @@
 
 /bin/echo hi >./outfiles/outfile01 | /bin/echo bye
 
-/bin/echo <123 <456 hi | /bin/echo 42
+/bin/echo <123 <456 hi | /bin/echo 42 /*minishell: unsupported node type*/ 42 yazmıyor
 
 /bin/echo '$='
 
@@ -51,17 +46,17 @@
 
 /bin/echo \$USER
 
-/bin/echo \\$USER
+/bin/echo \\$USER boşluk var
 
 /bin/echo \\\$USER
 
-/bin/echo \\\\$USER
+/bin/echo \\\\$USER boşluk var
 
 /bin/echo \\\\\$USER
 
 /bin/echo \\\\\\\\\$USER
 
-/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
+/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD path'ten sonra boşluk var
 
 /bin/echo "cat lol.c | cat > lol.c"
 
