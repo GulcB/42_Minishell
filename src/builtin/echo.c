@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/28 11:27:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/28 13:21:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static int	is_valid_n_flag(const char *arg)
 {
 	int	i;
 
-	if (!arg || arg[0] != '-' || arg[1] != 'n')
+	if (!arg || arg[0] != '-')
+		return (0);
+	if (arg[1] != 'n')
 		return (0);
 	i = 2;
 	while (arg[i])
@@ -26,7 +28,7 @@ static int	is_valid_n_flag(const char *arg)
 			return (0);
 		i++;
 	}
-	return (i > 2 || i == 2);
+	return (i >= 2);
 }
 
 static int	count_n_flags(char **args)
