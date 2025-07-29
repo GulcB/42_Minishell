@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 13:41:10 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:05:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,12 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context *ctx)
 {
 	char	*delimiter;
-	int		quoted;
 	char	*line;
 
 	(void)ctx; // Suppress unused parameter warning
 	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
-	quoted = (heredoc_node->args && heredoc_node->args[0]
-			&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
-			&& ft_strlen(heredoc_node->args[0]) == 1);
 	
 	// Just consume the input until delimiter, but don't create a file or redirect
 	while (1)
