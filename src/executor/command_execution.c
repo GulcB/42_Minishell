@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 17:05:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:18:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,16 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	return (wait_for_children(ctx));
 }
 
-// Function to consume heredoc input without redirecting it to command
 static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context *ctx)
 {
 	char	*delimiter;
 	char	*line;
 
-	(void)ctx; // Suppress unused parameter warning
+	(void)ctx;
 	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
-	
-	// Just consume the input until delimiter, but don't create a file or redirect
+
 	while (1)
 	{
 		line = readline("> ");
@@ -95,7 +93,7 @@ static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context
 			free(line);
 			break ;
 		}
-		free(line); // Just discard the line
+		free(line);
 	}
 	return (0);
 }
@@ -114,8 +112,6 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 	{
 		t_ast_node *redirect_node = cmd_node->right;
 		t_ast_node *last_heredoc = NULL;
-		
-		// First pass: find the last heredoc and execute non-heredoc redirections
 		while (redirect_node)
 		{
 			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
@@ -124,17 +120,15 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 				execute_redirect(redirect_node, ctx);
 			redirect_node = redirect_node->right;
 		}
-		
-		// Second pass: execute all heredocs, but only use the last one for command input
 		redirect_node = cmd_node->right;
 		while (redirect_node)
 		{
 			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
 			{
 				if (redirect_node == last_heredoc)
-					execute_redirect(redirect_node, ctx); // This one provides input to command
+					execute_redirect(redirect_node, ctx);
 				else
-					execute_heredoc_consume_only(redirect_node, ctx); // Just consume input
+					execute_heredoc_consume_only(redirect_node, ctx);
 			}
 			redirect_node = redirect_node->right;
 		}

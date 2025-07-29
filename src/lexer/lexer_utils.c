@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 13:03:15 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:19:35 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 		value = read_double_quoted_string(lexer);
 		if (!value)
 		{
-			// If quote is unclosed, read until end as word content (without the quote)
 			value = read_unclosed_quote_as_word(lexer);
 			if (!value)
 				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
@@ -62,7 +61,6 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 		value = read_single_quoted_string(lexer);
 		if (!value)
 		{
-			// If quote is unclosed, read until end as word content (without the quote)
 			value = read_unclosed_quote_as_word(lexer);
 			if (!value)
 				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
@@ -122,11 +120,9 @@ t_token	*lexer_next_token(t_lexer *lexer)
 		return (handle_redirect_tokens(lexer, start_pos));
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
 	{
-		// Check if the quote is properly closed
 		if (has_matching_quote(lexer, lexer->current_char))
 			return (handle_quote_tokens(lexer, start_pos));
 		else
-			// Treat unclosed quotes as part of a word
 			return (handle_word_token(lexer, start_pos));
 	}
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
@@ -170,11 +166,7 @@ char	*read_unclosed_quote_as_word(t_lexer *lexer)
 	if (!buffer)
 		return (NULL);
 	buf_index = 0;
-	
-	// Skip the opening quote character
 	lexer_read_char(lexer);
-	
-	// Read until end of input or word delimiter (excluding quotes since we're inside a quote context)
 	while (lexer->current_char != '\0' && !ft_isspace(lexer->current_char) 
 		&& lexer->current_char != '|' && lexer->current_char != '<' 
 		&& lexer->current_char != '>' && lexer->current_char != ';'
@@ -190,7 +182,6 @@ char	*read_unclosed_quote_as_word(t_lexer *lexer)
 	return (buffer);
 }
 
-// Function to check if a quote at current position has a matching closing quote
 int	has_matching_quote(t_lexer *lexer, char quote_char)
 {
 	int		pos;
@@ -199,13 +190,13 @@ int	has_matching_quote(t_lexer *lexer, char quote_char)
 	if (!lexer || !lexer->input)
 		return (0);
 	input_len = ft_strlen(lexer->input);
-	pos = lexer->position + 1; // Start after the current quote
+	pos = lexer->position + 1;
 	
 	while (pos < input_len)
 	{
 		if (lexer->input[pos] == quote_char)
-			return (1); // Found matching quote
+			return (1);
 		pos++;
 	}
-	return (0); // No matching quote found
+	return (0);
 }

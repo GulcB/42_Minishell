@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 14:10:27 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:01:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ static int	tokens_are_adjacent(t_token *current, t_token *next)
 		/* Regular tokens - use the length of their value */
 		current_end = current->position + (current->value ? ft_strlen(current->value) : 1);
 	}
-	
-	/* Tokens are adjacent if current_end == next->position */
 	return (current_end == next->position);
 }
 
