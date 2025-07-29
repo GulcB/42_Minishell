@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 14:10:27 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	process_input_tokens(char *input, t_token **tokens, t_gc *main_gc)
 	*tokens = lexer_tokenize_with_context(input, main_gc);
 	if (!*tokens)
 		return (0);
+	// Debug: print token list (comment out for production)
 	// token_list_print(*tokens);
 	return (1);
 }

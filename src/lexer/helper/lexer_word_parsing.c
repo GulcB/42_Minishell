@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 14:10:27 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ int	should_continue_word(t_lexer *lexer, int *in_escape)
 		return (1);  /* Continue if we're in escape sequence */
 	if (lexer->current_char == '\\')
 		return (1);  /* Continue for backslash */
+	
+	// Special handling for quotes: if they are unclosed, treat them as part of the word
+	if (lexer->current_char == '"' || lexer->current_char == '\'')
+	{
+		if (!has_matching_quote(lexer, lexer->current_char))
+			return (1);  /* Unclosed quote - continue as part of word */
+	}
+	
 	if (is_word_delimiter(lexer->current_char))
 		return (0);
 	return (1);

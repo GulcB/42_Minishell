@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ops.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 19:57:40 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 18:29:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 13:30:52 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	env_count(t_env *env)
 	count = 0;
 	while (env)
 	{
-		if (env->key && env->value)
+		if (env->key)
 			count++;
 		env = env->next;
 	}
@@ -73,9 +73,12 @@ char	**env_to_array(t_env *env, int count)
 	i = 0;
 	while (env)
 	{
-		if (env->key && env->value)
+		if (env->key)
 		{
-			array[i] = ft_strjoin_three(env->key, "=", env->value);
+			if (env->value)
+				array[i] = ft_strjoin_three(env->key, "=", env->value);
+			else
+				array[i] = ft_strjoin_three(env->key, "", "");
 			i++;
 		}
 		env = env->next;

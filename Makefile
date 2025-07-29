@@ -39,7 +39,8 @@ SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/helper/token_validation.c \
 			./src/lexer/helper/variable_expansion_env.c \
 			./src/lexer/helper/variable_expansion_process.c \
-			./src/lexer/helper/variable_expansion.c
+			./src/lexer/helper/variable_expansion.c \
+			./src/lexer/helper/tilde_expansion.c
 
 SRC_GC = 	./src/garbage_collector/garbage_collector.c \
 			./src/garbage_collector/gc_clean.c \

@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 19:02:35 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 13:03:15 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,15 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 	{
 		value = read_double_quoted_string(lexer);
 		if (!value)
-			return (token_create(lexer->gc, TOKEN_ERROR,
-					"Unclosed double quote", start_pos));
+		{
+			// If quote is unclosed, read until end as word content (without the quote)
+			value = read_unclosed_quote_as_word(lexer);
+			if (!value)
+				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
+			token = token_create(lexer->gc, TOKEN_WORD, value, start_pos);
+			gc_free(lexer->gc, value);
+			return (token);
+		}
 		token = token_create(lexer->gc, TOKEN_DQUOTE, value, start_pos);
 		gc_free(lexer->gc, value);
 	}
@@ -54,8 +61,15 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 	{
 		value = read_single_quoted_string(lexer);
 		if (!value)
-			return (token_create(lexer->gc, TOKEN_ERROR,
-					"Unclosed single quote", start_pos));
+		{
+			// If quote is unclosed, read until end as word content (without the quote)
+			value = read_unclosed_quote_as_word(lexer);
+			if (!value)
+				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
+			token = token_create(lexer->gc, TOKEN_WORD, value, start_pos);
+			gc_free(lexer->gc, value);
+			return (token);
+		}
 		token = token_create(lexer->gc, TOKEN_SQUOTE, value, start_pos);
 		gc_free(lexer->gc, value);
 	}
@@ -107,7 +121,14 @@ t_token	*lexer_next_token(t_lexer *lexer)
 		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND)
 		return (handle_redirect_tokens(lexer, start_pos));
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
-		return (handle_quote_tokens(lexer, start_pos));
+	{
+		// Check if the quote is properly closed
+		if (has_matching_quote(lexer, lexer->current_char))
+			return (handle_quote_tokens(lexer, start_pos));
+		else
+			// Treat unclosed quotes as part of a word
+			return (handle_word_token(lexer, start_pos));
+	}
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
 		return (handle_special_chars(lexer, start_pos));
 	return (handle_word_token(lexer, start_pos));
@@ -134,4 +155,57 @@ t_token	*handle_variable_token(t_lexer *lexer, int start_pos)
 	lexer->read_position = lexer->position + 1;
 	free(var_name);
 	return (token);
+}
+
+char	*read_unclosed_quote_as_word(t_lexer *lexer)
+{
+	char	*buffer;
+	int		buf_index;
+	int		input_len;
+
+	if (!lexer || !lexer->input)
+		return (NULL);
+	input_len = ft_strlen(lexer->input);
+	buffer = gc_malloc(lexer->gc, input_len + 1);
+	if (!buffer)
+		return (NULL);
+	buf_index = 0;
+	
+	// Skip the opening quote character
+	lexer_read_char(lexer);
+	
+	// Read until end of input or word delimiter (excluding quotes since we're inside a quote context)
+	while (lexer->current_char != '\0' && !ft_isspace(lexer->current_char) 
+		&& lexer->current_char != '|' && lexer->current_char != '<' 
+		&& lexer->current_char != '>' && lexer->current_char != ';'
+		&& lexer->current_char != '&' && lexer->current_char != '$'
+		&& lexer->current_char != '(' && lexer->current_char != ')')
+	{
+		buffer[buf_index++] = lexer->current_char;
+		lexer_read_char(lexer);
+	}
+	
+	buffer[buf_index] = '\0';
+	
+	return (buffer);
+}
+
+// Function to check if a quote at current position has a matching closing quote
+int	has_matching_quote(t_lexer *lexer, char quote_char)
+{
+	int		pos;
+	int		input_len;
+
+	if (!lexer || !lexer->input)
+		return (0);
+	input_len = ft_strlen(lexer->input);
+	pos = lexer->position + 1; // Start after the current quote
+	
+	while (pos < input_len)
+	{
+		if (lexer->input[pos] == quote_char)
+			return (1); // Found matching quote
+		pos++;
+	}
+	return (0); // No matching quote found
 }

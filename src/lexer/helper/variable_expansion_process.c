@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_process.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:42:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/28 11:31:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 14:48:51 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include "executor.h"
+#include "lexer.h"
 
 static char	*process_variable(char *result, const char *str, int *i,
 		struct s_exec_context *ctx)
@@ -30,7 +30,6 @@ static char	*process_variable(char *result, const char *str, int *i,
 		*i += consumed;
 		return (new_result);
 	}
-	/* If no valid variable name found, treat $ as literal */
 	new_result = join_and_free(result, ft_strdup("$"));
 	*i += 1;
 	return (new_result);
@@ -82,13 +81,22 @@ static char	*process_expansion_loop(char *result, const char *str,
 char	*expand_variables(const char *str, struct s_exec_context *ctx)
 {
 	char	*result;
+	char	*tilde_expanded;
 
 	if (!str)
 		return (NULL);
+	tilde_expanded = expand_tilde(str, ctx);
+	if (!tilde_expanded)
+		return (NULL);
 	result = ft_strdup("");
 	if (!result)
+	{
+		free(tilde_expanded);
 		return (NULL);
-	return (process_expansion_loop(result, str, ctx));
+	}
+	result = process_expansion_loop(result, tilde_expanded, ctx);
+	free(tilde_expanded);
+	return (result);
 }
 
 char	*process_token_expansion(t_token *token, struct s_exec_context *ctx)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:18:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 13:03:15 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_token			*lexer_tokenize_with_context(char *input, t_gc *gc);
 void			lexer_free(t_lexer *lexer);
 t_token			*handle_pipe_tokens(t_lexer *lexer, int start_pos);
 t_token			*handle_quote_tokens(t_lexer *lexer, int start_pos);
+int				has_matching_quote(t_lexer *lexer, char quote_char);
 t_token			*handle_special_chars(t_lexer *lexer, int start_pos);
 t_token			*lexer_next_token(t_lexer *lexer);
 t_token			*handle_variable_token(t_lexer *lexer, int start_pos);
@@ -67,6 +68,7 @@ int				handle_escape_in_double_quote(t_lexer *lexer, char *buffer,
 char			*process_double_quote_content(t_lexer *lexer, char *buffer);
 char			*read_double_quoted_string(t_lexer *lexer);
 char			*read_single_quoted_string(t_lexer *lexer);
+char			*read_unclosed_quote_as_word(t_lexer *lexer);
 
 int				ft_isspace(int c);
 void			skip_whitespace(t_lexer *lexer);
@@ -96,4 +98,8 @@ char			*extract_special_var(const char *str, int *consumed);
 char			*extract_var_name(const char *str, int *consumed);
 char			*get_special_var_value(const char *var_name,
 					struct s_exec_context *ctx);
+
+/* Tilde expansion */
+char			*expand_tilde(const char *str, struct s_exec_context *ctx);
+
 #endif
