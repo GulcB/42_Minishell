@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 17:20:03 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:32:30 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	handle_escape_in_word(t_lexer *lexer)
 	lexer_read_char(lexer);
 	if (lexer->current_char == '\0')
 		return (0);
-	/* In unquoted context, backslash escapes any character */
 	lexer_read_char(lexer);
 	return (1);
 }
@@ -96,7 +95,7 @@ char	*read_word(t_lexer *lexer)
 	if (!lexer || !lexer->input)
 		return (NULL);
 	input_len = ft_strlen(lexer->input);
-	buffer = gc_malloc(lexer->gc, input_len * 2 + 1); /* Extra space for escape markers */
+	buffer = gc_malloc(lexer->gc, input_len * 2 + 1);
 	if (!buffer)
 		return (NULL);
 	buf_index = 0;
@@ -106,37 +105,24 @@ char	*read_word(t_lexer *lexer)
 	{
 		if (lexer->current_char == '\\')
 		{
-			/* Handle multiple backslashes */
 			int backslash_count = count_backslashes(lexer, &backslash_consumed);
-			
-			/* Move lexer position forward by the number of backslashes found */
 			for (int i = 0; i < backslash_consumed; i++)
 				lexer_read_char(lexer);
-			
-			/* If odd number of backslashes and next char is $, escape it */
 			if (backslash_count % 2 == 1 && lexer->current_char == '$')
 			{
-				/* Add all but the last backslash */
 				for (int i = 0; i < backslash_count / 2; i++)
 					buffer[buf_index++] = '\\';
-				
-				/* Add special escape marker and $ */
-				buffer[buf_index++] = '\x01'; /* Escape marker */
+				buffer[buf_index++] = '\x01';
 				buffer[buf_index++] = '$';
 				lexer_read_char(lexer);
 			}
-			/* If odd number of backslashes and next char is not $, add backslash */
 			else if (backslash_count % 2 == 1)
 			{
-				/* Add all but the last backslash */
 				for (int i = 0; i < backslash_count / 2; i++)
 					buffer[buf_index++] = '\\';
-				
-				/* Add the current character literally */
 				buffer[buf_index++] = lexer->current_char;
 				lexer_read_char(lexer);
 			}
-			/* If even number of backslashes, add backslashes and leave next char alone */
 			else
 			{
 				for (int i = 0; i < backslash_count / 2; i++)

@@ -26,7 +26,6 @@ SRC_PARSER = ./src/parser/parser.c \
 
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
-			./src/lexer/token_table.c \
 			./src/lexer/lexer_redirects.c \
 			./src/lexer/lexer_tokens.c \
 			./src/lexer/lexer_utils.c \
@@ -94,9 +93,6 @@ $(LIBFT):
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
-run:
-	make re
-	make clean
 clean:
 	@make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
@@ -107,4 +103,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+run: re 
+	@make -C $(LIBFT_DIR) clean
+	$(RM) $(OBJS)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
+
+.PHONY: all clean fclean re run 

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 16:47:23 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:28:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,42 +19,34 @@ static int	tokens_are_adjacent(t_token *current, t_token *next)
 	
 	if (!current || !next)
 		return (0);
-	
-	/* Calculate the end position of the current token */
 	if (current->type == TOKEN_DQUOTE)
 	{
-		/* Double quoted strings: 2 quote chars + content length */
 		current_end = current->position + 2 + (current->value ? ft_strlen(current->value) : 0);
 	}
 	else if (current->type == TOKEN_SQUOTE)
 	{
-		/* Single quoted strings: 2 quote chars + content length */
 		current_end = current->position + 2 + (current->value ? ft_strlen(current->value) : 0);
 	}
 	else if (current->type == TOKEN_DOLLAR)
 	{
-		/* Check if this is a $"..." construct by looking for LITERAL: prefix */
 		if (current->value && ft_strncmp(current->value, "LITERAL:", 8) == 0)
 		{
-			/* For $"content", the span is: $ + " + content + " = 3 + content_length */
-			int content_len = ft_strlen(current->value + 8); /* Skip "LITERAL:" */
+
+			int content_len = ft_strlen(current->value + 8);
 			current_end = current->position + 3 + content_len;
 		}
 		else if (current->value && ft_strlen(current->value) == 1 && 
 			(current->value[0] == '?' || ft_isdigit(current->value[0])))
 		{
-			/* Special vars like $? or $1 span 2 characters */
 			current_end = current->position + 2;
 		}
 		else
 		{
-			/* Regular variables like $USER span $ + variable_name */
 			current_end = current->position + 1 + (current->value ? ft_strlen(current->value) : 0);
 		}
 	}
 	else
 	{
-		/* Regular tokens - use the length of their value */
 		current_end = current->position + (current->value ? ft_strlen(current->value) : 1);
 	}
 	return (current_end == next->position);
@@ -72,7 +64,7 @@ static int	count_arguments(t_token *current)
 			if (current->prev && is_redirect_token(current->prev))
 			{
 				current = current->next;
-				continue;
+				continue ;
 			}
 			count++;
 			while (current && current->next && is_word_token(current->next) 
@@ -185,61 +177,141 @@ char	**parse_arguments(t_token **current, struct s_exec_context *ctx)
 
 t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 {
-	t_ast_node	*cmd_node;
+	t_ast_node	*cmd_node = NULL;
 	t_ast_node	*redirect_node;
 	char		**args;
 	t_gc		*gc;
 	t_ast_node	*first_redirect = NULL;
 	t_ast_node	*last_redirect = NULL;
+	t_token		*start_token;
+	t_token		*temp;
+	int			arg_count;
+	int			i;
 
 	if (!current || !*current || !ctx || !ctx->gc)
 		return (NULL);
 	gc = ctx->gc;
-	if (is_redirect_token(*current))
-		return (parse_redirect(current, ctx));
+	start_token = *current;
+	arg_count = 0;
+	temp = start_token;
+	while (temp && !is_stop_token(temp))
+	{
+		if (is_redirect_token(temp))
+		{
+			temp = temp->next;
+			if (temp && is_word_token(temp))
+				temp = temp->next;
+		}
+		else if (is_word_token(temp))
+		{
+			arg_count++;
+			while (temp && temp->next && is_word_token(temp->next) 
+				&& !is_stop_token(temp->next) && !is_redirect_token(temp->next)
+				&& tokens_are_adjacent(temp, temp->next))
+			{
+				temp = temp->next;
+			}
+			temp = temp->next;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+	if (arg_count > 0)
+	{
+		args = (char **)gc_malloc(gc, sizeof(char *) * (arg_count + 1));
+		if (!args)
+			return (NULL);
+		i = 0;
+		*current = start_token;
+		while (*current && !is_stop_token(*current) && i < arg_count)
+		{
+			if (is_redirect_token(*current))
+			{
+				redirect_node = parse_redirect(current, ctx);
+				if (redirect_node)
+				{
+					if (!first_redirect)
+					{
+						first_redirect = redirect_node;
+						last_redirect = redirect_node;
+					}
+					else
+					{
+						last_redirect->right = redirect_node;
+						last_redirect = redirect_node;
+					}
+				}
+			}
+			else if (is_word_token(*current))
+			{
+				char *expanded_value = expand_token_value(*current, ctx);
+				if (!expanded_value)
+				{
+					free_args_on_error(gc, args, i);
+					return (first_redirect);
+				}
+				char *concatenated_arg = expanded_value;
+				*current = (*current)->next;
+				while (*current && is_word_token(*current) && !is_stop_token(*current)
+					&& !is_redirect_token(*current)
+					&& (*current)->prev && tokens_are_adjacent((*current)->prev, *current))
+				{
+					expanded_value = expand_token_value(*current, ctx);
+					if (!expanded_value)
+					{
+						gc_free(gc, concatenated_arg);
+						free_args_on_error(gc, args, i);
+						return (first_redirect);
+					}
+					concatenated_arg = gc_strjoin(gc, concatenated_arg, expanded_value);
+					gc_free(gc, expanded_value);
+					if (!concatenated_arg)
+					{
+						free_args_on_error(gc, args, i);
+						return (first_redirect);
+					}
+					*current = (*current)->next;
+				}
+				
+				args[i] = concatenated_arg;
+				i++;
+			}
+			else
+			{
+				*current = (*current)->next;
+			}
+		}
+		args[arg_count] = NULL;
+		cmd_node = create_command_node(gc, args);
+		if (!cmd_node)
+		{
+			free_args_array(gc, args);
+			return (first_redirect);
+		}
+	}
 	while (*current && is_redirect_token(*current))
 	{
 		redirect_node = parse_redirect(current, ctx);
-		if (!redirect_node)
-			break;
-		if (!first_redirect)
+		if (redirect_node)
 		{
-			first_redirect = redirect_node;
-			last_redirect = redirect_node;
-		}
-		else
-		{
-			last_redirect->right = redirect_node;
-			last_redirect = redirect_node;
+			if (!first_redirect)
+			{
+				first_redirect = redirect_node;
+				last_redirect = redirect_node;
+			}
+			else
+			{
+				last_redirect->right = redirect_node;
+				last_redirect = redirect_node;
+			}
 		}
 	}
-	
-	if (!is_word_token(*current))
-		return (first_redirect);
-		
-	args = parse_arguments(current, ctx);
-	if (!args)
-		return (first_redirect);
-		
-	cmd_node = create_command_node(gc, args);
-	if (!cmd_node)
-		return (free_args_array(gc, args), first_redirect);
-	if (first_redirect)
+	if (cmd_node && first_redirect)
 		cmd_node->right = first_redirect;
-	while (*current && is_redirect_token(*current) && (*current)->type != TOKEN_PIPE)
-	{
-		redirect_node = parse_redirect(current, ctx);
-		if (!redirect_node)
-			break;
-		if (!cmd_node->right)
-			cmd_node->right = redirect_node;
-		else
-		{
-			t_ast_node *temp_redirect = cmd_node->right;
-			while (temp_redirect->right)
-				temp_redirect = temp_redirect->right;
-			temp_redirect->right = redirect_node;
-		}
-	}
+	else if (!cmd_node && first_redirect)
+		return (first_redirect);
+		
 	return (cmd_node);
 }

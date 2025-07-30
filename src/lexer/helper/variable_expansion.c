@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:43:56 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:31:12 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ char	*extract_special_var(const char *str, int *consumed)
 		*consumed = 2;
 		return (ft_substr(str, 1, 1));
 	}
-	/* Handle $"..." localized strings - treat as literal string */
 	if (str[1] == '"')
 	{
 		int i = 2;
@@ -74,7 +73,6 @@ char	*extract_special_var(const char *str, int *consumed)
 		{
 			*consumed = i + 1;
 			content = ft_substr(str, 2, i - 2);
-			/* Add a special prefix to mark this as literal content */
 			literal_marker = ft_strjoin("LITERAL:", content);
 			free(content);
 			return (literal_marker);
@@ -112,6 +110,5 @@ char	*get_special_var_value(const char *var_name, struct s_exec_context *ctx)
 	{
 		return (ft_strdup(""));
 	}
-	/* Only return value for actual special variables */
 	return (NULL);
 }

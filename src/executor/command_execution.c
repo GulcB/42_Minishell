@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 16:37:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:35:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,16 +112,12 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 	{
 		t_ast_node *redirect_node = cmd_node->right;
 		t_ast_node *last_heredoc = NULL;
-		
-		/* First pass: find last heredoc and execute heredocs that are not last */
 		while (redirect_node)
 		{
 			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
 				last_heredoc = redirect_node;
 			redirect_node = redirect_node->right;
 		}
-		
-		/* Second pass: consume non-last heredocs */
 		redirect_node = cmd_node->right;
 		while (redirect_node)
 		{
@@ -129,8 +125,6 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 				execute_heredoc_consume_only(redirect_node, ctx);
 			redirect_node = redirect_node->right;
 		}
-		
-		/* Third pass: execute redirects in order, collect errors but don't stop */
 		redirect_node = cmd_node->right;
 		int redirect_error = 0;
 		while (redirect_node)
@@ -139,33 +133,27 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 			{
 				if (execute_redirect(redirect_node, ctx) != 0)
 				{
-					redirect_error = 1;  /* Mark error but continue */
-					break;  /* Stop on first redirect error like bash */
+					redirect_error = 1;
+					break ;
 				}
 			}
 			else if (redirect_node == last_heredoc)
 			{
 				if (execute_redirect(redirect_node, ctx) != 0)
 				{
-					redirect_error = 1;  /* Mark error but continue */
-					break;  /* Stop on heredoc error */
+					redirect_error = 1;
+					break;
 				}
 			}
 			redirect_node = redirect_node->right;
 		}
-		
-		/* Execute the command regardless of redirect errors */
 		if (is_builtin_command(cmd_node->args[0]))
 			result = execute_builtin_dispatcher(cmd_node->args, ctx);
 		else
 			result = execute_external_command(cmd_node->args, ctx);
-		
 		restore_std_fds(ctx);
-		
-		/* If redirect failed, return error status regardless of command success */
 		if (redirect_error)
 			return (1);
-		
 		return (result);
 	}
 	if (is_builtin_command(cmd_node->args[0]))

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:48 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:30:06 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ t_token	*lexer_next_token(t_lexer *lexer)
 			char second_next = '\0';
 			if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
 				second_next = lexer->input[lexer->read_position + 1];
-			
-			/* Only treat as fd redirect if it's a single digit followed by redirect */
-			/* This prevents <123 from being parsed as fd redirect */
 			if (next_char == '>' && second_next == '>')
 				return (handle_redirect_tokens(lexer, start_pos));
 			else if (next_char == '<' && second_next == '<')
@@ -125,7 +122,6 @@ t_token	*lexer_next_token(t_lexer *lexer)
 				return (handle_redirect_tokens(lexer, start_pos));
 		}
 	}
-	
 	type = get_token_type(lexer->current_char, lexer_peek_char(lexer));
 	if (type == TOKEN_PIPE || type == TOKEN_OR)
 		return (handle_pipe_tokens(lexer, start_pos));
@@ -133,9 +129,7 @@ t_token	*lexer_next_token(t_lexer *lexer)
 		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND)
 		return (handle_redirect_tokens(lexer, start_pos));
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
-	{
 		return (handle_quote_tokens(lexer, start_pos));
-	}
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
 		return (handle_special_chars(lexer, start_pos));
 	return (handle_word_token(lexer, start_pos));
@@ -187,9 +181,7 @@ char	*read_unclosed_quote_as_word(t_lexer *lexer)
 		buffer[buf_index++] = lexer->current_char;
 		lexer_read_char(lexer);
 	}
-	
 	buffer[buf_index] = '\0';
-	
 	return (buffer);
 }
 

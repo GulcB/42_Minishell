@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:29:56 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 16:31:48 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 18:30:36 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,13 @@ t_token	*handle_redirect_tokens(t_lexer *lexer, int start_pos)
 		
 		if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
 			third_char = lexer->input[lexer->read_position + 1];
-		
-		/* Only handle as fd redirect if third character is not a digit */
-		/* This prevents <123 from being treated as fd redirect */
 		if (ft_isdigit(third_char))
 		{
-			/* This is a number like 123, not fd redirect - handle as normal redirect */
 			if (current == '<')
 				return (handle_input_redirect(lexer, start_pos, next));
 			else
 				return (handle_output_redirect(lexer, start_pos, next));
 		}
-		
 		if (redir_char == '>' && third_char == '>')
 		{
 			redirect_str = gc_malloc(lexer->gc, 4);
