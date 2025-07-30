@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 19:46:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 15:59:51 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
 		result = execute_redirection(ast, ctx);
 	else
 	{
-		ft_putstr_fd("minishell: unsupported node type\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: unsupported node type\n", 34);
 		result = 1;
 	}
 	if (result == SHELL_EXIT)

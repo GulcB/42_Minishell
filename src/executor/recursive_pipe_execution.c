@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_pipe_execution.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 21:12:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 		return (1);
 	if (!validate_pipe_chain(pipe_node))
 	{
-		ft_putstr_fd("minishell: invalid pipe chain\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: invalid pipe chain\n", 31);
 		return (1);
 	}
 	cmd_count = count_pipe_commands(pipe_node);
 	if (cmd_count > ctx->max_children)
 	{
-		ft_putstr_fd("minishell: pipe chain too long\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: pipe chain too long\n", 32);
 		return (1);
 	}
 	result = execute_pipe_recursive(pipe_node, ctx, STDIN_FILENO,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:35:16 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	builtin_pwd(t_builtin_cmd *cmd)
 	current_dir = getcwd(NULL, 0);
 	if (!current_dir)
 	{
-		ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
-		ft_putstr_fd("error retrieving current directory\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: pwd: ", 16);
+		write(STDERR_FILENO, "error retrieving current directory\n", 36);
 		*cmd->exit_status = 1;
 		return (1);
 	}
-	ft_putstr_fd(current_dir, STDOUT_FILENO);
+	write(STDOUT_FILENO, current_dir, ft_strlen(current_dir));
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	gc_free(cmd->gc, current_dir);
 	*cmd->exit_status = 0;

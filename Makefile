@@ -94,6 +94,9 @@ $(LIBFT):
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
+run:
+	make re
+	make clean
 clean:
 	@make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)

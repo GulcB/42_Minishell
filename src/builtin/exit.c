@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:35:45 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,21 @@ int	builtin_exit(t_builtin_cmd *cmd)
 {
 	int	code;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	write(STDERR_FILENO, "exit\n", 5);
 	if (cmd->args[1])
 	{
 		if (!is_numeric(cmd->args[1])
 			|| to_int_and_check_overflow(cmd->args[1], &code))
 		{
-			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-			ft_putstr_fd(cmd->args[1], STDERR_FILENO);
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+			write(STDERR_FILENO, "minishell: exit: ", 17);
+			write(STDERR_FILENO, cmd->args[1], ft_strlen(cmd->args[1]));
+			write(STDERR_FILENO, ": numeric argument required\n", 28);
 			*cmd->exit_status = 255;
 			return (SHELL_EXIT);
 		}
 		if (cmd->args[2])
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n",
-				STDERR_FILENO);
+			write(STDERR_FILENO, "minishell: exit: too many arguments\n", 37);
 			*cmd->exit_status = 1;
 			return (1);
 		}

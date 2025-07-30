@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:09 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:18:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static int	handle_cd_minus(t_builtin_cmd *cmd)
 	oldpwd = env_get(cmd->env, "OLDPWD");
 	if (!oldpwd)
 	{
-		ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: cd: OLDPWD not set\n", 31);
 		return (1);
 	}
-	ft_putstr_fd(oldpwd, STDOUT_FILENO);
+	write(STDOUT_FILENO, oldpwd, ft_strlen(oldpwd));
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
@@ -66,7 +66,7 @@ static int	handle_too_many_args(char **args)
 {
 	if (args[1] && args[2])
 	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: cd: too many arguments\n", 35);
 		return (1);
 	}
 	return (0);
@@ -83,13 +83,13 @@ int	builtin_cd(t_builtin_cmd *cmd)
 		return (1);
 	target_dir = get_target_directory(cmd);
 	if (!target_dir)
-		return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
+		return (write(2, "minishell: cd: HOME not set\n", 28), 1);
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(target_dir) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target_dir, 2);
-		ft_putstr_fd(": ", 2);
+		write(2, "minishell: cd: ", 15);
+		write(2, target_dir, ft_strlen(target_dir));
+		write(2, ": ", 2);
 		perror("");
 		free(old_pwd);
 		return (1);

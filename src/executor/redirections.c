@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:48:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int	execute_input_redirect(const char *filename, int fd_num)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd((char *)filename, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
+		write(STDERR_FILENO, ": ", 2);
 		perror("");
 		
 		/* On failure, redirect to /dev/null to continue execution */
@@ -52,9 +52,9 @@ static int	execute_output_redirect(const char *filename, int fd_num)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd((char *)filename, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
+		write(STDERR_FILENO, ": ", 2);
 		perror("");
 		return (-1);
 	}
@@ -80,9 +80,9 @@ static int	execute_append_redirect(const char *filename, int fd_num)
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd((char *)filename, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
+		write(STDERR_FILENO, ": ", 2);
 		perror("");
 		return (-1);
 	}

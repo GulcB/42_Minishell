@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 19:37:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static void	print_env_variable(t_env *node)
 {
 	if (!node->key)
 		return ;
-	ft_putstr_fd(node->key, STDOUT_FILENO);
+	write(STDOUT_FILENO, node->key, ft_strlen(node->key));
 	ft_putchar_fd('=', STDOUT_FILENO);
 	if (node->value)
-		ft_putstr_fd(node->value, STDOUT_FILENO);
+		write(STDOUT_FILENO, node->value, ft_strlen(node->value));
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
@@ -30,7 +30,7 @@ int	builtin_env(t_builtin_cmd *cmd)
 
 	if (cmd->args[1])
 	{
-		ft_putstr_fd("minishell: env: too many arguments\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: env: too many arguments\n", 36);
 		*cmd->exit_status = 1;
 		return (1);
 	}

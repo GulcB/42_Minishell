@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 14:10:27 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 
 void	print_banner(void)
 {
-	ft_putstr_fd("╔══════════════════════════════════════╗\n", STDOUT_FILENO);
-	ft_putstr_fd("║           🐚 Minishell 🐚            ║\n", STDOUT_FILENO);
-	ft_putstr_fd("║        As beautiful as a shell       ║\n", STDOUT_FILENO);
-	ft_putstr_fd("╚══════════════════════════════════════╝\n\n", STDOUT_FILENO);
+	write(STDOUT_FILENO, "╔══════════════════════════════════════╗\n", 42);
+	write(STDOUT_FILENO, "║           🐚 Minishell 🐚            ║\n", 42);
+	write(STDOUT_FILENO, "║        As beautiful as a shell       ║\n", 42);
+	write(STDOUT_FILENO, "╚══════════════════════════════════════╝\n\n", 44);
 }
 
 void	free_env(t_env *env)

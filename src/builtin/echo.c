@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/28 13:21:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	print_args_with_spaces(char **args, int start_index)
 	i = start_index;
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
+		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;

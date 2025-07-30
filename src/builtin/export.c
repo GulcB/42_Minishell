@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:54 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 20:06:55 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	print_env_line(const char *entry)
 	int	i;
 
 	i = 0;
-	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	write(STDOUT_FILENO, "declare -x ", 11);
 	while (entry[i] && entry[i] != '=')
 	{
 		ft_putchar_fd(entry[i], STDOUT_FILENO);
@@ -70,7 +70,7 @@ static void	print_env_line(const char *entry)
 	{
 		ft_putchar_fd('=', STDOUT_FILENO);
 		ft_putchar_fd('\"', STDOUT_FILENO);
-		ft_putstr_fd((char *)(&entry[i + 1]), STDOUT_FILENO);
+		write(STDOUT_FILENO, (char *)(&entry[i + 1]), ft_strlen((char *)(&entry[i + 1])));
 		ft_putchar_fd('\"', STDOUT_FILENO);
 	}
 	ft_putchar_fd('\n', STDOUT_FILENO);
@@ -109,9 +109,9 @@ int	builtin_export(t_builtin_cmd *cmd)
 	{
 		if (!is_valid_key(cmd->args[i]))
 		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			write(2, "minishell: export: `", 20);
+			write(2, cmd->args[i], ft_strlen(cmd->args[i]));
+			write(2, "': not a valid identifier\n", 26);
 			*cmd->exit_status = 1;
 		}
 		else

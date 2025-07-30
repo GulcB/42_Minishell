@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:01:03 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/23 20:08:23 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:23:19 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	builtin_unset(t_builtin_cmd *cmd)
 	{
 		if (!is_valid_identifier(cmd->args[i]))
 		{
-			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-			ft_putstr_fd(cmd->args[i], STDERR_FILENO);
-			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			*cmd->exit_status = 1;
 		}
 		else

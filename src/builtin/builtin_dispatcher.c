@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_dispatcher.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:34:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int	execute_builtin_dispatcher(char **args, struct s_exec_context *ctx)
 		return (result);
 	if (ft_strncmp(args[0], "exit", 5) == 0 && ft_strlen(args[0]) == 4)
 		return (builtin_exit(&cmd));
-	ft_putstr_fd("minishell: builtin not implemented: ", STDERR_FILENO);
-	ft_putstr_fd(args[0], STDERR_FILENO);
+	write(STDERR_FILENO, "minishell: builtin not implemented: ", 37);
+	write(STDERR_FILENO, args[0], ft_strlen(args[0]));
 	ft_putchar_fd('\n', STDERR_FILENO);
 	*cmd.exit_status = 1;
 	return (1);

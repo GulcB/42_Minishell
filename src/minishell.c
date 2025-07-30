@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:52:05 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static t_gc	*init_main_gc(void)
 	main_gc = gc_init();
 	if (!main_gc)
 	{
-		ft_putstr_fd("Error: Failed to initialize garbage collector\n",
-			STDERR_FILENO);
+		write(STDERR_FILENO, "Error: Failed to initialize garbage collector\n", 47);
 		return (NULL);
 	}
 	return (main_gc);
@@ -107,8 +106,7 @@ int	main(int ac, char **av, char **env)
 	environment = init_env_from_system_with_gc(main_gc, env);
 	if (!environment)
 	{
-		ft_putstr_fd("Error: Failed to initialize environment\n",
-			STDERR_FILENO);
+		write(STDERR_FILENO, "Error: Failed to initialize environment\n", 41);
 		gc_destroy(main_gc);
 		return (1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 17:18:02 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	executable_path = resolve_executable(args[0], ctx->env);
 	if (!executable_path)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(args[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, args[0], ft_strlen(args[0]));
+		write(STDERR_FILENO, ": command not found\n", 20);
 		return (127);
 	}
 	env_array = convert_env_to_array(ctx->env, ctx->gc);

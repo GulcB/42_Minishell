@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:50:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:09:40 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 		value = read_double_quoted_string(lexer);
 		if (!value)
 		{
-			value = read_unclosed_quote_as_word(lexer);
-			if (!value)
-				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
-			token = token_create(lexer->gc, TOKEN_WORD, value, start_pos);
-			gc_free(lexer->gc, value);
+			token = token_create(lexer->gc, TOKEN_ERROR,
+					"minishell: syntax error: unexpected end of file", start_pos);
 			return (token);
 		}
 		token = token_create(lexer->gc, TOKEN_DQUOTE, value, start_pos);
@@ -61,11 +58,8 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 		value = read_single_quoted_string(lexer);
 		if (!value)
 		{
-			value = read_unclosed_quote_as_word(lexer);
-			if (!value)
-				return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token", start_pos));
-			token = token_create(lexer->gc, TOKEN_WORD, value, start_pos);
-			gc_free(lexer->gc, value);
+			token = token_create(lexer->gc, TOKEN_ERROR,
+					"minishell: syntax error: unexpected end of file", start_pos);
 			return (token);
 		}
 		token = token_create(lexer->gc, TOKEN_SQUOTE, value, start_pos);
@@ -95,7 +89,7 @@ t_token	*handle_special_chars(t_lexer *lexer, int start_pos)
 	}
 	else
 	{
-		token = token_create(lexer->gc, TOKEN_DOLLAR, "$", start_pos);
+		token = token_create(lexer->gc, TOKEN_WORD, "$", start_pos);
 		lexer_read_char(lexer);
 	}
 	return (token);
@@ -138,10 +132,7 @@ t_token	*lexer_next_token(t_lexer *lexer)
 		return (handle_redirect_tokens(lexer, start_pos));
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
 	{
-		if (has_matching_quote(lexer, lexer->current_char))
-			return (handle_quote_tokens(lexer, start_pos));
-		else
-			return (handle_word_token(lexer, start_pos));
+		return (handle_quote_tokens(lexer, start_pos));
 	}
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
 		return (handle_special_chars(lexer, start_pos));
