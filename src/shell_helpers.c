@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_helpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:47:03 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 	result = 0;
 	if (ast)
 	{
-		// print_ast(ast);
 		result = execute_ast(ast, ctx);
 		if (g_signal == SIGINT)
 		{

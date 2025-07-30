@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ static int	execute_input_redirect(const char *filename, int fd_num)
 		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
 		write(STDERR_FILENO, ": ", 2);
 		perror("");
-		
-		/* On failure, redirect to /dev/null to continue execution */
-		fd = open("/dev/null", O_RDONLY);
-		if (fd == -1)
-			return (-1);
+		return (-1);  /* Return error, don't try /dev/null */
 	}
 	
 	/* Use specified file descriptor or default to stdin */

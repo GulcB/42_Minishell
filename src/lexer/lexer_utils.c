@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 13:09:40 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:31:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,13 @@ t_token	*lexer_next_token(t_lexer *lexer)
 			if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
 				second_next = lexer->input[lexer->read_position + 1];
 			
+			/* Only treat as fd redirect if it's a single digit followed by redirect */
+			/* This prevents <123 from being parsed as fd redirect */
 			if (next_char == '>' && second_next == '>')
 				return (handle_redirect_tokens(lexer, start_pos));
 			else if (next_char == '<' && second_next == '<')
 				return (handle_redirect_tokens(lexer, start_pos));
-			else
+			else if (!ft_isdigit(second_next))
 				return (handle_redirect_tokens(lexer, start_pos));
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:01:48 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:47:23 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,21 +189,44 @@ t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 	t_ast_node	*redirect_node;
 	char		**args;
 	t_gc		*gc;
+	t_ast_node	*first_redirect = NULL;
+	t_ast_node	*last_redirect = NULL;
 
 	if (!current || !*current || !ctx || !ctx->gc)
 		return (NULL);
 	gc = ctx->gc;
 	if (is_redirect_token(*current))
 		return (parse_redirect(current, ctx));
+	while (*current && is_redirect_token(*current))
+	{
+		redirect_node = parse_redirect(current, ctx);
+		if (!redirect_node)
+			break;
+		if (!first_redirect)
+		{
+			first_redirect = redirect_node;
+			last_redirect = redirect_node;
+		}
+		else
+		{
+			last_redirect->right = redirect_node;
+			last_redirect = redirect_node;
+		}
+	}
+	
 	if (!is_word_token(*current))
-		return (NULL);
+		return (first_redirect);
+		
 	args = parse_arguments(current, ctx);
 	if (!args)
-		return (NULL);
+		return (first_redirect);
+		
 	cmd_node = create_command_node(gc, args);
 	if (!cmd_node)
-		return (free_args_array(gc, args), NULL);
-	while (*current && is_redirect_token(*current))
+		return (free_args_array(gc, args), first_redirect);
+	if (first_redirect)
+		cmd_node->right = first_redirect;
+	while (*current && is_redirect_token(*current) && (*current)->type != TOKEN_PIPE)
 	{
 		redirect_node = parse_redirect(current, ctx);
 		if (!redirect_node)
@@ -212,10 +235,10 @@ t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 			cmd_node->right = redirect_node;
 		else
 		{
-			t_ast_node *last_redirect = cmd_node->right;
-			while (last_redirect->right)
-				last_redirect = last_redirect->right;
-			last_redirect->right = redirect_node;
+			t_ast_node *temp_redirect = cmd_node->right;
+			while (temp_redirect->right)
+				temp_redirect = temp_redirect->right;
+			temp_redirect->right = redirect_node;
 		}
 	}
 	return (cmd_node);
