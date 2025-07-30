@@ -104,6 +104,8 @@ char				*expand_variables(const char *str,
 
 int					execute_redirect(t_ast_node *redirect_node,
 						t_exec_context *ctx);
+int					execute_redirection(t_ast_node *redirect_node,
+						struct s_exec_context *ctx);
 
 void			handle_sigint_interactive(int sig);
 void			handle_sigint_exec(int sig);

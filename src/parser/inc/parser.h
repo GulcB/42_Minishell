@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:37:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:50:36 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_ast_node
 	char					**args;
 	char					*redirect_file;
 	t_redirect_type			redirect_type;
+	int						fd_num;
 	struct s_ast_node		*left;
 	struct s_ast_node		*right;
 }							t_ast_node;
@@ -71,7 +72,7 @@ t_ast_node					*parse_heredoc(t_token **current,
 
 int							is_redirect_token(t_token *token);
 t_ast_node					*create_redirect_node(t_gc *gc,
-								t_redirect_type type, char *filename);
+								t_redirect_type type, char *filename, int fd_num);
 t_ast_node					*parse_redirect(t_token **current,
 								struct s_exec_context *ctx);
 

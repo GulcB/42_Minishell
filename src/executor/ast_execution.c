@@ -36,6 +36,8 @@ int	execute_ast(t_ast_node *ast, t_exec_context *ctx)
 		result = execute_command(ast, ctx);
 	else if (ast->type == NODE_PIPE)
 		result = execute_pipe_chain(ast, ctx);
+	else if (ast->type == NODE_REDIRECT)
+		result = execute_redirection(ast, ctx);
 	else
 	{
 		ft_putstr_fd("minishell: unsupported node type\n", STDERR_FILENO);

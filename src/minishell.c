@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 16:50:01 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:52:05 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,8 @@ static t_gc	*init_main_gc(void)
 	return (main_gc);
 }
 
-static void	safe_cleanup_and_exit(t_env *environment, t_gc *main_gc)
+static void	safe_cleanup_and_exit(t_gc *main_gc)
 {
-	if (environment)
-	{
-		free_env(environment);
-	}
 	if (main_gc)
 	{
 		gc_cleanup_all(main_gc);
@@ -108,7 +104,7 @@ int	main(int ac, char **av, char **env)
 	main_gc = init_main_gc();
 	if (!main_gc)
 		return (1);
-	environment = init_env_from_system(env);
+	environment = init_env_from_system_with_gc(main_gc, env);
 	if (!environment)
 	{
 		ft_putstr_fd("Error: Failed to initialize environment\n",
@@ -119,6 +115,6 @@ int	main(int ac, char **av, char **env)
 	//print_banner();
 	configure_readline();
 	shell_loop(environment, main_gc);
-	safe_cleanup_and_exit(environment, main_gc);
+	safe_cleanup_and_exit(main_gc);
 	return (0);
 }

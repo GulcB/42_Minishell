@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:29:56 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/20 16:27:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:50:21 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,64 @@ t_token	*handle_redirect_tokens(t_lexer *lexer, int start_pos)
 {
 	char	current;
 	char	next;
+	char	*redirect_str;
 
 	current = lexer->current_char;
 	next = lexer_peek_char(lexer);
+	if (ft_isdigit(current))
+	{
+		char fd_num = current;
+		char redir_char = next;
+		char third_char = '\0';
+		
+		if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
+			third_char = lexer->input[lexer->read_position + 1];
+		
+		if (redir_char == '>' && third_char == '>')
+		{
+			redirect_str = gc_malloc(lexer->gc, 4);
+			redirect_str[0] = fd_num;
+			redirect_str[1] = '>';
+			redirect_str[2] = '>';
+			redirect_str[3] = '\0';
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			return (token_create(lexer->gc, TOKEN_APPEND, redirect_str, start_pos));
+		}
+		else if (redir_char == '<' && third_char == '<')
+		{
+			redirect_str = gc_malloc(lexer->gc, 4);
+			redirect_str[0] = fd_num;
+			redirect_str[1] = '<';
+			redirect_str[2] = '<';
+			redirect_str[3] = '\0';
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			return (token_create(lexer->gc, TOKEN_HEREDOC, redirect_str, start_pos));
+		}
+		else if (redir_char == '>')
+		{
+			redirect_str = gc_malloc(lexer->gc, 3);
+			redirect_str[0] = fd_num;
+			redirect_str[1] = '>';
+			redirect_str[2] = '\0';
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			return (token_create(lexer->gc, TOKEN_REDIR_OUT, redirect_str, start_pos));
+		}
+		else if (redir_char == '<')
+		{
+			redirect_str = gc_malloc(lexer->gc, 3);
+			redirect_str[0] = fd_num;
+			redirect_str[1] = '<';
+			redirect_str[2] = '\0';
+			lexer_read_char(lexer);
+			lexer_read_char(lexer);
+			return (token_create(lexer->gc, TOKEN_REDIR_IN, redirect_str, start_pos));
+		}
+	}
 	if (current == '<')
 		return (handle_input_redirect(lexer, start_pos, next));
 	else

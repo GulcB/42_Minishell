@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 17:19:35 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:50:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,24 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	if (lexer->current_char == '\0')
 		return (token_create(lexer->gc, TOKEN_EOF, "", lexer->position));
 	start_pos = lexer->position;
+	if (ft_isdigit(lexer->current_char))
+	{
+		char next_char = lexer_peek_char(lexer);
+		if (next_char == '>' || next_char == '<')
+		{
+			char second_next = '\0';
+			if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
+				second_next = lexer->input[lexer->read_position + 1];
+			
+			if (next_char == '>' && second_next == '>')
+				return (handle_redirect_tokens(lexer, start_pos));
+			else if (next_char == '<' && second_next == '<')
+				return (handle_redirect_tokens(lexer, start_pos));
+			else
+				return (handle_redirect_tokens(lexer, start_pos));
+		}
+	}
+	
 	type = get_token_type(lexer->current_char, lexer_peek_char(lexer));
 	if (type == TOKEN_PIPE || type == TOKEN_OR)
 		return (handle_pipe_tokens(lexer, start_pos));

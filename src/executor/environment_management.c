@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 00:35:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:31:15 by gbodur           ###   ########.fr       */
+/*   Created: 2025/07/29 20:48:07 by gbodur            #+#    #+#             */
+/*   Updated: 2025/07/29 20:48:35 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,3 +196,23 @@ char	*env_get(t_env *env, const char *key)
 	}
 	return (NULL);
 }
+
+// t_env	*create_env_node(t_gc *gc, const char *key, const char *value)
+// {
+// 	t_env	*node;
+
+// 	node = (t_env *)gc_malloc(gc, sizeof(t_env));
+// 	if (!node)
+// 		return (NULL);
+// 	node->key = gc_strdup(gc, key);
+// 	node->value = gc_strdup(gc, value);
+// 	node->next = NULL;
+// 	if (!node->key || !node->value)
+// 	{
+// 		gc_free(gc, node->key);
+// 		gc_free(gc, node->value);
+// 		gc_free(gc, node);
+// 		return (NULL);
+// 	}
+// 	return (node);
+// }

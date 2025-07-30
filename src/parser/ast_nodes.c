@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:37:57 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/19 17:27:22 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/29 20:48:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_ast_node	*create_ast_node(t_gc *gc, t_node_type type)
 	node->args = NULL;
 	node->redirect_file = NULL;
 	node->redirect_type = 0;
+	node->fd_num = -1;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
