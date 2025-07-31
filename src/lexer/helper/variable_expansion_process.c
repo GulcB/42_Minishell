@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:42:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:57:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:41:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,9 @@ char	*expand_variables(const char *str, t_exec_context *ctx)
 	result = gc_strdup(ctx->gc, "");
 	if (!result)
 	{
-		//free(tilde_expanded);
 		return (NULL);
 	}
 	result = process_expansion_loop(result, tilde_expanded, ctx);
-	//free(tilde_expanded);
 	return (result);
 }
 

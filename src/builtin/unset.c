@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:01:03 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:23:19 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	env_remove(struct s_env **env, const char *key, t_gc *gc)
 	struct s_env	*prev;
 	struct s_env	*curr;
 
+	(void)gc;
 	if (!env || !*env || !key)
 		return (1);
 	curr = *env;
@@ -46,10 +47,6 @@ int	env_remove(struct s_env **env, const char *key, t_gc *gc)
 				prev->next = curr->next;
 			else
 				*env = curr->next;
-			gc_free(gc, curr->key);
-			if (curr->value)
-				gc_free(gc, curr->value);
-			gc_free(gc, curr);
 			return (0);
 		}
 		prev = curr;

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:57:02 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:13:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:00:08 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static char	**create_heredoc_args(int quoted, t_gc *gc)
 		args[0] = gc_strdup(gc, "0");
 	if (!args[0])
 	{
-		gc_free(gc, args);
 		return (NULL);
 	}
 	args[1] = NULL;

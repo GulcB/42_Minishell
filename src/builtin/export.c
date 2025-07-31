@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:54 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:39:48 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,12 @@ int	print_sorted_env(t_env *env)
 int	builtin_export(t_builtin_cmd *cmd)
 {
 	int	i;
+	int	has_error;
 
 	if (!cmd->args[1])
 		return (print_sorted_env(cmd->env));
 	i = 1;
+	has_error = 0;
 	while (cmd->args[i])
 	{
 		if (!is_valid_key(cmd->args[i]))
@@ -113,10 +115,11 @@ int	builtin_export(t_builtin_cmd *cmd)
 			write(2, cmd->args[i], ft_strlen(cmd->args[i]));
 			write(2, "': not a valid identifier\n", 26);
 			*cmd->exit_status = 1;
+			has_error = 1;
 		}
 		else
 			export_variable(cmd, cmd->args[i]);
 		i++;
 	}
-	return (0);
+	return (has_error);
 }

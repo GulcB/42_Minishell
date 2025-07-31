@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:06:18 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:33:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 {
 	char	**path_dirs;
 	char	*result;
+	char	*gc_result;
 
 	if (!cmd || !*cmd)
 		return (NULL);
@@ -103,5 +104,11 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 		return (NULL);
 	result = search_in_path_dirs(path_dirs, cmd);
 	free_path_dirs(path_dirs);
-	return (result);
+	if (result)
+	{
+		gc_result = gc_strdup(ctx->gc, result);
+		free(result); // ft_strjoin result'ını free et
+		return (gc_result);
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:49:35 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ char	*read_word(t_lexer *lexer)
 	buffer[buf_index] = '\0';
 	if (buf_index == 0)
 	{
-		gc_free(lexer->gc, buffer);
 		return (NULL);
 	}
 	return (buffer);

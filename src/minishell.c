@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 15:50:40 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 19:08:40 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_gc	*init_main_gc(void)
 {
 	t_gc	*main_gc;
 
-	main_gc = gc_init();
+	main_gc = gc_init_auto();
 	if (!main_gc)
 	{
 		write(STDERR_FILENO, "Error: Failed to initialize garbage collector\n", 47);
@@ -39,10 +39,10 @@ static void	safe_cleanup_and_exit(t_gc *main_gc)
 {
 	if (main_gc)
 	{
-		gc_cleanup_all(main_gc);
 		gc_destroy(main_gc);
 	}
 	rl_clear_history();
+	rl_cleanup_after_signal();
 }
 
 static void	handle_signal_in_loop(t_exec_context *ctx)
@@ -88,9 +88,15 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 		if (!process_input_tokens(input, &tokens, main_gc))
 			continue ;
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
-			break ;
+		{
+			restore_std_fds(ctx);
+			gc_cleanup_all(main_gc);
+			safe_cleanup_and_exit(main_gc);
+			exit(ctx->exit_status);
+		}
 	}
 	restore_std_fds(ctx);
+	gc_cleanup_all(main_gc);
 }
 
 int	main(int ac, char **av, char **env)
@@ -110,7 +116,6 @@ int	main(int ac, char **av, char **env)
 		gc_destroy(main_gc);
 		return (1);
 	}
-	//print_banner();
 	configure_readline();
 	shell_loop(environment, main_gc);
 	safe_cleanup_and_exit(main_gc);

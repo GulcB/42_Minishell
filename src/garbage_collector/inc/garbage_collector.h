@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:10:00 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 16:01:53 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:21:20 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ typedef struct s_gc_node
 typedef struct s_gc
 {
 	t_gc_node			*head;
+	int					auto_cleanup;
 }						t_gc;
 
 t_gc					*gc_init(void);
+t_gc					*gc_init_auto(void);
 void					gc_add_node(t_gc *gc, t_gc_node *node);
 t_gc_node				*gc_create_node(void *ptr);
 void					*gc_malloc(t_gc *gc, size_t size);

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 13:46:08 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:25:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 
 	while (1)
 	{
-		printf("anan\n");
 		line = readline("> ");
 		if (!line)
 		{
@@ -54,7 +53,6 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 			expanded_line = expand_variables(line, ctx);
 		write(fd, expanded_line, ft_strlen(expanded_line));
 		write(fd, "\n", 1);
-		free(expanded_line);
 		free(line);
 	}
 	return (0);

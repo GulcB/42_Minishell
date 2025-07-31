@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:23:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 12:50:35 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_token	*handle_word_token(t_lexer *lexer, int start_pos)
 		return (token_create(lexer->gc, TOKEN_ERROR, "Invalid token",
 				start_pos));
 	token = token_create(lexer->gc, TOKEN_WORD, value, start_pos);
-	gc_free(lexer->gc, value);
 	return (token);
 }
 

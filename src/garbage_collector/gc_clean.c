@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:15:16 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 16:01:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:21:28 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,4 @@ void	gc_destroy(t_gc *gc)
 	gc_cleanup_all(gc);
 	free(gc);
 }
+

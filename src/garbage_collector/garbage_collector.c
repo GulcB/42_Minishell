@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 23:08:20 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:24:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:21:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ t_gc	*gc_init(void)
 	if (!gc)
 		return (NULL);
 	gc->head = NULL;
+	gc->auto_cleanup = 0;
+	return (gc);
+}
+
+t_gc	*gc_init_auto(void)
+{
+	t_gc	*gc;
+
+	gc = gc_init();
+	if (gc)
+		gc->auto_cleanup = 1;
 	return (gc);
 }
 

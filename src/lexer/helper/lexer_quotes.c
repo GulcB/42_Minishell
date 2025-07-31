@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:14:32 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:32:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*process_double_quote_content(t_lexer *lexer, char *buffer)
 		lexer_read_char(lexer);
 	}
 	if (lexer->current_char == '\0')
-		return (gc_free(lexer->gc, buffer), NULL);
+		return (NULL);
 	lexer_read_char(lexer);
 	buffer[buf_index] = '\0';
 	return (buffer);
@@ -101,7 +101,6 @@ char	*read_single_quoted_string(t_lexer *lexer)
 	}
 	if (lexer->current_char == '\0')
 	{
-		gc_free(lexer->gc, buffer);
 		return (NULL);
 	}
 	lexer_read_char(lexer);

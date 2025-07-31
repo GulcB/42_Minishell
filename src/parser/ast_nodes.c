@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:37:57 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 20:48:52 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,14 @@
 
 void	free_args_array(t_gc *gc, char **args)
 {
-	int	i;
-
-	if (!args)
-		return ;
-	i = 0;
-	while (args[i])
-	{
-		gc_free(gc, args[i]);
-		i++;
-	}
-	gc_free(gc, args);
+	(void)gc;
+	(void)args;
 }
 
 void	free_ast(t_gc *gc, t_ast_node *node)
 {
-	if (!node)
-		return ;
-	if (node->args)
-		free_args_array(gc, node->args);
-	if (node->redirect_file)
-		gc_free(gc, node->redirect_file);
-	if (node->left)
-		free_ast(gc, node->left);
-	if (node->right)
-		free_ast(gc, node->right);
-	gc_free(gc, node);
+	(void)gc;
+	(void)node;
 }
 
 t_ast_node	*create_ast_node(t_gc *gc, t_node_type type)

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:46:59 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 			return (token);
 		}
 		token = token_create(lexer->gc, TOKEN_DQUOTE, value, start_pos);
-		gc_free(lexer->gc, value);
 	}
 	else
 	{
@@ -63,7 +62,6 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 			return (token);
 		}
 		token = token_create(lexer->gc, TOKEN_SQUOTE, value, start_pos);
-		gc_free(lexer->gc, value);
 	}
 	return (token);
 }

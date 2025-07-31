@@ -6,12 +6,19 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 13:45:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "executor.h"
+
+static void	free_args_on_error(char **args, int count, t_gc *gc)
+{
+	(void)args;
+	(void)count;
+	(void)gc;
+}
 
 static int	tokens_are_adjacent(t_token *current, t_token *next)
 {
@@ -79,22 +86,6 @@ static int	count_arguments(t_token *current)
 	return (count);
 }
 
-static void	free_args_on_error(t_gc *gc, char **args, int count)
-{
-	int	i;
-
-	if (!args || !gc)
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		if (args[i])
-			gc_free(gc, args[i]);
-		i++;
-	}
-	gc_free(gc, args);
-}
-
 static char	*expand_token_value(t_token *token, struct s_exec_context *ctx)
 {
 	char	*expanded_value;
@@ -149,7 +140,7 @@ char	**parse_arguments(t_token **current, struct s_exec_context *ctx)
 		}
 		expanded_value = expand_token_value(*current, ctx);
 		if (!expanded_value)
-			return (free_args_on_error(gc, args, i), NULL);
+			return (free_args_on_error(args, i, gc), NULL);
 		concatenated_arg = expanded_value;
 		*current = (*current)->next;
 		while (*current && is_word_token(*current) && !is_stop_token(*current)
@@ -158,13 +149,11 @@ char	**parse_arguments(t_token **current, struct s_exec_context *ctx)
 			expanded_value = expand_token_value(*current, ctx);
 			if (!expanded_value)
 			{
-				gc_free(gc, concatenated_arg);
-				return (free_args_on_error(gc, args, i), NULL);
+				return (free_args_on_error(args, i, gc), NULL);
 			}
 			concatenated_arg = gc_strjoin(gc, concatenated_arg, expanded_value);
-			gc_free(gc, expanded_value);
 			if (!concatenated_arg)
-				return (free_args_on_error(gc, args, i), NULL);
+				return (free_args_on_error(args, i, gc), NULL);
 			*current = (*current)->next;
 		}
 		
@@ -249,7 +238,7 @@ t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 				char *expanded_value = expand_token_value(*current, ctx);
 				if (!expanded_value)
 				{
-					free_args_on_error(gc, args, i);
+					free_args_on_error(args, i, gc);
 					return (first_redirect);
 				}
 				char *concatenated_arg = expanded_value;
@@ -261,15 +250,13 @@ t_ast_node	*parse_command(t_token **current, struct s_exec_context *ctx)
 					expanded_value = expand_token_value(*current, ctx);
 					if (!expanded_value)
 					{
-						gc_free(gc, concatenated_arg);
-						free_args_on_error(gc, args, i);
+						free_args_on_error(args, i, gc);
 						return (first_redirect);
 					}
 					concatenated_arg = gc_strjoin(gc, concatenated_arg, expanded_value);
-					gc_free(gc, expanded_value);
 					if (!concatenated_arg)
 					{
-						free_args_on_error(gc, args, i);
+						free_args_on_error(args, i, gc);
 						return (first_redirect);
 					}
 					*current = (*current)->next;

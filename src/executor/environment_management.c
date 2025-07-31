@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:48:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:13:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:42:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ t_env	*parse_and_create_node(t_gc *gc, char *env_str, t_env **current)
 		return (NULL);
 	}
 	new_node = create_env_node(gc, key, value);
-	// free(key);
-	// free(value);
 	if (!new_node)
 		return (NULL);
 	if (*current)

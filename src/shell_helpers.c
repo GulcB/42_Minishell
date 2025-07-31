@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 16:03:38 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 19:06:58 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	process_input_tokens(char *input, t_token **tokens, t_gc *main_gc)
 	*tokens = lexer_tokenize_with_context(input, main_gc);
 	if (!*tokens)
 		return (0);
-	// Debug: print token list (comment out for production)
 	// token_list_print(*tokens);
 	return (1);
 }
@@ -65,14 +64,6 @@ int	execute_and_cleanup(t_token *tokens, char *input, t_exec_context *ctx)
 	}
 	free(input);
 	return (result);
-}
-
-void	print_banner(void)
-{
-	write(STDOUT_FILENO, "╔══════════════════════════════════════╗\n", 42);
-	write(STDOUT_FILENO, "║           🐚 Minishell 🐚            ║\n", 42);
-	write(STDOUT_FILENO, "║        As beautiful as a shell       ║\n", 42);
-	write(STDOUT_FILENO, "╚══════════════════════════════════════╝\n\n", 44);
 }
 
 void	free_env(t_env *env)

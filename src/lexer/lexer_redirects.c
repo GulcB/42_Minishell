@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:29:56 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:30:36 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ char	*process_heredoc_delimiter(t_lexer *lexer)
 	delimiter = read_heredoc_delimiter(lexer);
 	if (!delimiter || ft_strlen(delimiter) == 0)
 	{
-		if (delimiter)
-			gc_free(lexer->gc, delimiter);
+		// delimiter will be cleaned up automatically if allocated
 		return (NULL);
 	}
 	return (delimiter);
@@ -75,7 +74,7 @@ t_token	*create_heredoc_token(t_lexer *lexer, int start_pos)
 		return (token_create(lexer->gc, TOKEN_ERROR,
 				"Invalid heredoc delimiter", start_pos));
 	token = token_create(lexer->gc, TOKEN_HEREDOC, delimiter, start_pos);
-	gc_free(lexer->gc, delimiter);
+	// delimiter will be cleaned up automatically
 	return (token);
 }
 
