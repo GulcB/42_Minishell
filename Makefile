@@ -106,6 +106,7 @@ re: fclean all
 run: re 
 	@make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME)
+	@clear
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re run 

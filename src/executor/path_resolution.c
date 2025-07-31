@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:33:37 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:06:18 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	free_path_dirs(char **path_dirs)
 	free(path_dirs);
 }
 
-char	*resolve_executable(const char *cmd, t_env *env)
+char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 {
 	char	**path_dirs;
 	char	*result;
@@ -95,7 +95,7 @@ char	*resolve_executable(const char *cmd, t_env *env)
 	if (ft_strchr(cmd, '/'))
 	{
 		if (is_executable_file(cmd))
-			return (ft_strdup(cmd));
+			return (gc_strdup(ctx->gc, cmd));
 		return (NULL);
 	}
 	path_dirs = get_path_directories(env);

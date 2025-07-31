@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:30:06 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:46:59 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_token	*handle_quote_tokens(t_lexer *lexer, int start_pos)
 	return (token);
 }
 
-t_token	*handle_special_chars(t_lexer *lexer, int start_pos)
+t_token	*handle_special_chars(t_gc *gc, t_lexer *lexer, int start_pos)
 {
 	t_token	*token;
 
@@ -85,7 +85,7 @@ t_token	*handle_special_chars(t_lexer *lexer, int start_pos)
 	}
 	else if (lexer->current_char == '$')
 	{
-		return (handle_variable_token(lexer, start_pos));
+		return (handle_variable_token(gc, lexer, start_pos));
 	}
 	else
 	{
@@ -95,7 +95,7 @@ t_token	*handle_special_chars(t_lexer *lexer, int start_pos)
 	return (token);
 }
 
-t_token	*lexer_next_token(t_lexer *lexer)
+t_token	*lexer_next_token(t_gc *gc, t_lexer *lexer)
 {
 	t_token_type	type;
 	int				start_pos;
@@ -131,17 +131,17 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
 		return (handle_quote_tokens(lexer, start_pos));
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
-		return (handle_special_chars(lexer, start_pos));
+		return (handle_special_chars(gc, lexer, start_pos));
 	return (handle_word_token(lexer, start_pos));
 }
 
-t_token	*handle_variable_token(t_lexer *lexer, int start_pos)
+t_token	*handle_variable_token(t_gc *gc, t_lexer *lexer, int start_pos)
 {
 	char	*var_name;
 	int		consumed;
 	t_token	*token;
 
-	var_name = extract_var_name(&lexer->input[lexer->position], &consumed);
+	var_name = extract_var_name(gc, &lexer->input[lexer->position], &consumed);
 	if (!var_name)
 	{
 		lexer_read_char(lexer);

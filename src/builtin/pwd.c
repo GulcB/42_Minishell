@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:29 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:18:02 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_pwd(t_builtin_cmd *cmd)
 	}
 	write(STDOUT_FILENO, current_dir, ft_strlen(current_dir));
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	gc_free(cmd->gc, current_dir);
+	free(current_dir);
 	*cmd->exit_status = 0;
 	return (0);
 }

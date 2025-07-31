@@ -5,7 +5,9 @@
     "token.h": "c",
     "libft.h": "c",
     "signal.h": "c",
-    "readline.h": "c"
+    "readline.h": "c",
+    "executor.h": "c",
+    "garbage_collector.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",

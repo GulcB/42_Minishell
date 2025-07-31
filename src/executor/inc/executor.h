@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 18:30:10 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:06:24 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int					validate_pipe_chain(t_ast_node *node);
 int					wait_for_pipe_children(t_exec_context *ctx);
 int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
-char				*resolve_executable(const char *cmd, t_env *env);
+char				*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env);
 char				*expand_variables(const char *str,
 						struct s_exec_context *ctx);
 

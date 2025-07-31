@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_dispatcher.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:32:44 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static int	execute_basic_builtins(t_builtin_cmd *cmd)
 		return (builtin_export(cmd));
 	if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 		return (builtin_unset(cmd));
+	if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
+		return (builtin_exit(cmd));
 	return (-1);
 }
 

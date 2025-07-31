@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:35:21 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:49:11 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ static char	**convert_env_to_array(t_env *env, t_gc *gc)
 	i = 0;
 	while (current)
 	{
-		env_string = ft_strjoin(current->key, "=");
-		env_array[i] = ft_strjoin(env_string, current->value);
-		free(env_string);
+		env_string = gc_strjoin(gc, current->key, "=");
+		env_array[i] = gc_strjoin(gc, env_string, current->value);
 		current = current->next;
 		i++;
 	}
@@ -47,7 +46,7 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	char	**env_array;
 	pid_t	pid;
 
-	executable_path = resolve_executable(args[0], ctx->env);
+	executable_path = resolve_executable(ctx, args[0], ctx->env);
 	if (!executable_path)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
@@ -65,7 +64,6 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 		exit(127);
 	}
 	add_child_pid(ctx, pid);
-	free(executable_path);
 	return (wait_for_children(ctx));
 }
 

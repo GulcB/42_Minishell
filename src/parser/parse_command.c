@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:01 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:28:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 13:45:11 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ static char	*expand_token_value(t_token *token, struct s_exec_context *ctx)
 	{
 		expanded_value = get_env_value(token->value, ctx);
 		if (!expanded_value)
-			return (ft_strdup(""));
+			return (gc_strdup(ctx->gc, ""));
 		return (expanded_value);
 	}
 	else if (token->type == TOKEN_DQUOTE)
 		return (expand_variables(token->value, ctx));
 	else if (token->type == TOKEN_SQUOTE)
-		return (ft_strdup(token->value));
+		return (gc_strdup(ctx->gc, token->value));
 	else
 		return (expand_variables(token->value, ctx));
 }

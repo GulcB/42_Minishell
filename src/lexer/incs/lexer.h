@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:00:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/29 15:26:51 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:54:23 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void			lexer_free(t_lexer *lexer);
 t_token			*handle_pipe_tokens(t_lexer *lexer, int start_pos);
 t_token			*handle_quote_tokens(t_lexer *lexer, int start_pos);
 int				has_matching_quote(t_lexer *lexer, char quote_char);
-t_token			*handle_special_chars(t_lexer *lexer, int start_pos);
-t_token			*lexer_next_token(t_lexer *lexer);
-t_token			*handle_variable_token(t_lexer *lexer, int start_pos);
+t_token			*handle_special_chars(t_gc *gc, t_lexer *lexer, int start_pos);
+t_token			*lexer_next_token(t_gc *gc, t_lexer *lexer);
+t_token			*handle_variable_token(t_gc *gc, t_lexer *lexer, int start_pos);
 
 t_token			*handle_word_token(t_lexer *lexer, int start_pos);
 int				validate_and_add_token(t_gc *gc, t_token **token_list,
@@ -77,25 +77,23 @@ int				is_word_delimiter(char c);
 int				handle_escape_in_word(t_lexer *lexer);
 int				process_escape_sequence(t_lexer *lexer, int *in_escape);
 int				should_continue_word(t_lexer *lexer, int *in_escape);
-char			*create_word_from_position(t_lexer *lexer, int start_pos);
+char			*create_word_from_position(struct s_exec_context *ctx, t_lexer *lexer, int start_pos);
 char			*read_word(t_lexer *lexer);
 
 char			*search_env_var(const char *var_name,
 					struct s_exec_context *ctx);
 char			*get_env_value(const char *var_name,
 					struct s_exec_context *ctx);
-char			*join_and_free(char *s1, char *s2);
-char			*add_literal_part(char *result, const char *str, int start,
-					int end);
+char			*add_literal_part(struct s_exec_context *ctx, char *result, const char *str, int start, int end);
 
 char			*expand_variables(const char *str, struct s_exec_context *ctx);
 char			*process_token_expansion(t_token *token,
 					struct s_exec_context *ctx);
 
-char			*extract_simple_var(const char *str, int *consumed);
-char			*extract_braced_var(const char *str, int *consumed);
-char			*extract_special_var(const char *str, int *consumed);
-char			*extract_var_name(const char *str, int *consumed);
+char			*extract_simple_var(t_gc *gc, const char *str, int *consumed);
+char			*extract_braced_var(t_gc *gc, const char *str, int *consumed);
+char			*extract_special_var(t_gc *gc, const char *str, int *consumed);
+char			*extract_var_name(t_gc *gc, const char *str, int *consumed);
 char			*get_special_var_value(const char *var_name,
 					struct s_exec_context *ctx);
 

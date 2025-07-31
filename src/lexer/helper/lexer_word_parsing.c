@@ -6,11 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:20:52 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:32:30 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:49:35 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "executor.h"
 
 int	handle_escape_in_word(t_lexer *lexer)
 {
@@ -56,7 +57,7 @@ int	should_continue_word(t_lexer *lexer, int *in_escape)
 	return (1);
 }
 
-char	*create_word_from_position(t_lexer *lexer, int start_pos)
+char	*create_word_from_position(struct s_exec_context *ctx, t_lexer *lexer, int start_pos)
 {
 	int		len;
 	char	*word;
@@ -64,7 +65,7 @@ char	*create_word_from_position(t_lexer *lexer, int start_pos)
 	len = lexer->position - start_pos;
 	if (len == 0)
 		return (NULL);
-	word = ft_substr(lexer->input, start_pos, len);
+	word = gc_substr(ctx->gc, lexer->input, start_pos, len);
 	return (word);
 }
 
