@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_process.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:42:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 17:41:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:40:29 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static char	*process_variable(char *result, const char *str, int *i,
 	{
 		var_value = get_env_value(var_name, ctx);
 		new_result = gc_strjoin(ctx->gc, result, var_value);
-		free(var_name);
 		*i += consumed;
 		return (new_result);
 	}

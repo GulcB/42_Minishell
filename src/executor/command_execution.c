@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:42:49 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:08:50 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	char	**env_array;
 	pid_t	pid;
 
+	if (!args || !args[0] || ft_strlen(args[0]) == 0)
+		return (0);
 	executable_path = resolve_executable(ctx, args[0], ctx->env);
 	if (!executable_path)
 	{
@@ -101,6 +103,7 @@ static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 {
 	int	result;
+	int	i;
 
 	if (!cmd_node || !ctx)
 		return (1);
@@ -108,6 +111,21 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		return (execute_redirection(cmd_node, ctx));
 	if (!cmd_node->args || !cmd_node->args[0])
 		return (1);
+	i = 0;
+	while (cmd_node->args[i] && ft_strlen(cmd_node->args[i]) == 0)
+		i++;
+	if (!cmd_node->args[i])
+		return (0);
+	if (i > 0)
+	{
+		int j = 0;
+		while (cmd_node->args[i + j])
+		{
+			cmd_node->args[j] = cmd_node->args[i + j];
+			j++;
+		}
+		cmd_node->args[j] = NULL;
+	}
 	if (cmd_node->right && cmd_node->right->type == NODE_REDIRECT)
 	{
 		t_ast_node *redirect_node = cmd_node->right;

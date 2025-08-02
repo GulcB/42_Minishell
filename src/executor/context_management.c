@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   context_management.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:34:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:43:00 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:11:55 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	backup_std_fds(t_exec_context *ctx)
 	ctx->stdout_backup = dup(STDOUT_FILENO);
 	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
 	{
-		perror("minishell: dup");
+		write(STDERR_FILENO, "minishell: dup", 15);
+		close(ctx->stdin_backup);
+		close(ctx->stdout_backup);
 		return (-1);
 	}
 	return (0);

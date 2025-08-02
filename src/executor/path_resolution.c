@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 15:07:38 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 19:55:00 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 			ctx->exit_status = 126;
 			write(STDERR_FILENO, "minishell: ", 11);
 			write(STDERR_FILENO, cmd, ft_strlen(cmd));
-			write(STDERR_FILENO, ": is a directory\n", 17);
+			write(STDERR_FILENO, ": Is a directory\n", 17);
 			return ((char *)-1);
 		}
 		int exec_result = is_executable_file(cmd);

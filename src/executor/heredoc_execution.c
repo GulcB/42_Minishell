@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 18:25:45 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:15:45 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	create_heredoc_file(const char *filename, const char *delimiter,
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("minishell: heredoc");
+		write(STDERR_FILENO, "minishell: heredoc", 18);
 		return (1);
 	}
 	result = write_heredoc_content(fd, delimiter, quoted, ctx);
@@ -82,12 +82,12 @@ static int	setup_heredoc_input(const char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("minishell: heredoc");
+		write(STDERR_FILENO, "minishell: heredoc", 18);
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		perror("minishell: dup2");
+		write(STDERR_FILENO, "minishell: dup2", 15);
 		close(fd);
 		return (1);
 	}

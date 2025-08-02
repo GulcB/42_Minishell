@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_pipe_execution.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:21:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:16:25 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: fork");
+		write(STDERR_FILENO, "minishell: fork", 16);
 		return (-1);
 	}
 	if (pid == 0)
@@ -57,7 +57,7 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 		return (1);
 	if (pipe(pipe_fds) == -1)
 	{
-		perror("minishell: pipe");
+		write(STDERR_FILENO, "minishell: pipe", 16);
 		return (-1);
 	}
 	execute_pipe_recursive(node->left, ctx, input_fd, pipe_fds[1]);

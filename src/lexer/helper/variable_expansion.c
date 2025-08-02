@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:55:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:40:47 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,29 @@ char	*extract_var_name(t_gc *gc, const char *str, int *consumed)
 
 char	*get_special_var_value(const char *var_name, struct s_exec_context *ctx)
 {
+	char	*temp_str;
+	char	*result;
+	
 	if (ft_strncmp(var_name, "?", 2) == 0 && ft_strlen(var_name) == 1)
 	{
 		if (ctx)
-			return (ft_itoa(ctx->exit_status));
-		return (ft_itoa(0));
+		{
+			temp_str = ft_itoa(ctx->exit_status);
+			result = gc_strdup(ctx->gc, temp_str);
+			free(temp_str);
+			return (result);
+		}
+		temp_str = ft_itoa(0);
+		result = gc_strdup(ctx->gc, temp_str);
+		free(temp_str);
+		return (result);
 	}
 	if (ft_strncmp(var_name, "$", 2) == 0 && ft_strlen(var_name) == 1)
 	{
-		return (ft_itoa(getpid()));
+		temp_str = ft_itoa(getpid());
+		result = gc_strdup(ctx->gc, temp_str);
+		free(temp_str);
+		return (result);
 	}
 	if (ft_isdigit(var_name[0]) && ft_strlen(var_name) == 1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:08:22 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:16:02 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	setup_pipe_fds(t_exec_context *ctx)
 {
 	if (pipe(ctx->pipe_fd) == -1)
 	{
-		perror("minishell:pipe");
+		write(STDERR_FILENO, "minishell: pipe", 16);
 		return (-1);
 	}
 	ctx->has_active_pipe = 1;

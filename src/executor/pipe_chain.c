@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_chain.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:47:47 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 14:33:40 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:15:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	wait_single_pipe_child(t_exec_context *ctx, int index)
 	wait_result = waitpid(ctx->child_pids[index], &status, 0);
 	if (wait_result == -1)
 	{
-		perror("minishell: waitpid");
+		write(STDERR_FILENO, "minishell: waitpid", 18);
 		return (1);
 	}
 	update_exit_status(ctx, status);

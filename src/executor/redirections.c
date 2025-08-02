@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:41:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:16:20 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	execute_input_redirect(const char *filename, int fd_num)
 	target_fd = (fd_num >= 0) ? fd_num : STDIN_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
-		perror("minishell: dup2");
+		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
@@ -58,7 +58,7 @@ static int	execute_output_redirect(const char *filename, int fd_num)
 	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
-		perror("minishell: dup2");
+		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
@@ -85,7 +85,7 @@ static int	execute_append_redirect(const char *filename, int fd_num)
 	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
-		perror("minishell: dup2");
+		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
