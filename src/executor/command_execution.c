@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 15:49:11 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:41:40 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 		write(STDERR_FILENO, ": command not found\n", 20);
 		return (127);
 	}
+	if (executable_path == (char *)-1)
+		return (126);
 	env_array = convert_env_to_array(ctx->env, ctx->gc);
 	setup_exec_signals();
 	pid = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 09:27:54 by mdivan            #+#    #+#             */
-/*   Updated: 2025/07/31 14:45:04 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 12:45:05 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ t_token	*lexer_tokenize_with_context(char *input, t_gc *gc)
 	while (1)
 	{
 		current_token = lexer_next_token(gc,lexer);
+		if (should_stop_tokenizing(current_token))
+		{
+			if (current_token)
+				token_add_back(&token_list, current_token);
+			break ;
+		}
 		if (!validate_and_add_token(gc, &token_list, current_token,
 				&prev_token))
-			break ;
-		if (should_stop_tokenizing(current_token))
 			break ;
 	}
 	lexer_free(lexer);

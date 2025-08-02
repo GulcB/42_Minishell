@@ -104,7 +104,6 @@ fclean: clean
 re: fclean all
 
 run: re 
-	@make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
 	@clear
 	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(NAME)

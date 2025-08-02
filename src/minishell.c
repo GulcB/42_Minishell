@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 19:08:40 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 12:41:11 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,11 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 			continue ;
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
 		{
+			int exit_status = ctx->exit_status;
 			restore_std_fds(ctx);
 			gc_cleanup_all(main_gc);
 			safe_cleanup_and_exit(main_gc);
-			exit(ctx->exit_status);
+			exit(exit_status);
 		}
 	}
 	restore_std_fds(ctx);

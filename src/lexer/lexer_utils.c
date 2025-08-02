@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:24:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 17:48:39 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:04:38 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ t_token	*handle_variable_token(t_gc *gc, t_lexer *lexer, int start_pos)
 	else
 		lexer->current_char = '\0';
 	lexer->read_position = lexer->position + 1;
-	free(var_name);
 	return (token);
 }
 

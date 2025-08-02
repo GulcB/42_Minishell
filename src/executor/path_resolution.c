@@ -3,20 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 18:33:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:04:43 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
+static int	is_directory(const char *path)
+{
+	DIR	*dir;
+
+	if (!path)
+		return (0);
+	dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
+		return (1);
+	}
+	return (0);
+}
+
 static int	is_executable_file(const char *path)
 {
 	if (!path)
 		return (0);
-	return (access(path, F_OK) == 0 && access(path, X_OK) == 0);
+	if (access(path, F_OK) != 0)
+		return (0);
+	if (access(path, X_OK) != 0)
+		return (0);
+	if (is_directory(path))
+		return (0);
+	return (1);
 }
 
 static char	*create_full_path(const char *dir, const char *cmd)
@@ -95,6 +116,14 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{
+		if (is_directory(cmd))
+		{
+			ctx->exit_status = 126;
+			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, cmd, ft_strlen(cmd));
+			write(STDERR_FILENO, ": is a directory\n", 17);
+			return ((char *)-1);
+		}
 		if (is_executable_file(cmd))
 			return (gc_strdup(ctx->gc, cmd));
 		return (NULL);
@@ -107,7 +136,7 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 	if (result)
 	{
 		gc_result = gc_strdup(ctx->gc, result);
-		free(result); // ft_strjoin result'ını free et
+		free(result);
 		return (gc_result);
 	}
 	return (NULL);
