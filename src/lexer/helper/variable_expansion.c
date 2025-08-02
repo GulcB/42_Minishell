@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:40:47 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/02 20:55:46 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,14 @@ char	*get_special_var_value(const char *var_name, struct s_exec_context *ctx)
 	}
 	if (ft_strncmp(var_name, "$", 2) == 0 && ft_strlen(var_name) == 1)
 	{
-		temp_str = ft_itoa(getpid());
-		result = gc_strdup(ctx->gc, temp_str);
-		free(temp_str);
-		return (result);
+		if (ctx)
+		{
+			temp_str = ft_itoa(getpid());
+			result = gc_strdup(ctx->gc, temp_str);
+			free(temp_str);
+			return (result);
+		}
+		return (NULL);
 	}
 	if (ft_isdigit(var_name[0]) && ft_strlen(var_name) == 1)
 	{
