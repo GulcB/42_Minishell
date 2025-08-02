@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 18:33:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 17:41:27 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static int	execute_input_redirect(const char *filename, int fd_num)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
-		write(STDERR_FILENO, ": ", 2);
-		perror("");
+		if (access(filename, F_OK) == 0 && access(filename, R_OK) != 0)
+			write(STDERR_FILENO, ": Permission denied\n", 20);
+		else
+			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
 	target_fd = (fd_num >= 0) ? fd_num : STDIN_FILENO;
@@ -47,8 +49,10 @@ static int	execute_output_redirect(const char *filename, int fd_num)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
-		write(STDERR_FILENO, ": ", 2);
-		perror("");
+		if (access(filename, F_OK) == 0 && access(filename, W_OK) != 0)
+			write(STDERR_FILENO, ": Permission denied\n", 20);
+		else
+			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
 	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
@@ -72,8 +76,10 @@ static int	execute_append_redirect(const char *filename, int fd_num)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, (char *)filename, ft_strlen((char *)filename));
-		write(STDERR_FILENO, ": ", 2);
-		perror("");
+		if (access(filename, F_OK) == 0 && access(filename, W_OK) != 0)
+			write(STDERR_FILENO, ": Permission denied\n", 20);
+		else
+			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
 	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
@@ -85,25 +91,6 @@ static int	execute_append_redirect(const char *filename, int fd_num)
 	}
 	close(fd);
 	return (0);
-}
-
-int	execute_redirect(t_ast_node *redirect_node, t_exec_context *ctx)
-{
-	if (!redirect_node || !ctx)
-		return (1);
-	if (redirect_node->type != NODE_REDIRECT)
-		return (1);
-	if (!redirect_node->redirect_file)
-		return (1);
-	if (redirect_node->redirect_type == REDIRECT_IN)
-		return (execute_input_redirect(redirect_node->redirect_file, redirect_node->fd_num));
-	else if (redirect_node->redirect_type == REDIRECT_OUT)
-		return (execute_output_redirect(redirect_node->redirect_file, redirect_node->fd_num));
-	else if (redirect_node->redirect_type == REDIRECT_APPEND)
-		return (execute_append_redirect(redirect_node->redirect_file, redirect_node->fd_num));
-	else if (redirect_node->redirect_type == REDIRECT_HEREDOC)
-		return (execute_heredoc(redirect_node, ctx));
-	return (1);
 }
 
 int	execute_redirection(t_ast_node *redirect_node, struct s_exec_context *ctx)

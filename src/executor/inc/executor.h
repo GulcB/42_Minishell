@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 13:42:16 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/02 17:41:12 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ char				*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env);
 char				*expand_variables(const char *str,
 						struct s_exec_context *ctx);
 
-int					execute_redirect(t_ast_node *redirect_node,
-						t_exec_context *ctx);
 int					execute_redirection(t_ast_node *redirect_node,
 						struct s_exec_context *ctx);
 

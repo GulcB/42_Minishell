@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:33 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 18:35:41 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 17:08:22 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	execute_left_command(t_ast_node *left_node, t_exec_context *ctx)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: fork");
+		write(STDERR_FILENO, "minishell: fork", 16);
 		return (-1);
 	}
 	if (pid == 0)
@@ -66,7 +66,7 @@ static int	execute_right_command(t_ast_node *right_node, t_exec_context *ctx)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: fork");
+		write(STDERR_FILENO, "minishell: fork", 16);
 		return (-1);
 	}
 	if (pid == 0)

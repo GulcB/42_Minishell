@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 16:38:19 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/02 17:21:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
-		exit(execute_command(node, ctx));
+
+		int exit_status = execute_command(node, ctx);
+		gc_destroy(ctx->gc);
+		exit(exit_status);
+		
 	}
 	add_child_pid(ctx, pid);
 	return (0);

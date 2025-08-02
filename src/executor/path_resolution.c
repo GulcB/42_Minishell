@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 14:04:43 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/02 15:07:38 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	is_executable_file(const char *path)
 	if (access(path, F_OK) != 0)
 		return (0);
 	if (access(path, X_OK) != 0)
-		return (0);
+		return (-1);
 	if (is_directory(path))
 		return (0);
 	return (1);
@@ -59,6 +59,7 @@ static char	*search_in_path_dirs(char **path_dirs, const char *cmd)
 {
 	char	*full_path;
 	int		i;
+	int		exec_result;
 
 	if (!path_dirs || !cmd)
 		return (NULL);
@@ -71,7 +72,8 @@ static char	*search_in_path_dirs(char **path_dirs, const char *cmd)
 			i++;
 			continue ;
 		}
-		if (is_executable_file(full_path))
+		exec_result = is_executable_file(full_path);
+		if (exec_result == 1)
 			return (full_path);
 		free(full_path);
 		i++;
@@ -124,8 +126,17 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 			write(STDERR_FILENO, ": is a directory\n", 17);
 			return ((char *)-1);
 		}
-		if (is_executable_file(cmd))
+		int exec_result = is_executable_file(cmd);
+		if (exec_result == 1)
 			return (gc_strdup(ctx->gc, cmd));
+		else if (exec_result == -1)
+		{
+			ctx->exit_status = 126;
+			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, cmd, ft_strlen(cmd));
+			write(STDERR_FILENO, ": Permission denied\n", 20);
+			return ((char *)-1);
+		}
 		return (NULL);
 	}
 	path_dirs = get_path_directories(env);

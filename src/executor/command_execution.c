@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 13:41:40 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/02 17:42:49 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 	if (!cmd_node || !ctx)
 		return (1);
 	if (cmd_node->type == NODE_REDIRECT)
-		return (execute_redirect(cmd_node, ctx));
+		return (execute_redirection(cmd_node, ctx));
 	if (!cmd_node->args || !cmd_node->args[0])
 		return (1);
 	if (cmd_node->right && cmd_node->right->type == NODE_REDIRECT)
@@ -131,7 +131,7 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		{
 			if (redirect_node->redirect_type != REDIRECT_HEREDOC)
 			{
-				if (execute_redirect(redirect_node, ctx) != 0)
+				if (execute_redirection(redirect_node, ctx) != 0)
 				{
 					redirect_error = 1;
 					break ;
@@ -139,7 +139,7 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 			}
 			else if (redirect_node == last_heredoc)
 			{
-				if (execute_redirect(redirect_node, ctx) != 0)
+				if (execute_redirection(redirect_node, ctx) != 0)
 				{
 					redirect_error = 1;
 					break;
@@ -147,13 +147,16 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 			}
 			redirect_node = redirect_node->right;
 		}
+		if (redirect_error)
+		{
+			restore_std_fds(ctx);
+			return (1);
+		}
 		if (is_builtin_command(cmd_node->args[0]))
 			result = execute_builtin_dispatcher(cmd_node->args, ctx);
 		else
 			result = execute_external_command(cmd_node->args, ctx);
 		restore_std_fds(ctx);
-		if (redirect_error)
-			return (1);
 		return (result);
 	}
 	if (is_builtin_command(cmd_node->args[0]))
