@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_pipe_execution.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:16:25 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/03 12:01:47 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
+void	close_all_fds_except(int keep_fd1, int keep_fd2, int keep_fd3)
+{
+	int	fd;
+
+	fd = 3;
+	while (fd < 1024)
+	{
+		if (fd != keep_fd1 && fd != keep_fd2 && fd != keep_fd3)
+			close(fd);
+		fd++;
+	}
+}
+
 static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 		int input_fd, int output_fd)
 {
 	pid_t	pid;
+	int		fd;
 
+	fd = 0;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -29,18 +44,20 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
 		}
 		if (output_fd != STDOUT_FILENO)
 		{
 			dup2(output_fd, STDOUT_FILENO);
-			close(output_fd);
 		}
-
+		fd = 3;
+		while (fd < 256)
+		{
+			close(fd);
+			fd++;
+		}
 		int exit_status = execute_command(node, ctx);
 		gc_destroy(ctx->gc);
 		exit(exit_status);
-		
 	}
 	add_child_pid(ctx, pid);
 	return (0);

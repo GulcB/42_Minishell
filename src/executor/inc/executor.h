@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 17:41:12 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/03 12:00:53 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void			handle_sigint_exec(int sig);
 void			setup_main_signals(void);
 void			setup_exec_signals(void);
 void			ignore_signals(void);
+void			close_all_fds_except(int keep_fd1, int keep_fd2, int keep_fd3);
 
 #endif
