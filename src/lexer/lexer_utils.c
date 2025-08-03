@@ -137,10 +137,10 @@ t_token	*lexer_next_token(t_gc *gc, t_lexer *lexer)
 			{
 				if (lexer->current_char == '>')
 					return (token_create(lexer->gc, TOKEN_ERROR,
-						"syntax error near unexpected token `>'", start_pos));
+						"minishell: syntax error near unexpected token `>'", start_pos));
 				else
 					return (token_create(lexer->gc, TOKEN_ERROR,
-						"syntax error near unexpected token `<'", start_pos));
+						"minishell: syntax error near unexpected token `<'", start_pos));
 			}
 		}
 		return (handle_redirect_tokens(lexer, start_pos));

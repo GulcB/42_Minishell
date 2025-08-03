@@ -56,6 +56,8 @@ int					execute_ast(t_ast_node *ast, t_exec_context *ctx);
 int					execute_command(t_ast_node *cmd_node, t_exec_context *ctx);
 int					execute_heredoc(t_ast_node *heredoc_node,
 						t_exec_context *ctx);
+int					preprocess_heredoc(t_ast_node *heredoc_node,
+						t_exec_context *ctx);
 
 void				cleanup_exec_context(t_exec_context *ctx);
 t_exec_context		*init_exec_context(t_env *env, t_gc *gc);

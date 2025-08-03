@@ -37,6 +37,8 @@ int	validate_and_add_token(t_gc *gc, t_token **token_list,
 			token_free_list(gc, current_token);
 			return (1);
 		}
+		// Syntax error detected, stop tokenization
+		return (0);
 	}
 	token_add_back(token_list, current_token);
 	*prev_token = current_token;

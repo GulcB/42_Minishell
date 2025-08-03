@@ -122,3 +122,30 @@ int	execute_heredoc(t_ast_node *heredoc_node, t_exec_context *ctx)
 	free(filename);
 	return (result);
 }
+
+int	preprocess_heredoc(t_ast_node *heredoc_node, t_exec_context *ctx)
+{
+	char	*filename;
+	char	*delimiter;
+	int		quoted;
+	int		result;
+
+	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
+		return (1);
+	delimiter = heredoc_node->redirect_file;
+	quoted = (heredoc_node->args && heredoc_node->args[0]
+			&& ft_strncmp(heredoc_node->args[0], "1", 2) == 0
+			&& ft_strlen(heredoc_node->args[0]) == 1);
+	filename = create_temp_filename();
+	if (!filename)
+		return (1);
+	result = create_heredoc_file(filename, delimiter, quoted, ctx);
+	if (result == 0)
+	{
+		// Change the redirect type to input redirect and store the filename
+		heredoc_node->redirect_type = REDIRECT_IN;
+		heredoc_node->redirect_file = gc_strdup(ctx->gc, filename);
+	}
+	free(filename);
+	return (result);
+}

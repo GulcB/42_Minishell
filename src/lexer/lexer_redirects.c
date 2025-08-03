@@ -54,7 +54,7 @@ t_token	*handle_output_redirect(t_lexer *lexer, int start_pos, char next)
 		if (third_char == '>')
 		{
 			return (token_create(lexer->gc, TOKEN_ERROR,
-				"syntax error near unexpected token `>'", start_pos));
+				"minishell: syntax error near unexpected token `>'", start_pos));
 		}
 		token = token_create(lexer->gc, TOKEN_APPEND, ">>", start_pos);
 		lexer_read_char(lexer);

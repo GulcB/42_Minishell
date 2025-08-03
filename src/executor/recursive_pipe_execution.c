@@ -84,6 +84,36 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 	return (0);
 }
 
+static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node, t_exec_context *ctx)
+{
+	t_ast_node	*redirect_node;
+
+	if (!node)
+		return (0);
+	if (node->type == NODE_COMMAND)
+	{
+		redirect_node = node->right;
+		while (redirect_node && redirect_node->type == NODE_REDIRECT)
+		{
+			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
+			{
+				if (preprocess_heredoc(redirect_node, ctx) != 0)
+					return (1);
+			}
+			redirect_node = redirect_node->right;
+		}
+		return (0);
+	}
+	if (node->type == NODE_PIPE)
+	{
+		if (preprocess_heredocs_in_pipe_chain(node->left, ctx) != 0)
+			return (1);
+		if (preprocess_heredocs_in_pipe_chain(node->right, ctx) != 0)
+			return (1);
+	}
+	return (0);
+}
+
 int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 {
 	int	result;
@@ -102,6 +132,9 @@ int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 		write(STDERR_FILENO, "minishell: pipe chain too long\n", 32);
 		return (1);
 	}
+	// Pre-process all heredocs in the pipe chain before execution
+	if (preprocess_heredocs_in_pipe_chain(pipe_node, ctx) != 0)
+		return (1);
 	result = execute_pipe_recursive(pipe_node, ctx, STDIN_FILENO,
 			STDOUT_FILENO);
 	if (result == -1)

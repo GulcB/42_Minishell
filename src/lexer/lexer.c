@@ -64,13 +64,25 @@ t_token	*lexer_tokenize_with_context(char *input, t_gc *gc)
 		current_token = lexer_next_token(gc,lexer);
 		if (should_stop_tokenizing(current_token))
 		{
+			if (current_token && current_token->type == TOKEN_ERROR)
+			{
+				// Print error message and return NULL to stop execution
+				write(2, current_token->value, ft_strlen(current_token->value));
+				write(2, "\n", 1);
+				lexer_free(lexer);
+				return (NULL);
+			}
 			if (current_token)
 				token_add_back(&token_list, current_token);
 			break ;
 		}
 		if (!validate_and_add_token(gc, &token_list, current_token,
 				&prev_token))
-			break ;
+		{
+			// Syntax error detected, return NULL to stop execution
+			lexer_free(lexer);
+			return (NULL);
+		}
 	}
 	lexer_free(lexer);
 	return (token_list);

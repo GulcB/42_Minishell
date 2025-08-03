@@ -58,6 +58,7 @@ t_token			*handle_redirect_tokens(t_lexer *lexer, int start_pos);
 
 int				validate_word_sequence(t_token *prev, t_token *current);
 int				validate_redirect_sequence(t_token *prev, t_token *current);
+int				validate_semicolon_sequence(t_token *prev, t_token *current);
 int				is_valid_token_sequence(t_token *prev, t_token *current);
 
 int				is_heredoc_delimiter_char(char c);
