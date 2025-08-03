@@ -15,9 +15,19 @@
 t_token	*handle_input_redirect(t_lexer *lexer, int start_pos, char next)
 {
 	t_token	*token;
+	char	third_char;
 
 	if (next == '<')
 	{
+		// Check for invalid <<<< or more < characters
+		third_char = '\0';
+		if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
+			third_char = lexer->input[lexer->read_position + 1];
+		if (third_char == '<')
+		{
+			return (token_create(lexer->gc, TOKEN_ERROR,
+				"syntax error near unexpected token `<'", start_pos));
+		}
 		token = token_create(lexer->gc, TOKEN_HEREDOC, "<<", start_pos);
 		lexer_read_char(lexer);
 		lexer_read_char(lexer);
@@ -33,9 +43,19 @@ t_token	*handle_input_redirect(t_lexer *lexer, int start_pos, char next)
 t_token	*handle_output_redirect(t_lexer *lexer, int start_pos, char next)
 {
 	t_token	*token;
+	char	third_char;
 
 	if (next == '>')
 	{
+		// Check for invalid >>>> or more > characters
+		third_char = '\0';
+		if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
+			third_char = lexer->input[lexer->read_position + 1];
+		if (third_char == '>')
+		{
+			return (token_create(lexer->gc, TOKEN_ERROR,
+				"syntax error near unexpected token `>'", start_pos));
+		}
 		token = token_create(lexer->gc, TOKEN_APPEND, ">>", start_pos);
 		lexer_read_char(lexer);
 		lexer_read_char(lexer);
@@ -103,6 +123,15 @@ t_token	*handle_redirect_tokens(t_lexer *lexer, int start_pos)
 		}
 		if (redir_char == '>' && third_char == '>')
 		{
+			// Check for invalid >>>> pattern with fd number
+			char fourth_char = '\0';
+			if (lexer->read_position + 2 < (int)ft_strlen(lexer->input))
+				fourth_char = lexer->input[lexer->read_position + 2];
+			if (fourth_char == '>')
+			{
+				return (token_create(lexer->gc, TOKEN_ERROR,
+					"syntax error near unexpected token `>'", start_pos));
+			}
 			redirect_str = gc_malloc(lexer->gc, 4);
 			redirect_str[0] = fd_num;
 			redirect_str[1] = '>';
@@ -115,6 +144,15 @@ t_token	*handle_redirect_tokens(t_lexer *lexer, int start_pos)
 		}
 		else if (redir_char == '<' && third_char == '<')
 		{
+			// Check for invalid <<<< pattern with fd number
+			char fourth_char = '\0';
+			if (lexer->read_position + 2 < (int)ft_strlen(lexer->input))
+				fourth_char = lexer->input[lexer->read_position + 2];
+			if (fourth_char == '<')
+			{
+				return (token_create(lexer->gc, TOKEN_ERROR,
+					"syntax error near unexpected token `<'", start_pos));
+			}
 			redirect_str = gc_malloc(lexer->gc, 4);
 			redirect_str[0] = fd_num;
 			redirect_str[1] = '<';

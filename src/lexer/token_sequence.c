@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "parser.h"
 
 int	validate_word_sequence(t_token *prev, t_token *current)
 {
@@ -28,12 +29,37 @@ int	validate_redirect_sequence(t_token *prev, t_token *current)
 {
 	if (!current)
 		return (1);
+	// Check for consecutive redirect tokens (like >> followed by >>)
+	if (prev && is_redirect_token(prev) && is_redirect_token(current))
+	{
+		write(2, "syntax error near unexpected token `", 36);
+		if (current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND)
+			write(2, ">'", 2);
+		else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_HEREDOC)
+			write(2, "<'", 2);
+		else
+			write(2, "newline'", 8);
+		write(2, "\n", 1);
+		return (0);
+	}
 	if (prev && (prev->type == TOKEN_REDIR_IN || prev->type == TOKEN_REDIR_OUT
 			|| prev->type == TOKEN_APPEND || prev->type == TOKEN_HEREDOC))
 	{
 		if (current->type != TOKEN_WORD && current->type != TOKEN_DQUOTE
 			&& current->type != TOKEN_SQUOTE)
+		{
+			write(2, "syntax error near unexpected token `", 36);
+			if (current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND)
+				write(2, ">'", 2);
+			else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_HEREDOC)
+				write(2, "<'", 2);
+			else if (current->type == TOKEN_EOF)
+				write(2, "newline'", 8);
+			else
+				write(2, "unexpected token'", 17);
+			write(2, "\n", 1);
 			return (0);
+		}
 	}
 	return (1);
 }

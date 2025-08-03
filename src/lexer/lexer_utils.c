@@ -125,7 +125,26 @@ t_token	*lexer_next_token(t_gc *gc, t_lexer *lexer)
 		return (handle_pipe_tokens(lexer, start_pos));
 	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND)
+	{
+		// Check for invalid sequences like >>> or >>>>
+		if ((lexer->current_char == '>' || lexer->current_char == '<') 
+			&& lexer_peek_char(lexer) == lexer->current_char)
+		{
+			char third_char = '\0';
+			if (lexer->read_position + 1 < (int)ft_strlen(lexer->input))
+				third_char = lexer->input[lexer->read_position + 1];
+			if (third_char == lexer->current_char)
+			{
+				if (lexer->current_char == '>')
+					return (token_create(lexer->gc, TOKEN_ERROR,
+						"syntax error near unexpected token `>'", start_pos));
+				else
+					return (token_create(lexer->gc, TOKEN_ERROR,
+						"syntax error near unexpected token `<'", start_pos));
+			}
+		}
 		return (handle_redirect_tokens(lexer, start_pos));
+	}
 	if (type == TOKEN_DQUOTE || type == TOKEN_SQUOTE)
 		return (handle_quote_tokens(lexer, start_pos));
 	if (type == TOKEN_AND || type == TOKEN_SEMICOLON || type == TOKEN_DOLLAR)
