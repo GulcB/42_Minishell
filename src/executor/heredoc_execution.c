@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:15:45 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:51:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 		if (!line)
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
-			return (1);
+			return (0);
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& ft_strlen(line) == ft_strlen(delimiter))
@@ -51,8 +51,12 @@ static int	write_heredoc_content(int fd, const char *delimiter,
 			expanded_line = gc_strdup(ctx->gc, line);
 		else
 			expanded_line = expand_variables(line, ctx);
-		write(fd, expanded_line, ft_strlen(expanded_line));
-		write(fd, "\n", 1);
+		if (write(fd, expanded_line, ft_strlen(expanded_line)) == -1 ||
+			write(fd, "\n", 1) == -1)
+		{
+			free(line);
+			return (1);
+		}
 		free(line);
 	}
 	return (0);

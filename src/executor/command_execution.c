@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/03 11:05:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:51:12 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,13 @@ static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context
 	if (!heredoc_node || heredoc_node->redirect_type != REDIRECT_HEREDOC)
 		return (1);
 	delimiter = heredoc_node->redirect_file;
-
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
-			return (1);
+			return (0);
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& ft_strlen(line) == ft_strlen(delimiter))

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:57:02 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 18:00:08 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:50:32 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	is_quoted_delimiter(const char *delimiter)
 	len = ft_strlen(delimiter);
 	if (len < 2)
 		return (0);
-	return ((delimiter[0] == '\'' && delimiter[len - 1] == '\'')
-		|| (delimiter[0] == '"' && delimiter[len - 1] == '"'));
+	return (delimiter[0] == '\'' && delimiter[len - 1] == '\'');
 }
 
 static char	*extract_delimiter_content(const char *delimiter, t_gc *gc)
@@ -109,7 +108,7 @@ t_ast_node	*parse_heredoc(t_token **current, struct s_exec_context *ctx)
 			&& (*current)->type != TOKEN_DQUOTE))
 		return (NULL);
 	delimiter = (*current)->value;
-	quoted = is_quoted_delimiter(delimiter);
+	quoted = is_quoted_delimiter(delimiter) || (*current)->type == TOKEN_SQUOTE;
 	node = setup_heredoc_node(delimiter, quoted, gc);
 	if (!node)
 		return (NULL);
