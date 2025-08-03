@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_resolution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 19:55:00 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/03 11:05:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,14 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 			write(STDERR_FILENO, "minishell: ", 11);
 			write(STDERR_FILENO, cmd, ft_strlen(cmd));
 			write(STDERR_FILENO, ": Permission denied\n", 20);
+			return ((char *)-1);
+		}
+		else if (exec_result == 0)
+		{
+			ctx->exit_status = 127;
+			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, cmd, ft_strlen(cmd));
+			write(STDERR_FILENO, ": No such file or directory\n", 28);
 			return ((char *)-1);
 		}
 		return (NULL);

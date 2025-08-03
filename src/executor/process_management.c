@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:35:12 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 16:00:53 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/03 11:37:05 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static int	wait_single_child(t_exec_context *ctx, int index)
 	result = waitpid(ctx->child_pids[index], &status, 0);
 	if (result == -1)
 	{
-		if (errno == ECHILD)
-			return (0);
 		return (1);
 	}
 	if (result == ctx->child_pids[index])

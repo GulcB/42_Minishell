@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:08:50 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/03 11:05:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,16 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	executable_path = resolve_executable(ctx, args[0], ctx->env);
 	if (!executable_path)
 	{
-		write(STDERR_FILENO, "minishell: ", 11);
-		write(STDERR_FILENO, args[0], ft_strlen(args[0]));
-		write(STDERR_FILENO, ": command not found\n", 20);
+		if (!ft_strchr(args[0], '/'))
+		{
+			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, args[0], ft_strlen(args[0]));
+			write(STDERR_FILENO, ": command not found\n", 20);
+		}
 		return (127);
 	}
 	if (executable_path == (char *)-1)
-		return (126);
+		return (ctx->exit_status);
 	env_array = convert_env_to_array(ctx->env, ctx->gc);
 	setup_exec_signals();
 	pid = fork();
