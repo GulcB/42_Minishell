@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:57:09 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 14:16:57 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:04:38 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h" 
+#include "builtin.h"
 #include "executor.h"
 
 static char	*get_target_directory(t_builtin_cmd *cmd)
 {
 	if (!cmd->args[1])
 		return (env_get(cmd->env, "HOME"));
-	if (ft_strncmp(cmd->args[1], "-", 2) == 0
-		&& ft_strlen(cmd->args[1]) == 1)
+	if (ft_strncmp(cmd->args[1], "-", 2) == 0 && ft_strlen(cmd->args[1]) == 1)
 		return (env_get(cmd->env, "OLDPWD"));
 	return (cmd->args[1]);
 }

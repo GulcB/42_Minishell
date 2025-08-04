@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 19:43:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:02:57 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
-
 		execve(executable_path, args, env_array);
 		exit(127);
 	}
@@ -74,7 +73,8 @@ static int	execute_external_command(char **args, t_exec_context *ctx)
 	return (wait_for_children(ctx));
 }
 
-static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context *ctx)
+static int	execute_heredoc_consume_only(t_ast_node *heredoc_node,
+		t_exec_context *ctx)
 {
 	char	*delimiter;
 	char	*line;
@@ -104,8 +104,12 @@ static int	execute_heredoc_consume_only(t_ast_node *heredoc_node, t_exec_context
 
 int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 {
-	int	result;
-	int	i;
+	int			result;
+	int			i;
+	int			j;
+	t_ast_node	*redirect_node;
+	t_ast_node	*last_heredoc;
+	int			redirect_error;
 
 	if (!cmd_node || !ctx)
 		return (1);
@@ -120,7 +124,7 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		return (0);
 	if (i > 0)
 	{
-		int j = 0;
+		j = 0;
 		while (cmd_node->args[i + j])
 		{
 			cmd_node->args[j] = cmd_node->args[i + j];
@@ -130,8 +134,8 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 	}
 	if (cmd_node->right && cmd_node->right->type == NODE_REDIRECT)
 	{
-		t_ast_node *redirect_node = cmd_node->right;
-		t_ast_node *last_heredoc = NULL;
+		redirect_node = cmd_node->right;
+		last_heredoc = NULL;
 		while (redirect_node)
 		{
 			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
@@ -141,12 +145,13 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		redirect_node = cmd_node->right;
 		while (redirect_node)
 		{
-			if (redirect_node->redirect_type == REDIRECT_HEREDOC && redirect_node != last_heredoc)
+			if (redirect_node->redirect_type == REDIRECT_HEREDOC
+				&& redirect_node != last_heredoc)
 				execute_heredoc_consume_only(redirect_node, ctx);
 			redirect_node = redirect_node->right;
 		}
 		redirect_node = cmd_node->right;
-		int redirect_error = 0;
+		redirect_error = 0;
 		while (redirect_node)
 		{
 			if (redirect_node->redirect_type != REDIRECT_HEREDOC)
@@ -159,7 +164,7 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 			{
 				redirect_error = execute_redirection(redirect_node, ctx);
 				if (redirect_error != 0)
-					break;
+					break ;
 			}
 			redirect_node = redirect_node->right;
 		}

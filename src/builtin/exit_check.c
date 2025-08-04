@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:57:55 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 18:13:42 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:07:34 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h" 
+#include "builtin.h"
 #include "executor.h"
 
 char	*trim_quotes(const char *s)
@@ -20,8 +20,8 @@ char	*trim_quotes(const char *s)
 	if (!s || !*s)
 		return (NULL);
 	len = strlen(s);
-	if ((s[0] == '"' && s[len - 1] == '"')
-		|| (s[0] == '\'' && s[len - 1] == '\''))
+	if ((s[0] == '"' && s[len - 1] == '"') || ((s[0] == '\'')
+			&& s[len - 1] == '\''))
 		return (strndup(s + 1, len - 2));
 	return (strdup(s));
 }

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 00:03:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 15:38:27 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:06:17 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ extern int	g_signal;
 
 static void	heredoc_signal_handler(int sig)
 {
-    g_signal = sig;
+	g_signal = sig;
 	write(STDOUT_FILENO, "^C", 2);
-    close(STDIN_FILENO);
+	close(STDIN_FILENO);
 }
 
 static char	*create_temp_filename(void)
@@ -43,74 +43,73 @@ static void	setup_heredoc_signals(void (**old_handler)(int))
 
 static void	restore_heredoc_signals(void (*old_handler)(int))
 {
-    signal(2, old_handler);
-    if (g_signal == 2)
-    {
-        int new_stdin = open("/dev/tty", O_RDONLY);
-        if (new_stdin != -1)
-            dup2(new_stdin, STDIN_FILENO);
-        if (new_stdin > 2)
-            close(new_stdin);
-    }
-    g_signal = 0;
+	int	new_stdin;
+
+	signal(2, old_handler);
+	if (g_signal == 2)
+	{
+		new_stdin = open("/dev/tty", O_RDONLY);
+		if (new_stdin != -1)
+			dup2(new_stdin, STDIN_FILENO);
+		if (new_stdin > 2)
+			close(new_stdin);
+	}
+	g_signal = 0;
 }
 
-static int	write_heredoc_content(int fd, const char *delimiter,
-        int quoted, t_exec_context *ctx)
+static int	write_heredoc_content(int fd, const char *delimiter, int quoted,
+		t_exec_context *ctx)
 {
-    char	*line;
-    char	*expanded_line;
-    while (1)
-    {
-        if (g_signal == 2)
+	char	*line;
+	char	*expanded_line;
+
+	while (1)
+	{
+		if (g_signal == 2)
 		{
 			ctx->exit_status = 130;
-            return (130);
-		}   
-        line = readline("> ");
-        
-        if (!line)
-        {
+			return (130);
+		}
+		line = readline("> ");
+		if (!line)
+		{
 			if (g_signal == 2)
-                return (130);
-            write(STDOUT_FILENO, "\n", 1);
-            return (0);
-        }
-        
-        if (g_signal == 2)
-        {
-            free(line);
-            return (130);
-        }
-        
-        if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-            && ft_strlen(line) == ft_strlen(delimiter))
-        {
-            free(line);
-            break ;
-        }
-        
-        if (quoted)
-            expanded_line = gc_strdup(ctx->gc, line);
-        else
-            expanded_line = expand_variables(line, ctx);
-            
-        if (write(fd, expanded_line, ft_strlen(expanded_line)) == -1 ||
-            write(fd, "\n", 1) == -1)
-        {
-            free(line);
-            return (1);
-        }
-        free(line);
-    }
-    return (0);
+				return (130);
+			write(STDOUT_FILENO, "\n", 1);
+			return (0);
+		}
+		if (g_signal == 2)
+		{
+			free(line);
+			return (130);
+		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+			&& ft_strlen(line) == ft_strlen(delimiter))
+		{
+			free(line);
+			break ;
+		}
+		if (quoted)
+			expanded_line = gc_strdup(ctx->gc, line);
+		else
+			expanded_line = expand_variables(line, ctx);
+		if (write(fd, expanded_line, ft_strlen(expanded_line)) == -1
+			|| write(fd, "\n", 1) == -1)
+		{
+			free(line);
+			return (1);
+		}
+		free(line);
+	}
+	return (0);
 }
+
 static int	create_heredoc_file(const char *filename, const char *delimiter,
 		int quoted, t_exec_context *ctx)
 {
-	int			fd;
-	int			result;
-	void		(*old_handler)(int);
+	int		fd;
+	int		result;
+	void	(*old_handler)(int);
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)

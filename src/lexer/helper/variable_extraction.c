@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variable_expansion.c                               :+:      :+:    :+:   */
+/*   variable_extraction.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 23:58:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:55:46 by mdivan           ###   ########.fr       */
+/*   Created: 2025/01/18 16:00:00 by mdivan            #+#    #+#             */
+/*   Updated: 2025/08/04 20:09:57 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ char	*extract_braced_var(t_gc *gc, const char *str, int *consumed)
 	return (gc_substr(gc, str, start, i - start));
 }
 
+static char	*handle_quoted_variable(t_gc *gc, const char *str, int *consumed)
+{
+	int		i;
+	char	*content;
+	char	*literal_marker;
+
+	i = 2;
+	while (str[i] && str[i] != '"')
+		i++;
+	if (str[i] == '"')
+	{
+		*consumed = i + 1;
+		content = gc_substr(gc, str, 2, i - 2);
+		literal_marker = gc_strjoin(gc, "LITERAL:", content);
+		return (literal_marker);
+	}
+	return (NULL);
+}
+
 char	*extract_special_var(t_gc *gc, const char *str, int *consumed)
 {
 	if (str[1] == '?')
@@ -62,21 +81,7 @@ char	*extract_special_var(t_gc *gc, const char *str, int *consumed)
 		return (gc_substr(gc, str, 1, 1));
 	}
 	if (str[1] == '"')
-	{
-		int i = 2;
-		char *content;
-		char *literal_marker;
-		
-		while (str[i] && str[i] != '"')
-			i++;
-		if (str[i] == '"')
-		{
-			*consumed = i + 1;
-			content = gc_substr(gc, str, 2, i - 2);
-			literal_marker = gc_strjoin(gc, "LITERAL:", content);
-			return (literal_marker);
-		}
-	}
+		return (handle_quoted_variable(gc, str, consumed));
 	return (NULL);
 }
 
@@ -91,41 +96,4 @@ char	*extract_var_name(t_gc *gc, const char *str, int *consumed)
 	if (str[1] == '{')
 		return (extract_braced_var(gc, str, consumed));
 	return (extract_simple_var(gc, str, consumed));
-}
-
-char	*get_special_var_value(const char *var_name, struct s_exec_context *ctx)
-{
-	char	*temp_str;
-	char	*result;
-	
-	if (ft_strncmp(var_name, "?", 2) == 0 && ft_strlen(var_name) == 1)
-	{
-		if (ctx)
-		{
-			temp_str = ft_itoa(ctx->exit_status);
-			result = gc_strdup(ctx->gc, temp_str);
-			free(temp_str);
-			return (result);
-		}
-		temp_str = ft_itoa(0);
-		result = gc_strdup(ctx->gc, temp_str);
-		free(temp_str);
-		return (result);
-	}
-	if (ft_strncmp(var_name, "$", 2) == 0 && ft_strlen(var_name) == 1)
-	{
-		if (ctx)
-		{
-			temp_str = ft_itoa(getpid());
-			result = gc_strdup(ctx->gc, temp_str);
-			free(temp_str);
-			return (result);
-		}
-		return (NULL);
-	}
-	if (ft_isdigit(var_name[0]) && ft_strlen(var_name) == 1)
-	{
-		return (gc_strdup(ctx->gc, ""));
-	}
-	return (NULL);
 }

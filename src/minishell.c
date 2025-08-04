@@ -6,20 +6,18 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 14:31:34 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:05:26 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
+int			g_signal = 0;
 
 static void	configure_readline(void)
 {
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
-	// rl_clear_signals();
-	// rl_set_signals();
 }
 
 static t_gc	*init_main_gc(void)
@@ -29,7 +27,8 @@ static t_gc	*init_main_gc(void)
 	main_gc = gc_init_auto();
 	if (!main_gc)
 	{
-		write(STDERR_FILENO, "Error: Failed to initialize garbage collector\n", 47);
+		write(STDERR_FILENO, "Error: Failed to initialize garbage collector\n",
+			47);
 		return (NULL);
 	}
 	return (main_gc);
@@ -64,6 +63,7 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 	t_exec_context	*ctx;
 	int				input_status;
 	extern int		g_signal;
+	int				exit_status;
 
 	ctx = init_exec_context(env, main_gc);
 	if (!ctx)
@@ -89,7 +89,7 @@ static void	shell_loop(t_env *env, t_gc *main_gc)
 			continue ;
 		if (execute_and_cleanup(tokens, input, ctx) == -42)
 		{
-			int exit_status = ctx->exit_status;
+			exit_status = ctx->exit_status;
 			restore_std_fds(ctx);
 			gc_cleanup_all(main_gc);
 			safe_cleanup_and_exit(main_gc);

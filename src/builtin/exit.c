@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 18:11:26 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:04:22 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h" 
+#include "builtin.h"
 #include "executor.h"
 
 static int	is_numeric(const char *s)
@@ -88,8 +88,8 @@ int	builtin_exit(t_builtin_cmd *cmd)
 	write(STDERR_FILENO, "exit\n", 5);
 	if (cmd->args[1])
 	{
-		if (!is_numeric(cmd->args[1])
-			|| to_int_and_check_overflow(cmd->args[1], &code))
+		if (!is_numeric(cmd->args[1]) || to_int_and_check_overflow(cmd->args[1],
+				&code))
 		{
 			handle_invalid_argument(cmd);
 			return (SHELL_EXIT);

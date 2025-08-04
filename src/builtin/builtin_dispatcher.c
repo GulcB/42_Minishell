@@ -6,11 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 22:18:49 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 15:32:44 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:04:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h" 
+#include "builtin.h"
 #include "executor.h"
 
 static int	check_basic_builtins(const char *cmd)

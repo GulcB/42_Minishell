@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 20:16:20 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:00:50 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,14 @@ int	execute_redirection(t_ast_node *redirect_node, struct s_exec_context *ctx)
 	if (!redirect_node->redirect_file)
 		return (1);
 	if (redirect_node->redirect_type == REDIRECT_IN)
-		return (execute_input_redirect(redirect_node->redirect_file, redirect_node->fd_num));
+		return (execute_input_redirect(redirect_node->redirect_file,
+				redirect_node->fd_num));
 	else if (redirect_node->redirect_type == REDIRECT_OUT)
-		return (execute_output_redirect(redirect_node->redirect_file, redirect_node->fd_num));
+		return (execute_output_redirect(redirect_node->redirect_file,
+				redirect_node->fd_num));
 	else if (redirect_node->redirect_type == REDIRECT_APPEND)
-		return (execute_append_redirect(redirect_node->redirect_file, redirect_node->fd_num));
+		return (execute_append_redirect(redirect_node->redirect_file,
+				redirect_node->fd_num));
 	else if (redirect_node->redirect_type == REDIRECT_HEREDOC)
 		return (execute_heredoc(redirect_node, ctx));
 	return (1);

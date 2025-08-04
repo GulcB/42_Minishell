@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 15:33:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:01:47 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 {
 	pid_t	pid;
 	int		fd;
+	int		exit_status;
 
 	fd = 0;
 	pid = fork();
@@ -55,7 +56,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 			close(fd);
 			fd++;
 		}
-		int exit_status = execute_command(node, ctx);
+		exit_status = execute_command(node, ctx);
 		gc_destroy(ctx->gc);
 		exit(exit_status);
 	}
@@ -84,7 +85,8 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 	return (0);
 }
 
-static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node, t_exec_context *ctx)
+static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node,
+		t_exec_context *ctx)
 {
 	t_ast_node	*redirect_node;
 	int			result;
@@ -136,7 +138,6 @@ int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 		write(STDERR_FILENO, "minishell: pipe chain too long\n", 32);
 		return (1);
 	}
-	// Pre-process all heredocs in the pipe chain before execution
 	result = preprocess_heredocs_in_pipe_chain(pipe_node, ctx);
 	if (result != 0)
 		return (result);

@@ -30,22 +30,31 @@ SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/print_ast_args.c \
 			./src/parser/redirect_helpers.c
 
-SRC_LEXER = ./src/lexer/lexer.c \
-			./src/lexer/token.c \
-			./src/lexer/lexer_redirects.c \
-			./src/lexer/lexer_tokens.c \
-			./src/lexer/lexer_utils.c \
-			./src/lexer/token_sequence.c \
-			./src/lexer/helper/lexer_heredoc.c \
-			./src/lexer/helper/lexer_quotes.c \
-			./src/lexer/helper/lexer_string_op.c \
-			./src/lexer/helper/lexer_word_parsing.c \
-			./src/lexer/helper/token_type_checks.c \
-			./src/lexer/helper/token_validation.c \
-			./src/lexer/helper/variable_expansion_env.c \
-			./src/lexer/helper/variable_expansion_process.c \
-			./src/lexer/helper/variable_expansion.c \
-			./src/lexer/helper/tilde_expansion.c
+SRC_LEXER = ./src/lexer/lexer_core.c \
+            ./src/lexer/lexer_tokenization.c \
+            ./src/lexer/token.c \
+            ./src/lexer/lexer_redirects_basic.c \
+            ./src/lexer/lexer_redirects_fd.c \
+            ./src/lexer/lexer_tokens.c \
+            ./src/lexer/lexer_utils_core.c \
+            ./src/lexer/lexer_utils_quotes.c \
+            ./src/lexer/token_sequence_validation.c \
+            ./src/lexer/token_sequence_redirects.c \
+            ./src/lexer/helper/lexer_heredoc.c \
+            ./src/lexer/helper/lexer_quotes.c \
+            ./src/lexer/helper/lexer_string_op.c \
+            ./src/lexer/helper/lexer_word_escape.c \
+            ./src/lexer/helper/lexer_word_backslash.c \
+            ./src/lexer/helper/lexer_word_core.c \
+            ./src/lexer/helper/token_type_checks.c \
+            ./src/lexer/helper/token_validation.c \
+            ./src/lexer/helper/variable_expansion_env.c \
+            ./src/lexer/helper/variable_expansion_core.c \
+            ./src/lexer/helper/variable_expansion_handler.c \
+            ./src/lexer/helper/variable_expansion_main.c \
+            ./src/lexer/helper/variable_extraction.c \
+            ./src/lexer/helper/variable_special_values.c \
+            ./src/lexer/helper/tilde_expansion.c
 
 SRC_GC = 	./src/garbage_collector/garbage_collector.c \
 			./src/garbage_collector/gc_clean.c \

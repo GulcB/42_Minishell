@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:22:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/27 18:29:46 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:41:52 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int					find_matching_quote(char *input, int start,
 						char quote_char);
 int					is_valid_token_syntax(char *token_value,
 						t_token_type type);
-
-void				token_list_print(t_token *head);
 
 t_token				*token_create(t_gc *gc, t_token_type type, char *value,
 						int position);

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/03 11:05:54 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:02:15 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 	char	**path_dirs;
 	char	*result;
 	char	*gc_result;
+	int		exec_result;
 
 	if (!cmd || !*cmd)
 		return (NULL);
@@ -126,7 +127,7 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 			write(STDERR_FILENO, ": Is a directory\n", 17);
 			return ((char *)-1);
 		}
-		int exec_result = is_executable_file(cmd);
+		exec_result = is_executable_file(cmd);
 		if (exec_result == 1)
 			return (gc_strdup(ctx->gc, cmd));
 		else if (exec_result == -1)

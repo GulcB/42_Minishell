@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_env.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:40:39 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 14:33:36 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 19:21:24 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,16 @@ char	*get_env_value(const char *var_name, t_exec_context *ctx)
 	return (gc_strdup(ctx->gc, ""));
 }
 
-char	*add_literal_part(t_exec_context *ctx, char *result, const char *str, int start, int end)
+char	*add_literal_part(t_exec_context *ctx, char *result,
+		t_literal_params params)
 {
 	char	*temp;
 	char	*new_result;
 
-	if (end <= start)
+	if (params.end <= params.start)
 		return (result);
-	temp = gc_substr(ctx->gc, str, start, end - start);
+	temp = gc_substr(ctx->gc, params.str, params.start,
+			params.end - params.start);
 	new_result = gc_strjoin(ctx->gc, result, temp);
 	return (new_result);
 }

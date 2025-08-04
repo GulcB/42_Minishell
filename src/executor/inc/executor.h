@@ -6,27 +6,27 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 15:06:24 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 20:59:56 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include "parser.h"
 # include "builtin.h"
 # include "garbage_collector.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <string.h>
+# include "parser.h"
 # include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define MAX_CHILDREN 1024
 # define PATH_MAX_LEN 4096
@@ -101,18 +101,20 @@ int					validate_pipe_chain(t_ast_node *node);
 int					wait_for_pipe_children(t_exec_context *ctx);
 int					execute_pipe(t_ast_node *pipe_node, t_exec_context *ctx);
 
-char				*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env);
+char				*resolve_executable(t_exec_context *ctx, const char *cmd,
+						t_env *env);
 char				*expand_variables(const char *str,
 						struct s_exec_context *ctx);
 
 int					execute_redirection(t_ast_node *redirect_node,
 						struct s_exec_context *ctx);
 
-void			handle_sigint_interactive(int sig);
-void			handle_sigint_exec(int sig);
-void			setup_main_signals(void);
-void			setup_exec_signals(void);
-void			ignore_signals(void);
-void			close_all_fds_except(int keep_fd1, int keep_fd2, int keep_fd3);
+void				handle_sigint_interactive(int sig);
+void				handle_sigint_exec(int sig);
+void				setup_main_signals(void);
+void				setup_exec_signals(void);
+void				ignore_signals(void);
+void				close_all_fds_except(int keep_fd1, int keep_fd2,
+						int keep_fd3);
 
 #endif

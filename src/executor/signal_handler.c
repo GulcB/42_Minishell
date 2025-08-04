@@ -6,17 +6,16 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:08:17 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 14:40:16 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:00:28 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "executor.h"
+#include "executor.h"
 
 extern int	g_signal;
 
 void	handle_sigint_interactive(int sig)
 {
-	
 	g_signal = sig;
 	if (isatty(STDOUT_FILENO))
 	{

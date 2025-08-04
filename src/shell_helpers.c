@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 19:06:58 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:05:43 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	process_input_tokens(char *input, t_token **tokens, t_gc *main_gc)
 	*tokens = lexer_tokenize_with_context(input, main_gc);
 	if (!*tokens)
 		return (0);
-	// token_list_print(*tokens);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 11:23:43 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 12:42:41 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 19:06:24 by mdivan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	validate_and_add_token(t_gc *gc, t_token **token_list,
 			token_free_list(gc, current_token);
 			return (1);
 		}
-		// Syntax error detected, stop tokenization
 		return (0);
 	}
 	token_add_back(token_list, current_token);
