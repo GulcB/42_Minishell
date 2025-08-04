@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/03 13:51:12 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:45:12 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,26 +151,28 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		{
 			if (redirect_node->redirect_type != REDIRECT_HEREDOC)
 			{
-				if (execute_redirection(redirect_node, ctx) != 0)
-				{
-					redirect_error = 1;
+				redirect_error = execute_redirection(redirect_node, ctx);
+				if (redirect_error != 0)
 					break ;
-				}
 			}
 			else if (redirect_node == last_heredoc)
 			{
-				if (execute_redirection(redirect_node, ctx) != 0)
-				{
-					redirect_error = 1;
+				redirect_error = execute_redirection(redirect_node, ctx);
+				if (redirect_error != 0)
 					break;
-				}
 			}
 			redirect_node = redirect_node->right;
 		}
 		if (redirect_error)
 		{
+			
 			restore_std_fds(ctx);
-			return (1);
+			if (redirect_error == 130)
+			{
+				return (130);
+			}
+			redirect_error = 1;
+			return (redirect_error);
 		}
 		if (is_builtin_command(cmd_node->args[0]))
 			result = execute_builtin_dispatcher(cmd_node->args, ctx);

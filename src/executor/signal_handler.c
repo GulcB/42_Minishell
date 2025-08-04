@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:08:17 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/26 20:04:07 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:40:16 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_sigint_interactive(int sig)
 	{
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_redisplay();
 	}
 }

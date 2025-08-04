@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:20:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 12:41:11 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:31:34 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	configure_readline(void)
 {
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
-	rl_clear_signals();
-	rl_set_signals();
+	// rl_clear_signals();
+	// rl_set_signals();
 }
 
 static t_gc	*init_main_gc(void)

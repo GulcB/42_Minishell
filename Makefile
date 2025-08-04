@@ -10,7 +10,8 @@ CFLAGS = -Wall -Wextra -Werror \
          -Isrc/executor/inc \
          -Isrc/garbage_collector/inc
 
-LIBFT_DIR = ./lib/libft 
+LIBFT_DIR = ./lib/libft
+
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_MAIN = ./src/minishell.c \
@@ -52,7 +53,7 @@ SRC_BUILTIN = ./src/builtin/builtin_dispatcher.c \
 			./src/builtin/exit.c \
 			./src/builtin/export.c \
 			./src/builtin/pwd.c \
-			./src/builtin/unset.c 
+			./src/builtin/unset.c
 
 SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/command_execution.c \
@@ -82,30 +83,32 @@ SRCS = $(SRC_MAIN) $(SRC_BUILTIN) $(SRC_EXECUTOR) $(SRC_LEXER) $(SRC_GC) $(SRC_P
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-%.o: %.c $(HEADERS)
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
 clean:
 	@make -C $(LIBFT_DIR) clean
 	$(RM) $(OBJS)
 
-fclean: clean
+fclean:
 	@make -C $(LIBFT_DIR) fclean
+	$(RM) $(OBJS)
 	$(RM) $(NAME)
 
 re: fclean all
 
-run: re 
-	$(RM) $(OBJS)
+run: 
+	@make fclean
+	@make all
 	@clear
 	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(NAME)
 
-.PHONY: all clean fclean re run 
+.PHONY: all clean fclean re run

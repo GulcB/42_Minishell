@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/03 12:01:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:33:07 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node, t_exec_context *ctx)
 {
 	t_ast_node	*redirect_node;
+	int			result;
 
 	if (!node)
 		return (0);
@@ -97,8 +98,9 @@ static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node, t_exec_context *c
 		{
 			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
 			{
-				if (preprocess_heredoc(redirect_node, ctx) != 0)
-					return (1);
+				result = preprocess_heredoc(redirect_node, ctx);
+				if (result != 0)
+					return (result);
 			}
 			redirect_node = redirect_node->right;
 		}
@@ -106,10 +108,12 @@ static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node, t_exec_context *c
 	}
 	if (node->type == NODE_PIPE)
 	{
-		if (preprocess_heredocs_in_pipe_chain(node->left, ctx) != 0)
-			return (1);
-		if (preprocess_heredocs_in_pipe_chain(node->right, ctx) != 0)
-			return (1);
+		result = preprocess_heredocs_in_pipe_chain(node->left, ctx);
+		if (result != 0)
+			return (result);
+		result = preprocess_heredocs_in_pipe_chain(node->right, ctx);
+		if (result != 0)
+			return (result);
 	}
 	return (0);
 }
@@ -133,8 +137,9 @@ int	execute_pipe_chain(t_ast_node *pipe_node, t_exec_context *ctx)
 		return (1);
 	}
 	// Pre-process all heredocs in the pipe chain before execution
-	if (preprocess_heredocs_in_pipe_chain(pipe_node, ctx) != 0)
-		return (1);
+	result = preprocess_heredocs_in_pipe_chain(pipe_node, ctx);
+	if (result != 0)
+		return (result);
 	result = execute_pipe_recursive(pipe_node, ctx, STDIN_FILENO,
 			STDOUT_FILENO);
 	if (result == -1)
