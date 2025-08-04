@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:00:54 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 18:39:48 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 17:57:03 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static void	print_env_line(const char *entry)
 	{
 		ft_putchar_fd('=', STDOUT_FILENO);
 		ft_putchar_fd('\"', STDOUT_FILENO);
-		write(STDOUT_FILENO, (char *)(&entry[i + 1]), ft_strlen((char *)(&entry[i + 1])));
+		write(STDOUT_FILENO, (char *)(&entry[i + 1]),
+			ft_strlen((char *)(&entry[i + 1])));
 		ft_putchar_fd('\"', STDOUT_FILENO);
 	}
 	ft_putchar_fd('\n', STDOUT_FILENO);

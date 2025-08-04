@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:45:19 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/24 21:33:59 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:11:45 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <string.h>
 
 # define SHELL_EXIT -42
 
@@ -39,6 +40,10 @@ int				builtin_cd(t_builtin_cmd *cmd);
 int				builtin_echo(t_builtin_cmd *cmd);
 int				builtin_env(t_builtin_cmd *cmd);
 int				builtin_exit(t_builtin_cmd *cmd);
+char			*trim_quotes(const char *s);
+int				check_digits_only(const char *trimmed, int start_idx);
+int				check_overflow(long result, int sign);
+int				parse_and_convert(const char *str, int sign, int *out);
 int				builtin_export(t_builtin_cmd *cmd);
 int				builtin_pwd(t_builtin_cmd *cmd);
 int				env_remove(struct s_env **env, const char *key, t_gc *gc);

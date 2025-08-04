@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdivan <mdivan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:46:26 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/02 18:43:30 by mdivan           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:19:30 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "executor.h"
 
-
 static int	tokens_are_adjacent(t_token *current, t_token *next)
 {
 	int	current_end;
-	
+
 	if (!current || !next)
 		return (0);
 	if (current->type == TOKEN_DQUOTE || current->type == TOKEN_SQUOTE)
@@ -108,15 +107,11 @@ t_ast_node	*parse_redirect(t_token **current, struct s_exec_context *ctx)
 	*current = (*current)->next;
 	if (!*current || !is_word_token(*current))
 		return (NULL);
-	
-	// Expand first token and handle concatenation
 	expanded_value = expand_token_value(*current, ctx);
 	if (!expanded_value)
 		return (NULL);
 	filename = expanded_value;
 	*current = (*current)->next;
-	
-	// Check for adjacent tokens and concatenate them
 	while (*current && is_word_token(*current) && (*current)->prev 
 		&& tokens_are_adjacent((*current)->prev, *current))
 	{
@@ -128,11 +123,9 @@ t_ast_node	*parse_redirect(t_token **current, struct s_exec_context *ctx)
 			return (NULL);
 		*current = (*current)->next;
 	}
-	
 	node = create_redirect_node(gc, get_redirect_type(redirect_type),
 		filename, fd_num);
 	if (!node)
 		return (NULL);
 	return (node);
 }
-

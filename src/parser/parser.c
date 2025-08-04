@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 19:27:38 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/30 17:10:14 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:15:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	is_stop_token(t_token *token)
 	if (!token)
 		return (1);
 	return (token->type == TOKEN_PIPE || token->type == TOKEN_AND
-        || token->type == TOKEN_OR || token->type == TOKEN_SEMICOLON
-        || token->type == TOKEN_EOF || token->type == TOKEN_ERROR);
+		|| token->type == TOKEN_OR || token->type == TOKEN_SEMICOLON
+		|| token->type == TOKEN_EOF || token->type == TOKEN_ERROR);
 }
 
 t_ast_node	*parse_pipe(t_token **current, struct s_exec_context *ctx)
