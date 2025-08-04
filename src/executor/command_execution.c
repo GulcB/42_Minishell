@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:38:18 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 15:45:12 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 19:43:54 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ int	execute_command(t_ast_node *cmd_node, t_exec_context *ctx)
 		}
 		if (redirect_error)
 		{
-			
 			restore_std_fds(ctx);
 			if (redirect_error == 130)
 			{

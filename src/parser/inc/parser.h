@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:06:14 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 18:32:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 20:54:01 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,19 @@ typedef struct s_ast_node
 	struct s_ast_node		*left;
 	struct s_ast_node		*right;
 }							t_ast_node;
+
+typedef struct s_redirect_pair
+{
+	t_ast_node				**first;
+	t_ast_node				**last;
+}							t_redirect_pair;
+
+typedef struct s_args_info
+{
+	char					**args;
+	int						*i;
+	int						arg_count;
+}							t_args_info;
 
 typedef struct s_parser_context
 {
@@ -99,5 +112,25 @@ t_redirect_type				get_redirect_type(t_token_type token_type);
 t_ast_node					*create_redirect_node(t_gc *gc,
 								t_redirect_type type, char *filename,
 								int fd_num);
+
+int							parse_tokens_are_adjacent(t_token *current,
+								t_token *next);
+
+int							count_command_args(t_token *start_token);
+int							count_arguments(t_token *current);
+int							get_value_length(char *value);
+
+void						handle_redirects(t_token **current,
+								struct s_exec_context *ctx,
+								t_ast_node **first_redirect,
+								t_ast_node **last_redirect);
+int							parse_tokens_to_args(t_token **current,
+								struct s_exec_context *ctx,
+								t_args_info *args_info,
+								t_redirect_pair *redirects);
+void						parse_remaining_redirects(t_token **current,
+								struct s_exec_context *ctx,
+								t_ast_node **first_redirect,
+								t_ast_node **last_redirect);
 
 #endif

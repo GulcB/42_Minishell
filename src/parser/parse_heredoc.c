@@ -6,12 +6,12 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 23:57:02 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/03 13:50:32 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 20:08:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
 #include "executor.h"
+#include "parser.h"
 
 static int	is_quoted_delimiter(const char *delimiter)
 {
@@ -108,7 +108,8 @@ t_ast_node	*parse_heredoc(t_token **current, struct s_exec_context *ctx)
 			&& (*current)->type != TOKEN_DQUOTE))
 		return (NULL);
 	delimiter = (*current)->value;
-	quoted = is_quoted_delimiter(delimiter) || (*current)->type == TOKEN_SQUOTE;
+	quoted = (is_quoted_delimiter(delimiter)
+			|| (*current)->type == TOKEN_SQUOTE);
 	node = setup_heredoc_node(delimiter, quoted, gc);
 	if (!node)
 		return (NULL);

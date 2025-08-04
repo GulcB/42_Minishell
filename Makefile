@@ -20,10 +20,15 @@ SRC_MAIN = ./src/minishell.c \
 SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/ast_helper.c \
 			./src/parser/ast_nodes.c \
-			./src/parser/parse_command.c \
+			./src/parser/parse_command_core.c \
+			./src/parser/token_expansion.c \
+			./src/parser/argument_counting.c \
+			./src/parser/command_building.c \
+			./src/parser/redirect_processing.c \
 			./src/parser/parse_heredoc.c \
 			./src/parser/parse_redirect.c \
-			./src/parser/print_ast_args.c
+			./src/parser/print_ast_args.c \
+			./src/parser/redirect_helpers.c
 
 SRC_LEXER = ./src/lexer/lexer.c \
 			./src/lexer/token.c \
@@ -50,6 +55,7 @@ SRC_BUILTIN = ./src/builtin/builtin_dispatcher.c \
 			./src/builtin/cd.c \
 			./src/builtin/echo.c \
 			./src/builtin/env.c \
+			./src/builtin/exit_check.c \
 			./src/builtin/exit.c \
 			./src/builtin/export.c \
 			./src/builtin/pwd.c \

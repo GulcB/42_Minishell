@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 18:28:07 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 18:35:01 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 20:35:52 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,6 @@ int	tokens_are_adjacent(t_token *current, t_token *next)
 		current_end = current->position + value_len;
 	}
 	return (current_end == next->position);
-}
-
-char	*expand_token_value(t_token *token, struct s_exec_context *ctx)
-{
-	if (!token || !token->value)
-		return (NULL);
-	if (token->type == TOKEN_DQUOTE)
-		return (expand_variables(token->value, ctx));
-	else if (token->type == TOKEN_SQUOTE)
-		return (gc_strdup(ctx->gc, token->value));
-	else
-		return (expand_variables(token->value, ctx));
 }
 
 t_redirect_type	get_redirect_type(t_token_type token_type)
