@@ -72,15 +72,24 @@ SRC_BUILTIN = ./src/builtin/builtin_dispatcher.c \
 
 SRC_EXECUTOR = ./src/executor/ast_execution.c \
 			./src/executor/command_execution.c \
+			./src/executor/command_external.c \
+			./src/executor/command_heredoc.c \
 			./src/executor/context_cleanup.c \
 			./src/executor/context_management.c \
+			./src/executor/env_init.c \
 			./src/executor/env_ops.c \
 			./src/executor/environment_management.c \
 			./src/executor/exit_signal_check.c \
 			./src/executor/heredoc_execution.c \
+			./src/executor/heredoc_signals.c \
+			./src/executor/heredoc_helpers.c \
+			./src/executor/heredoc_content.c \
 			./src/executor/path_resolution.c \
+			./src/executor/path_error.c \
+			./src/executor/path_helpers.c \
 			./src/executor/pipe_chain.c \
 			./src/executor/pipe_execution.c \
+			./src/executor/pipe_helpers.c \
 			./src/executor/process_management.c \
 			./src/executor/recursive_pipe_execution.c \
 			./src/executor/redirections.c \

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 20:21:37 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 21:00:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 22:24:25 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ static int	execute_input_redirect(const char *filename, int fd_num)
 			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
-	target_fd = (fd_num >= 0) ? fd_num : STDIN_FILENO;
+	if (fd_num >= 0)
+		target_fd = fd_num;
+	else
+		target_fd = STDIN_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
 		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
 static int	execute_output_redirect(const char *filename, int fd_num)
@@ -55,15 +57,17 @@ static int	execute_output_redirect(const char *filename, int fd_num)
 			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
-	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
+	if (fd_num >= 0)
+		target_fd = fd_num;
+	else
+		target_fd = STDOUT_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
 		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
 static int	execute_append_redirect(const char *filename, int fd_num)
@@ -82,15 +86,17 @@ static int	execute_append_redirect(const char *filename, int fd_num)
 			write(STDERR_FILENO, ": No such file or directory\n", 28);
 		return (-1);
 	}
-	target_fd = (fd_num >= 0) ? fd_num : STDOUT_FILENO;
+	if (fd_num >= 0)
+		target_fd = fd_num;
+	else
+		target_fd = STDOUT_FILENO;
 	if (dup2(fd, target_fd) == -1)
 	{
 		write(STDERR_FILENO, "minishell: dup2", 16);
 		close(fd);
 		return (-1);
 	}
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
 int	execute_redirection(t_ast_node *redirect_node, struct s_exec_context *ctx)

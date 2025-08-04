@@ -6,54 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 01:17:44 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 21:02:15 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 22:39:33 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-
-static int	is_directory(const char *path)
-{
-	DIR	*dir;
-
-	if (!path)
-		return (0);
-	dir = opendir(path);
-	if (dir)
-	{
-		closedir(dir);
-		return (1);
-	}
-	return (0);
-}
-
-static int	is_executable_file(const char *path)
-{
-	if (!path)
-		return (0);
-	if (access(path, F_OK) != 0)
-		return (0);
-	if (access(path, X_OK) != 0)
-		return (-1);
-	if (is_directory(path))
-		return (0);
-	return (1);
-}
-
-static char	*create_full_path(const char *dir, const char *cmd)
-{
-	char	*temp;
-	char	*full_path;
-
-	if (!dir || !cmd)
-		return (NULL);
-	temp = ft_strjoin(dir, "/");
-	if (!temp)
-		return (NULL);
-	full_path = ft_strjoin(temp, cmd);
-	free(temp);
-	return (full_path);
-}
 
 static char	*search_in_path_dirs(char **path_dirs, const char *cmd)
 {
@@ -81,73 +38,34 @@ static char	*search_in_path_dirs(char **path_dirs, const char *cmd)
 	return (NULL);
 }
 
-static char	**get_path_directories(t_env *env)
+static char	*handle_absolute_path(t_exec_context *ctx, const char *cmd)
 {
-	char	*path_env;
-	char	**path_dirs;
+	int	exec_result;
 
-	path_env = env_get(env, "PATH");
-	if (!path_env)
-		return (NULL);
-	path_dirs = ft_split(path_env, ':');
-	return (path_dirs);
-}
-
-static void	free_path_dirs(char **path_dirs)
-{
-	int	i;
-
-	if (!path_dirs)
-		return ;
-	i = 0;
-	while (path_dirs[i])
+	if (is_directory(cmd))
 	{
-		free(path_dirs[i]);
-		i++;
+		handle_directory_error(ctx, cmd);
+		return ((char *)-1);
 	}
-	free(path_dirs);
+	exec_result = is_executable_file(cmd);
+	if (exec_result == 1)
+		return (gc_strdup(ctx->gc, cmd));
+	else if (exec_result == -1)
+	{
+		handle_permission_error(ctx, cmd);
+		return ((char *)-1);
+	}
+	handle_not_found_error(ctx, cmd);
+	return ((char *)-1);
 }
 
-char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
+static char	*handle_path_search(t_exec_context *ctx, const char *cmd,
+		t_env *env)
 {
 	char	**path_dirs;
 	char	*result;
 	char	*gc_result;
-	int		exec_result;
 
-	if (!cmd || !*cmd)
-		return (NULL);
-	if (ft_strchr(cmd, '/'))
-	{
-		if (is_directory(cmd))
-		{
-			ctx->exit_status = 126;
-			write(STDERR_FILENO, "minishell: ", 11);
-			write(STDERR_FILENO, cmd, ft_strlen(cmd));
-			write(STDERR_FILENO, ": Is a directory\n", 17);
-			return ((char *)-1);
-		}
-		exec_result = is_executable_file(cmd);
-		if (exec_result == 1)
-			return (gc_strdup(ctx->gc, cmd));
-		else if (exec_result == -1)
-		{
-			ctx->exit_status = 126;
-			write(STDERR_FILENO, "minishell: ", 11);
-			write(STDERR_FILENO, cmd, ft_strlen(cmd));
-			write(STDERR_FILENO, ": Permission denied\n", 20);
-			return ((char *)-1);
-		}
-		else if (exec_result == 0)
-		{
-			ctx->exit_status = 127;
-			write(STDERR_FILENO, "minishell: ", 11);
-			write(STDERR_FILENO, cmd, ft_strlen(cmd));
-			write(STDERR_FILENO, ": No such file or directory\n", 28);
-			return ((char *)-1);
-		}
-		return (NULL);
-	}
 	path_dirs = get_path_directories(env);
 	if (!path_dirs)
 		return (NULL);
@@ -160,4 +78,13 @@ char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
 		return (gc_result);
 	}
 	return (NULL);
+}
+
+char	*resolve_executable(t_exec_context *ctx, const char *cmd, t_env *env)
+{
+	if (!cmd || !*cmd)
+		return (NULL);
+	if (ft_strchr(cmd, '/'))
+		return (handle_absolute_path(ctx, cmd));
+	return (handle_path_search(ctx, cmd, env));
 }

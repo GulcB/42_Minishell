@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 20:59:56 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 22:41:50 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,30 @@ int					execute_heredoc(t_ast_node *heredoc_node,
 int					preprocess_heredoc(t_ast_node *heredoc_node,
 						t_exec_context *ctx);
 
+void				heredoc_signal_handler(int sig);
+void				setup_heredoc_signals(void (**old_handler)(int));
+void				restore_heredoc_signals(void (*old_handler)(int));
+int					check_heredoc_signal(t_exec_context *ctx);
+
+char				*create_temp_filename(void);
+int					is_delimiter_match(const char *line,
+						const char *delimiter);
+int					is_heredoc_quoted(t_ast_node *heredoc_node);
+char				*read_heredoc_line(void);
+int					handle_readline_result(char *line);
+
+int					process_and_write_line(int fd, char *line, int quoted,
+						t_exec_context *ctx);
+int					process_heredoc_line(int fd, const char *delimiter,
+						int quoted, t_exec_context *ctx);
+int					write_heredoc_content(int fd, const char *delimiter,
+						int quoted, t_exec_context *ctx);
+
+int					create_heredoc_file(const char *filename,
+						const char *delimiter, int quoted,
+						t_exec_context *ctx);
+int					setup_heredoc_input(const char *filename);
+
 void				cleanup_exec_context(t_exec_context *ctx);
 t_exec_context		*init_exec_context(t_env *env, t_gc *gc);
 int					backup_std_fds(t_exec_context *ctx);
@@ -108,6 +132,38 @@ char				*expand_variables(const char *str,
 
 int					execute_redirection(t_ast_node *redirect_node,
 						struct s_exec_context *ctx);
+
+char				**convert_env_to_array(t_env *env, t_gc *gc);
+int					handle_executable_not_found(char **args);
+int					execute_child_process(char *executable_path, char **args,
+						char **env_array);
+int					execute_external_command(char **args, t_exec_context *ctx);
+
+int					execute_heredoc_consume_only(t_ast_node *heredoc_node,
+						t_exec_context *ctx);
+t_ast_node			*find_last_heredoc(t_ast_node *redirect_node);
+void				process_non_last_heredocs(t_ast_node *redirect_node,
+						t_ast_node *last_heredoc, t_exec_context *ctx);
+
+void				setup_child_redirection(int input_fd, int output_fd);
+void				close_fds_in_child(void);
+void				execute_child_process_with_redirect(t_ast_node *node,
+						t_exec_context *ctx, int input_fd, int output_fd);
+int					process_command_heredocs(t_ast_node *node,
+						t_exec_context *ctx);
+int					process_pipe_heredocs(t_ast_node *node,
+						t_exec_context *ctx);
+int					preprocess_heredocs_in_pipe_chain(t_ast_node *node,
+						t_exec_context *ctx);
+
+int					is_directory(const char *path);
+int					is_executable_file(const char *path);
+char				*create_full_path(const char *dir, const char *cmd);
+char				**get_path_directories(t_env *env);
+void				free_path_dirs(char **path_dirs);
+void				handle_directory_error(t_exec_context *ctx, const char *cmd);
+void				handle_permission_error(t_exec_context *ctx, const char *cmd);
+void				handle_not_found_error(t_exec_context *ctx, const char *cmd);
 
 void				handle_sigint_interactive(int sig);
 void				handle_sigint_exec(int sig);

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:54:46 by gbodur            #+#    #+#             */
-/*   Updated: 2025/07/31 17:42:55 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 21:10:14 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-typedef struct	s_minishell
-{
-
-}				t_minishell;
 
 int				handle_input_validation(char *input);
 int				process_input_tokens(char *input, t_token **tokens,

@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:53:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 21:01:47 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/04 22:33:04 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 		int input_fd, int output_fd)
 {
 	pid_t	pid;
-	int		fd;
-	int		exit_status;
 
-	fd = 0;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -40,26 +37,7 @@ static int	execute_with_redirection(t_ast_node *node, t_exec_context *ctx,
 		return (-1);
 	}
 	if (pid == 0)
-	{
-		setup_exec_signals();
-		if (input_fd != STDIN_FILENO)
-		{
-			dup2(input_fd, STDIN_FILENO);
-		}
-		if (output_fd != STDOUT_FILENO)
-		{
-			dup2(output_fd, STDOUT_FILENO);
-		}
-		fd = 3;
-		while (fd < 256)
-		{
-			close(fd);
-			fd++;
-		}
-		exit_status = execute_command(node, ctx);
-		gc_destroy(ctx->gc);
-		exit(exit_status);
-	}
+		execute_child_process_with_redirect(node, ctx, input_fd, output_fd);
 	add_child_pid(ctx, pid);
 	return (0);
 }
@@ -85,38 +63,15 @@ static int	execute_pipe_recursive(t_ast_node *node, t_exec_context *ctx,
 	return (0);
 }
 
-static int	preprocess_heredocs_in_pipe_chain(t_ast_node *node,
+int	preprocess_heredocs_in_pipe_chain(t_ast_node *node,
 		t_exec_context *ctx)
 {
-	t_ast_node	*redirect_node;
-	int			result;
-
 	if (!node)
 		return (0);
 	if (node->type == NODE_COMMAND)
-	{
-		redirect_node = node->right;
-		while (redirect_node && redirect_node->type == NODE_REDIRECT)
-		{
-			if (redirect_node->redirect_type == REDIRECT_HEREDOC)
-			{
-				result = preprocess_heredoc(redirect_node, ctx);
-				if (result != 0)
-					return (result);
-			}
-			redirect_node = redirect_node->right;
-		}
-		return (0);
-	}
+		return (process_command_heredocs(node, ctx));
 	if (node->type == NODE_PIPE)
-	{
-		result = preprocess_heredocs_in_pipe_chain(node->left, ctx);
-		if (result != 0)
-			return (result);
-		result = preprocess_heredocs_in_pipe_chain(node->right, ctx);
-		if (result != 0)
-			return (result);
-	}
+		return (process_pipe_heredocs(node, ctx));
 	return (0);
 }
 
