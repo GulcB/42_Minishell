@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:06:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 22:41:50 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/05 09:38:22 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,12 @@ int					is_executable_file(const char *path);
 char				*create_full_path(const char *dir, const char *cmd);
 char				**get_path_directories(t_env *env);
 void				free_path_dirs(char **path_dirs);
-void				handle_directory_error(t_exec_context *ctx, const char *cmd);
-void				handle_permission_error(t_exec_context *ctx, const char *cmd);
-void				handle_not_found_error(t_exec_context *ctx, const char *cmd);
+void				handle_directory_error(t_exec_context *ctx,
+						const char *cmd);
+void				handle_permission_error(t_exec_context *ctx,
+						const char *cmd);
+void				handle_not_found_error(t_exec_context *ctx,
+						const char *cmd);
 
 void				handle_sigint_interactive(int sig);
 void				handle_sigint_exec(int sig);

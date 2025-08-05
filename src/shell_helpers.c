@@ -6,30 +6,11 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:17:34 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 21:05:43 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/05 09:49:42 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	handle_input_validation(char *input)
-{
-	if (!input)
-		return (0);
-	if (*input)
-		add_history(input);
-	if (ft_strlen(input) == 0)
-		return (-1);
-	return (1);
-}
-
-int	process_input_tokens(char *input, t_token **tokens, t_gc *main_gc)
-{
-	*tokens = lexer_tokenize_with_context(input, main_gc);
-	if (!*tokens)
-		return (0);
-	return (1);
-}
 
 static void	update_exit_status_env(t_exec_context *ctx, int result)
 {

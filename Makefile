@@ -15,7 +15,9 @@ LIBFT_DIR = ./lib/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_MAIN = ./src/minishell.c \
-			./src/shell_helpers.c
+			./src/shell_helpers.c \
+			./src/shell_input.c \
+			./src/shell_execution.c
 
 SRC_PARSER = ./src/parser/parser.c \
 			./src/parser/ast_helper.c \

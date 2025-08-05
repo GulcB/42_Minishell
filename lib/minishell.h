@@ -6,7 +6,7 @@
 /*   By: gbodur <gbodur@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:54:46 by gbodur            #+#    #+#             */
-/*   Updated: 2025/08/04 21:10:14 by gbodur           ###   ########.fr       */
+/*   Updated: 2025/08/05 09:44:11 by gbodur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,11 @@ int				process_input_tokens(char *input, t_token **tokens,
 int				execute_and_cleanup(t_token *tokens, char *input,
 					t_exec_context *ctx);
 void			free_env(t_env *env);
+void			configure_readline(void);
+int				handle_input_processing(char *input, t_token **tokens,
+					t_gc *main_gc);
+int				handle_execution_exit(t_token *tokens, char *input,
+					t_exec_context *ctx, t_gc *main_gc);
+void			safe_cleanup_and_exit(t_gc *main_gc);
 
 #endif
